@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+import '../shared/style/styles.dart';
 
+class Home extends StatelessWidget {
+   Home({Key? key}) : super(key: key);
+  final ThemeService _themeService = ThemeService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body:  Center(
-        child: IconButton(onPressed: (){}, icon: const Icon(Icons.account_circle_outlined)),
+      body: Center(
+        child: IconButton(
+          onPressed: () {_themeService.changeTheme(); },
+          icon: const Icon(Icons.account_circle_outlined),
+        ),
       ),
     );
   }

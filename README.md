@@ -11,3 +11,4 @@ PiGram is social media app and website it helps us to interacting and communicat
     - Splash screen
 
 ## Screen Shots
+  #### ![Logo](assets/Images/logo.png)

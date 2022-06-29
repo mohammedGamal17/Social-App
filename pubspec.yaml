@@ -107,24 +107,8 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   fonts:
-    - family: RobotoCondensed-Bold
-      fonts:
-        - asset: assets/Fonts/RobotoCondensed-Bold.ttf
-    - family: RobotoCondensed-BoldItalic
-      fonts:
-        - asset: assets/Fonts/RobotoCondensed-BoldItalic.ttf
-    - family: RobotoCondensed-Italic
-      fonts:
-        - asset: assets/Fonts/RobotoCondensed-Italic.ttf
-    - family: RobotoCondensed-Light
-      fonts:
-        - asset: assets/Fonts/RobotoCondensed-Light.ttf
-    - family: RobotoCondensed-LightItalic
-      fonts:
-        - asset: assets/Fonts/RobotoCondensed-LightItalic.ttf
     - family: RobotoCondensed
       fonts:
         - asset: assets/Fonts/RobotoCondensed.ttf
   assets:
-    - assets/Images/logo-social-network.webp
     - assets/Images/logo.png

@@ -8,7 +8,6 @@ class Assets {
   static const String FontsRobotoCondensed-Italic = 'assets/Fonts/RobotoCondensed-Italic.ttf';
   static const String FontsRobotoCondensed-Light = 'assets/Fonts/RobotoCondensed-Light.ttf';
   static const String FontsRobotoCondensed-LightItalic = 'assets/Fonts/RobotoCondensed-LightItalic.ttf';
-  static const String IconsLogo = 'assets/Icons/logo.ico';
   static const String ImagesLogo = 'assets/Images/logo.png';
   static const String ImagesLogo-social-network = 'assets/Images/logo-social-network.webp';
 

@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 
-import '../shared/style/styles.dart';
+import '../shared/style/theme_service.dart';
 
 class Home extends StatelessWidget {
-   Home({Key? key}) : super(key: key);
-  final ThemeService _themeService = ThemeService();
+  const Home({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              ThemeService().changeTheme();
+              print('dark mode');
+            },
+            icon: const Icon(Icons.dark_mode_outlined),
+          ),
+        ],
+      ),
       body: Center(
         child: IconButton(
-          onPressed: () {_themeService.changeTheme(); },
+          onPressed: () {
+          },
           icon: const Icon(Icons.account_circle_outlined),
         ),
       ),

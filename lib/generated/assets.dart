@@ -3,12 +3,6 @@ class Assets {
   Assets._();
 
   static const String FontsRobotoCondensed = 'assets/Fonts/RobotoCondensed.ttf';
-  static const String FontsRobotoCondensed-Bold = 'assets/Fonts/RobotoCondensed-Bold.ttf';
-  static const String FontsRobotoCondensed-BoldItalic = 'assets/Fonts/RobotoCondensed-BoldItalic.ttf';
-  static const String FontsRobotoCondensed-Italic = 'assets/Fonts/RobotoCondensed-Italic.ttf';
-  static const String FontsRobotoCondensed-Light = 'assets/Fonts/RobotoCondensed-Light.ttf';
-  static const String FontsRobotoCondensed-LightItalic = 'assets/Fonts/RobotoCondensed-LightItalic.ttf';
   static const String ImagesLogo = 'assets/Images/logo.png';
-  static const String ImagesLogo-social-network = 'assets/Images/logo-social-network.webp';
 
 }

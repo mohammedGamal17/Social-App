@@ -4,7 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:social/shared/cubit/bloc_observer.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:social/shared/style/styles.dart';
+import 'package:social/shared/style/theme_service.dart';
 
 import 'layout/home.dart';
 
@@ -13,10 +13,10 @@ late SharedPreferences sharedPreferences;
 Future main() async {
   BlocOverrides.runZoned(
     () async {
+      await GetStorage.init();
       WidgetsFlutterBinding.ensureInitialized();
       sharedPreferences = await SharedPreferences.getInstance();
 
-      await GetStorage.init();
       WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
       FlutterNativeSplash.remove();
@@ -24,7 +24,6 @@ Future main() async {
     },
     blocObserver: MyBlocObserver(),
   );
-
 }
 
 class MyApp extends StatelessWidget {

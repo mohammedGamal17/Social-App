@@ -4,6 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:social/shared/cubit/bloc_observer.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:social/shared/style/styles.dart';
 
 import 'layout/home.dart';
 
@@ -31,9 +32,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'PiGram',
+      theme: ThemeService().light,
+      darkTheme: ThemeService().dark,
+      themeMode: ThemeService().getThemeMode(),
       home: Home(),
     );
   }

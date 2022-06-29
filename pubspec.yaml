@@ -40,6 +40,7 @@ dependencies:
   hexcolor: ^2.0.7
   shared_preferences: ^2.0.15
   get_storage: ^2.0.3
+  flutter_native_splash: ^2.2.3+1
 
 dev_dependencies:
   flutter_test:
@@ -51,7 +52,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.1
-
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/Images/logo.png
+  adroid: true
+  ios: true
+  web: true
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -114,3 +120,4 @@ flutter:
         - asset: assets/Fonts/RobotoCondensed.ttf
   assets:
     - assets/Images/logo-social-network.webp
+    - assets/Images/logo.png

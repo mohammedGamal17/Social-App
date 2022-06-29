@@ -18,11 +18,12 @@ Future main() async {
       await GetStorage.init();
       WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+      FlutterNativeSplash.remove();
       runApp(const MyApp());
     },
     blocObserver: MyBlocObserver(),
   );
-  //FlutterNativeSplash.remove();
+
 }
 
 class MyApp extends StatelessWidget {

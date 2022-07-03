@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "330037147852",
+    "project_id": "pigram-74e3e",
+    "storage_bucket": "pigram-74e3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330037147852:android:54182adb6c761890ab6a69",
+        "android_client_info": {
+          "package_name": "com.impact.social"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330037147852-5tcqu0n4mqqff4n39h7ik3o49t15rn29.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.impact.social",
+            "certificate_hash": "b95f2b9564bca7b8bdff78b3dd8946b3631e42de"
+          }
+        },
+        {
+          "client_id": "330037147852-sghr9ol03ipv8cq4o05jvb9lq311ms01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiHpsQo_a6Mrr2itL52IHW0rE1GAmVrPI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330037147852-sghr9ol03ipv8cq4o05jvb9lq311ms01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

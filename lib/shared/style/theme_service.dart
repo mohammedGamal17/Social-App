@@ -66,7 +66,6 @@ class ThemeService {
     progressIndicatorTheme: ProgressIndicatorThemeData(
       circularTrackColor: lightBackground,
       color: darkBackground,
-
     ),
   );
   final ThemeData dark = ThemeData(
@@ -107,7 +106,6 @@ class ThemeService {
     progressIndicatorTheme: ProgressIndicatorThemeData(
       circularTrackColor: darkBackground,
       color: lightBackground,
-
     ),
     textTheme: TextTheme(
       headline5: TextStyle(

@@ -6,6 +6,8 @@ import 'package:social/shared/cubit/bloc_observer.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social/shared/style/theme_service.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'layout/home.dart';
 
@@ -14,8 +16,13 @@ late SharedPreferences sharedPreferences;
 void main() async {
   BlocOverrides.runZoned(
     () async {
-      await GetStorage.init();
       WidgetsFlutterBinding.ensureInitialized();
+
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+
+      await GetStorage.init();
       sharedPreferences = await SharedPreferences.getInstance();
 
       WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();

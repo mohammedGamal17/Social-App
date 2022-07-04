@@ -27,9 +27,16 @@ class Home extends StatelessWidget {
               ],
             ),
             body: Center(
-              child: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.account_circle_outlined),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.account_circle_outlined),
+                  ),
+                  Text('data'),
+                ],
               ),
             ),
           );

@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,9 +17,23 @@ class LoginScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(),
-            body: const Center(
-              child: Text('LoginScreen'),
+            body: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/Images/logopage.png'),
+                  fit: BoxFit.fill
+                )
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: const [
+                    Text('data'),
+                  ],
+                ),
+              ),
             ),
           );
         },

@@ -43,6 +43,10 @@ class ThemeService {
         color: textColor,
         fontFamily: 'RobotoCondensed',
       ),
+      headline6: TextStyle(
+        color: textColor,
+        fontFamily: 'RobotoCondensed',
+      ),
       bodyText1: TextStyle(
         color: textColor,
         fontFamily: 'RobotoCondensed',
@@ -109,6 +113,10 @@ class ThemeService {
     ),
     textTheme: TextTheme(
       headline5: TextStyle(
+        color: textColor,
+        fontFamily: 'RobotoCondensed',
+      ),
+      headline6: TextStyle(
         color: textColor,
         fontFamily: 'RobotoCondensed',
       ),

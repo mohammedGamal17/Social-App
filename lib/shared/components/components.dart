@@ -41,16 +41,16 @@ Widget textFormField({
 }) {
   return TextFormField(
     keyboardType: textInputType,
-    style:  TextStyle(color: iconColor),
+    style: TextStyle(color: darkBackground),
     controller: controller,
     autofocus: autoFocus,
     obscureText: isPassword,
     decoration: InputDecoration(
-      focusedBorder:  OutlineInputBorder(
+      focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: iconColor, width: 3.0),
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: HexColor('3299FF'), width: 1.0),
+        borderSide: BorderSide(color: lightBackground, width: 1.0),
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius),
@@ -60,12 +60,12 @@ Widget textFormField({
       helperText: helperText,
       counterText: counterText,
       hoverColor: HexColor('023E8A'),
-      focusColor: HexColor('03045E'),
+      focusColor: iconColor,
       filled: true,
-      labelStyle:  TextStyle(color: iconColor),
-      hintStyle:  TextStyle(color: iconColor),
-      counterStyle:  TextStyle(color: iconColor),
-      helperStyle:  TextStyle(color: iconColor),
+      labelStyle: TextStyle(color: iconColor),
+      hintStyle: TextStyle(color: iconColor),
+      counterStyle: TextStyle(color: iconColor),
+      helperStyle: TextStyle(color: iconColor),
       prefixIcon: Icon(prefix, color: iconColor),
       suffixIcon: suffix != null
           ? IconButton(

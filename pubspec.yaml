@@ -43,6 +43,7 @@ dependencies:
   get: ^4.6.5
   firebase_core: ^1.19.1
   simple_animations: ^4.2.0
+  introduction_screen: ^3.0.2
 
 dev_dependencies:
   flutter_test:

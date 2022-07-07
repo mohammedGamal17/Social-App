@@ -10,6 +10,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 import 'layout/home.dart';
+import 'modules/auth_screens/login_screen.dart';
+import 'modules/home_screen.dart';
 
 late SharedPreferences sharedPreferences;
 
@@ -34,6 +36,19 @@ void main() async {
   );
 }
 
+Widget? widget() {
+  if (sharedPreferences.getBool('skip') == true) {
+    if(sharedPreferences.getBool('isLogin')== true){
+      return const HomeScreen();
+    }else{
+      return const LoginScreen();
+    }
+  }else{
+    return const Home();
+  }
+  return null;
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -45,7 +60,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeService().light,
       darkTheme: ThemeService().dark,
       themeMode: ThemeService().getThemeMode(),
-      home: Home(),
+      home: widget(),
     );
   }
 }

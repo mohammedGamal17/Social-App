@@ -4,7 +4,7 @@ class Assets {
 
   static const String FontsRobotoCondensed = 'assets/Fonts/RobotoCondensed.ttf';
   static const String ImagesLogo = 'assets/Images/logo.png';
-  static const String ImagesLogopage = 'assets/Images/logopage.png';
+  static const String ImagesLogopage = 'assets/Images/loginpage.png';
   static const String ImagesOnboarding1 = 'assets/Images/onboarding1.gif';
   static const String ImagesOnboarding2 = 'assets/Images/onboarding2.gif';
   static const String ImagesOnboarding3 = 'assets/Images/onboarding3.gif';

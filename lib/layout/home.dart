@@ -80,20 +80,20 @@ class Home extends StatelessWidget {
                     );
                   });
                 },
-                onSkip: () {
-                  sharedPreferences.setBool('skip', true).then((value) {
-                    return navigateToAndReplace(context, const LoginScreen());
-                  }).catchError((onError) {
-                    Container(
-                      color: Colors.red,
-                      child: Text(onError.toString()),
-                    );
-                  });
-                },
+                onSkip: () {},
                 showBackButton: false,
                 showSkipButton: true,
                 skip: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    sharedPreferences.setBool('skip', true).then((value) {
+                      return navigateToAndReplace(context, const LoginScreen());
+                    }).catchError((onError) {
+                      Container(
+                        color: Colors.red,
+                        child: Text(onError.toString()),
+                      );
+                    });
+                  },
                   style:
                       TextButton.styleFrom(foregroundColor: HexColor('66B2FF')),
                   child:

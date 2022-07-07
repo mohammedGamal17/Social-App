@@ -3,6 +3,7 @@ class Assets {
   Assets._();
 
   static const String FontsRobotoCondensed = 'assets/Fonts/RobotoCondensed.ttf';
+  static const String Images1 = 'assets/Images/1.svg';
   static const String ImagesLogo = 'assets/Images/logo.png';
   static const String ImagesOnboarding1 = 'assets/Images/onboarding1.gif';
   static const String ImagesOnboarding2 = 'assets/Images/onboarding2.gif';

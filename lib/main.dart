@@ -38,15 +38,14 @@ void main() async {
 
 Widget? widget() {
   if (sharedPreferences.getBool('skip') == true) {
-    if(sharedPreferences.getBool('isLogin')== true){
+    if (sharedPreferences.getBool('isLogin') == true) {
       return const HomeScreen();
-    }else{
-      return const LoginScreen();
+    } else {
+      return LoginScreen();
     }
-  }else{
+  } else {
     return const Home();
   }
-  return null;
 }
 
 class MyApp extends StatelessWidget {

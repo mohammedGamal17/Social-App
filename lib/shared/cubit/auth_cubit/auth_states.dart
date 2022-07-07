@@ -1,17 +1,17 @@
-abstract class AuthenticationState {}
+abstract class AuthStates {}
 
-class AuthInit extends AuthenticationState {}
+class AuthInit extends AuthStates {}
 
-class LoginLoadingState extends AuthenticationState {}
+class LoginLoadingState extends AuthStates {}
 
-class LoginSuccessState extends AuthenticationState {}
+class LoginSuccessState extends AuthStates {}
 
-class LoginFailState extends AuthenticationState {}
+class LoginFailState extends AuthStates {}
 
-class RegisterLoadingState extends AuthenticationState {}
+class RegisterLoadingState extends AuthStates {}
 
-class RegisterSuccessState extends AuthenticationState {}
+class RegisterSuccessState extends AuthStates {}
 
-class RegisterFailState extends AuthenticationState {}
+class RegisterFailState extends AuthStates {}
 
-class PasswordVisibilityState extends AuthenticationState {}
+class PasswordVisibilityState extends AuthStates {}

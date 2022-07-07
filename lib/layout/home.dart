@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -72,7 +71,7 @@ class Home extends StatelessWidget {
                 pages: listPagesViewModel(),
                 onDone: () {
                   sharedPreferences.setBool('skip', true).then((value) {
-                    return navigateToAndReplace(context, const LoginScreen());
+                    return navigateToAndReplace(context, LoginScreen());
                   }).catchError((onError) {
                     Container(
                       color: Colors.red,
@@ -86,7 +85,7 @@ class Home extends StatelessWidget {
                 skip: TextButton(
                   onPressed: () {
                     sharedPreferences.setBool('skip', true).then((value) {
-                      return navigateToAndReplace(context, const LoginScreen());
+                      return navigateToAndReplace(context, LoginScreen());
                     }).catchError((onError) {
                       Container(
                         color: Colors.red,

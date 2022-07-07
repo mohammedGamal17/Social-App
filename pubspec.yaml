@@ -117,6 +117,7 @@ flutter:
       fonts:
         - asset: assets/Fonts/RobotoCondensed.ttf
   assets:
+    - assets/Images/1.svg
     - assets/Images/logo.png
     - assets/Images/onboarding1.gif
     - assets/Images/onboarding2.gif

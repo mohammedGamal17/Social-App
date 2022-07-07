@@ -117,3 +117,7 @@ flutter:
         - asset: assets/Fonts/RobotoCondensed.ttf
   assets:
     - assets/Images/logo.png
+    - assets/Images/onboarding1.gif
+    - assets/Images/onboarding2.gif
+    - assets/Images/onboarding3.gif
+    - assets/Images/onboarding4.gif

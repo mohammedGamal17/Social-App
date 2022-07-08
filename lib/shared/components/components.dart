@@ -165,7 +165,11 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> snack(
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(
       content,
-      style: Theme.of(context).textTheme.bodyText1,
+      style: const TextStyle(
+        fontFamily: 'RobotoCondensed',
+        color: Colors.white,
+        fontSize: 12.0,
+      ),
       textAlign: TextAlign.center,
     ),
     duration: const Duration(milliseconds: 4000),

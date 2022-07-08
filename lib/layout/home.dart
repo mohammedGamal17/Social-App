@@ -5,7 +5,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/style/colors.dart';
-import 'package:social/shared/style/theme_service.dart';
 
 import '../main.dart';
 import '../modules/auth_screens/login_screen.dart';
@@ -56,17 +55,8 @@ class Home extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    ThemeService().changeTheme();
-                  },
-                  icon: const Icon(Icons.dark_mode_outlined),
-                ),
-              ],
-            ),
-            body: Center(
+            body: Padding(
+              padding: const EdgeInsets.all(20.0),
               child: IntroductionScreen(
                 pages: listPagesViewModel(),
                 onDone: () {

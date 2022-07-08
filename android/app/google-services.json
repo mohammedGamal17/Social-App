@@ -29,6 +29,13 @@
             {
               "client_id": "330037147852-sghr9ol03ipv8cq4o05jvb9lq311ms01.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "330037147852-nq9u8hi0eg048vli6u8jbgp0e2kh5omg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.impact.social"
+              }
             }
           ]
         }

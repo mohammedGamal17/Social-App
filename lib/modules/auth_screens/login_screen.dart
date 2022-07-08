@@ -24,7 +24,11 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: BlocConsumer<AuthCubit, AuthStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is LoginSuccessState){
+            return navigateToAndReplace(context, const HomeScreen(),);
+          }
+        },
         builder: (context, state) {
           AuthCubit cubit = AuthCubit.get(context);
           return Scaffold(
@@ -66,7 +70,7 @@ class LoginScreen extends StatelessWidget {
                                 },
                                 labelText: 'Email',
                                 prefix: Icons.email_outlined,
-                                borderRadius: 20.0,
+                                borderRadius: 5.0,
                                 autoFocus: true,
                                 textInputType: TextInputType.emailAddress,
                               ),
@@ -85,7 +89,7 @@ class LoginScreen extends StatelessWidget {
                                   },
                                   labelText: 'Password',
                                   prefix: Icons.lock_outline,
-                                  borderRadius: 20.0,
+                                  borderRadius: 5.0,
                                   textInputType: TextInputType.visiblePassword,
                                   isPassword: cubit.isPassword,
                                   suffix: cubit.suffix,
@@ -94,11 +98,11 @@ class LoginScreen extends StatelessWidget {
                                   },
                                   onSubmit: (value) {
                                     if (formKey.currentState!.validate()) {
-                                      /*cubit.userLogin(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                    );*/
-                                      // return navigateToAndReplace(context, Login());
+                                      cubit.userLogin(
+                                        context,
+                                        email: email.text,
+                                        password: password.text,
+                                      );
                                     }
                                   }),
                               const SizedBox(
@@ -108,13 +112,10 @@ class LoginScreen extends StatelessWidget {
                                   ? InkWell(
                                       onTap: () {
                                         if (formKey.currentState!.validate()) {
-                                          /*cubit.userLogin(
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                  );*/
-                                          return navigateToAndReplace(
+                                          cubit.userLogin(
                                             context,
-                                            const HomeScreen(),
+                                            email: email.text,
+                                            password: password.text,
                                           );
                                         }
                                       },

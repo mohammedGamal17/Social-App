@@ -20,24 +20,7 @@ class AuthCubit extends Cubit<AuthStates> {
     required String phone,
   }) async {
     emit(RegisterLoadingState());
-    /*try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      emit(RegisterSuccessState());
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        snack(context, content: 'The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        snack(context, content: 'The account already exists for that email.');
-      }
-    } catch (e) {
-      emit(RegisterFailState());
-      snack(context, content: e.toString());
-    }*/
-    final credential = await FirebaseAuth.instance
+     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -49,7 +32,7 @@ class AuthCubit extends Cubit<AuthStates> {
       },
     ).catchError(
       (onError) {
-        emit(RegisterFailState());
+        emit(RegisterFailState(onError.toString()));
         snack(context, content: onError.toString(), bgColor: Colors.red);
       },
     );
@@ -61,24 +44,7 @@ class AuthCubit extends Cubit<AuthStates> {
     required String password,
   }) async {
     emit(LoginLoadingState());
-    /*try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      emit(LoginSuccessState());
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        snack(context, content: 'No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        snack(context, content: 'Wrong password provided for that user.');
-      }
-    } catch (e) {
-      emit(LoginFailState());
-      snack(context, content: e.toString());
-    }*/
-
-    final credential = await FirebaseAuth.instance
+     await FirebaseAuth.instance
         .signInWithEmailAndPassword(
       email: email,
       password: password,
@@ -87,7 +53,7 @@ class AuthCubit extends Cubit<AuthStates> {
       snack(context, content: '${value.user}');
       emit(LoginSuccessState());
     }).catchError((onError) {
-      emit(LoginFailState());
+      emit(LoginFailState(onError.toString()));
       snack(context, content: onError.toString(), bgColor: Colors.red);
     });
   }

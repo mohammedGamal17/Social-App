@@ -125,7 +125,7 @@ class LoginScreen extends StatelessWidget {
                                           alignment: Alignment.center,
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(15.0),
+                                                BorderRadius.circular(5.0),
                                             color: buttonColor,
                                             gradient: LinearGradient(
                                               begin:
@@ -153,6 +153,8 @@ class LoginScreen extends StatelessWidget {
                                   : Center(child: circularProgressIndicator()),
                               const SizedBox(height: 10.0),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     "If You Don't have an Account ",

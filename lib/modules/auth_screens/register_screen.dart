@@ -26,7 +26,14 @@ class RegisterScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: BlocConsumer<AuthCubit, AuthStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is RegisterSuccessState){
+            return navigateToAndReplace(
+              context,
+              LoginScreen(),
+            );
+          }
+        },
         builder: (context, state) {
           AuthCubit cubit = AuthCubit.get(context);
           return Scaffold(
@@ -134,13 +141,12 @@ class RegisterScreen extends StatelessWidget {
                                   },
                                   onSubmit: (value) {
                                     if (formKey.currentState!.validate()) {
-                                      /*cubit.userLogin(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                    );*/
-                                      return navigateToAndReplace(
+                                      cubit.userRegister(
                                         context,
-                                        LoginScreen(),
+                                        email: email.text,
+                                        password: password.text,
+                                        name: name.text,
+                                        phone: phone.text,
                                       );
                                     }
                                   }),
@@ -151,14 +157,14 @@ class RegisterScreen extends StatelessWidget {
                                   ? InkWell(
                                       onTap: () {
                                         if (formKey.currentState!.validate()) {
-                                          /*cubit.userLogin(
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                  );*/
-                                          return navigateToAndReplace(
+                                          cubit.userRegister(
                                             context,
-                                            LoginScreen(),
+                                            email: email.text,
+                                            password: password.text,
+                                            name: name.text,
+                                            phone: phone.text,
                                           );
+
                                         }
                                       },
                                       child: Center(

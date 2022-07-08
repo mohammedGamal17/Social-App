@@ -1,7 +1,7 @@
 class UserModel {
   late String uId;
   late String name;
-  late String mail;
+  late String email;
   late String password;
   late String phone;
   String? image;
@@ -9,7 +9,7 @@ class UserModel {
   UserModel({
     required this.name,
     required this.phone,
-    required this.mail,
+    required this.email,
     required this.password,
     required this.uId,
     this.image,
@@ -19,7 +19,7 @@ class UserModel {
     return UserModel(
       name: json['name'],
       phone: json['phone'],
-      mail: json['mail'],
+      email: json['email'],
       password: json['password'],
       uId: json['uId'],
       image: json['image'],
@@ -30,7 +30,7 @@ class UserModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     data['phone'] = phone;
-    data['mail'] = mail;
+    data['email'] = email;
     data['password'] = password;
     data['uId'] = uId;
     data['image'] = image;

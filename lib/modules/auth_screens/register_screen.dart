@@ -32,8 +32,6 @@ class RegisterScreen extends StatelessWidget {
               context,
               LoginScreen(),
             );
-          }if (state is CreateUserFailState) {
-            snack(context, content: state.onError.toString());
           }
         },
         builder: (context, state) {

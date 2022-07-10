@@ -55,10 +55,12 @@ class Home extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
+            backgroundColor: listPagesViewColor,
             body: Padding(
               padding: const EdgeInsets.all(20.0),
               child: IntroductionScreen(
                 pages: listPagesViewModel(),
+                globalBackgroundColor: listPagesViewColor,
                 onDone: () {
                   sharedPreferences.setBool('skip', true).then((value) {
                     return navigateToAndReplace(context, LoginScreen());

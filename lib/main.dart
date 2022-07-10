@@ -37,8 +37,8 @@ void main() async {
 }
 
 Widget? widget() {
-  if (sharedPreferences.getBool('skip') == true) {
-    if (sharedPreferences.getBool('isLogin') == true) {
+  if (sharedPreferences.getBool('skip') != null) {
+    if (sharedPreferences.get('isLogin') != null) {
       return const HomeScreen();
     } else {
       return LoginScreen();

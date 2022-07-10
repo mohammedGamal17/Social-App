@@ -41,7 +41,7 @@ Widget textFormField({
 }) {
   return TextFormField(
     keyboardType: textInputType,
-    style: TextStyle(color: buttonColor),
+    style: TextStyle(color: iconColor),
     controller: controller,
     autofocus: autoFocus,
     obscureText: isPassword,
@@ -119,7 +119,7 @@ Widget separatorVertical() {
 Widget circularProgressIndicator() {
   return Center(
       child: CircularProgressIndicator(
-    backgroundColor: buttonColor,
+    backgroundColor: darkBackground,
     color: lightBackground,
   ));
 }
@@ -187,5 +187,35 @@ Widget stackText(context, {required String text}) {
     maxLines: 1,
     overflow: TextOverflow.ellipsis,
     textAlign: TextAlign.center,
+  );
+}
+
+Widget alertMessage(
+  context, {
+  required String data,
+  Function? onPressed,
+  String? buttonText,
+}) {
+  return Container(
+    height: 50.0,
+    width: double.infinity,
+    color: HexColor('66B2FF'),
+    child: Row(
+      children: [
+        Icon(Icons.info_outline_rounded, color: darkBackground),
+        const SizedBox(width: 10.0),
+        Text(data,
+            style: TextStyle(
+              color: darkBackground,
+            )),
+        const Spacer(),
+        TextButton(
+          onPressed: () {
+            onPressed!();
+          },
+          child: Text(buttonText!, style: TextStyle(color: darkBackground)),
+        )
+      ],
+    ),
   );
 }

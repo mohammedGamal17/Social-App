@@ -27,11 +27,13 @@ class RegisterScreen extends StatelessWidget {
       create: (context) => AuthCubit(),
       child: BlocConsumer<AuthCubit, AuthStates>(
         listener: (context, state) {
-          if(state is RegisterSuccessState){
+          if(state is CreateUserSuccessState){
             return navigateToAndReplace(
               context,
               LoginScreen(),
             );
+          }if (state is CreateUserFailState) {
+            snack(context, content: state.onError.toString());
           }
         },
         builder: (context, state) {

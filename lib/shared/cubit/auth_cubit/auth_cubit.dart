@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,6 +44,9 @@ class AuthCubit extends Cubit<AuthStates> {
       },
     ).catchError(
       (onError) {
+        if (kDebugMode) {
+          print(onError.toString());
+        }
         emit(RegisterFailState(onError.toString()));
         snack(context, content: onError.toString(), bgColor: Colors.red);
       },
@@ -64,6 +68,7 @@ class AuthCubit extends Cubit<AuthStates> {
       email: email,
       password: password,
       uId: uId,
+      isEmailVerified: false,
     );
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     return users
@@ -74,7 +79,9 @@ class AuthCubit extends Cubit<AuthStates> {
         .then((value) {
       emit(CreateUserSuccessState());
     }).catchError((onError) {
-      print(onError.toString());
+      if (kDebugMode) {
+        print(onError.toString());
+      }
       emit(CreateUserFailState(onError.toString()));
       snack(context, content: onError.toString(), bgColor: Colors.red);
     });
@@ -99,11 +106,12 @@ class AuthCubit extends Cubit<AuthStates> {
         password: password,
         uId: value.user?.uid,
       );
-      print(value.user.toString());
       snack(context, content: 'Welcome ${value.user?.email}'.capitalize!);
       emit(LoginSuccessState(model));
     }).catchError((onError) {
-
+      if (kDebugMode) {
+        print(onError.toString());
+      }
       emit(LoginFailState(onError.toString()));
       snack(context, content: onError.toString(), bgColor: Colors.red);
     });

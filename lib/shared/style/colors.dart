@@ -21,3 +21,4 @@ final darkBackground = HexColor('001933');
 
 final gradientColor1 = HexColor('66B2FF');
 final gradientColor2 = HexColor('004C99');
+final listPagesViewColor = HexColor('FFFFFF');

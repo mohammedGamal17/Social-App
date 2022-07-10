@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:social/models/user_model/user_model.dart';
 import 'package:social/shared/components/components.dart';
 
 import 'auth_states.dart';
@@ -20,7 +23,7 @@ class AuthCubit extends Cubit<AuthStates> {
     required String phone,
   }) async {
     emit(RegisterLoadingState());
-     await FirebaseAuth.instance
+    await FirebaseAuth.instance
         .createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -28,7 +31,15 @@ class AuthCubit extends Cubit<AuthStates> {
         .then(
       (value) {
         snack(context, content: '${value.credential}');
-        emit(RegisterSuccessState());
+        userCreate(
+          context,
+          name: name,
+          email: email,
+          password: password,
+          phone: phone,
+          uId: value.user!.uid,
+        );
+        //emit(RegisterSuccessState());
       },
     ).catchError(
       (onError) {
@@ -38,21 +49,61 @@ class AuthCubit extends Cubit<AuthStates> {
     );
   }
 
+  void userCreate(
+    context, {
+    required String name,
+    required String email,
+    required String password,
+    required String phone,
+    required String uId,
+  }) async {
+    emit(CreateUserLoadingState());
+    UserModel model = UserModel(
+      name: name,
+      phone: phone,
+      email: email,
+      password: password,
+      uId: uId,
+    );
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    return users
+        .doc(uId)
+        .set(
+          model.toMap(),
+        )
+        .then((value) {
+      emit(CreateUserSuccessState());
+    }).catchError((onError) {
+      print(onError.toString());
+      emit(CreateUserFailState(onError.toString()));
+      snack(context, content: onError.toString(), bgColor: Colors.red);
+    });
+  }
+
   void userLogin(
     context, {
     required String email,
     required String password,
   }) async {
     emit(LoginLoadingState());
-     await FirebaseAuth.instance
+    await FirebaseAuth.instance
         .signInWithEmailAndPassword(
       email: email,
       password: password,
     )
         .then((value) {
-      snack(context, content: '${value.user}');
-      emit(LoginSuccessState());
+      UserModel model = UserModel(
+        name: value.user?.displayName,
+        phone: value.user?.phoneNumber,
+        email: email,
+        password: password,
+        uId: value.user?.uid,
+      );
+      print(value.user.toString());
+      snack(context, content: 'Welcome ${value.user?.email}'.capitalize!);
+      emit(LoginSuccessState(model));
     }).catchError((onError) {
+
       emit(LoginFailState(onError.toString()));
       snack(context, content: onError.toString(), bgColor: Colors.red);
     });

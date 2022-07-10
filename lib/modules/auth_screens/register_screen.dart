@@ -27,7 +27,7 @@ class RegisterScreen extends StatelessWidget {
       create: (context) => AuthCubit(),
       child: BlocConsumer<AuthCubit, AuthStates>(
         listener: (context, state) {
-          if(state is CreateUserSuccessState){
+          if (state is CreateUserSuccessState) {
             return navigateToAndReplace(
               context,
               LoginScreen(),
@@ -121,35 +121,25 @@ class RegisterScreen extends StatelessWidget {
                                 height: 10.0,
                               ),
                               textFormField(
-                                  controller: password,
-                                  validate: (value) {
-                                    if (value.isEmpty ||
-                                        value.length < 8 ||
-                                        value.length > 50) {
-                                      return 'Please Enter Valid Password';
-                                    }
-                                    return null;
-                                  },
-                                  labelText: 'Password',
-                                  prefix: Icons.lock_outline,
-                                  borderRadius: 20.0,
-                                  textInputType: TextInputType.visiblePassword,
-                                  isPassword: cubit.isPassword,
-                                  suffix: cubit.suffix,
-                                  suffixOnTap: () {
-                                    cubit.changePasswordVisibility();
-                                  },
-                                  onSubmit: (value) {
-                                    if (formKey.currentState!.validate()) {
-                                      cubit.userRegister(
-                                        context,
-                                        email: email.text,
-                                        password: password.text,
-                                        name: name.text,
-                                        phone: phone.text,
-                                      );
-                                    }
-                                  }),
+                                controller: password,
+                                validate: (value) {
+                                  if (value.isEmpty ||
+                                      value.length < 8 ||
+                                      value.length > 50) {
+                                    return 'Please Enter Valid Password';
+                                  }
+                                  return null;
+                                },
+                                labelText: 'Password',
+                                prefix: Icons.lock_outline,
+                                borderRadius: 20.0,
+                                textInputType: TextInputType.visiblePassword,
+                                isPassword: cubit.isPassword,
+                                suffix: cubit.suffix,
+                                suffixOnTap: () {
+                                  cubit.changePasswordVisibility();
+                                },
+                              ),
                               const SizedBox(
                                 height: 10.0,
                               ),
@@ -164,7 +154,6 @@ class RegisterScreen extends StatelessWidget {
                                             name: name.text,
                                             phone: phone.text,
                                           );
-
                                         }
                                       },
                                       child: Center(

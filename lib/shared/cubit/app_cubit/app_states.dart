@@ -11,3 +11,4 @@ class GetHomeDataFail extends AppStates {
 
   GetHomeDataFail(this.onError);
 }
+ class ChangeThemeMode extends AppStates{}

@@ -4,7 +4,8 @@ class UserModel {
   late String email;
   late String password;
   late String? phone;
-  String? image;
+  late String? image;
+  late bool? isEmailVerified;
 
   UserModel({
     this.name,
@@ -13,6 +14,7 @@ class UserModel {
     required this.password,
     this.uId,
     this.image,
+    this.isEmailVerified,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class UserModel {
       password: json['password'],
       uId: json['uId'],
       image: json['image'],
+      isEmailVerified: json['isEmailVerified'],
     );
   }
 
@@ -34,6 +37,7 @@ class UserModel {
     data['password'] = password;
     data['uId'] = uId;
     data['image'] = image;
+    data['isEmailVerified'] = isEmailVerified;
     return data;
   }
 }

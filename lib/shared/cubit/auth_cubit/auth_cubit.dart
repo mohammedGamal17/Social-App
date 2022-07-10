@@ -31,7 +31,7 @@ class AuthCubit extends Cubit<AuthStates> {
     )
         .then(
       (value) {
-        snack(context, content: '${value.credential}');
+
         userCreate(
           context,
           name: name,
@@ -40,7 +40,7 @@ class AuthCubit extends Cubit<AuthStates> {
           phone: phone,
           uId: value.user!.uid,
         );
-        //emit(RegisterSuccessState());
+        snack(context, content: 'register success'.capitalize!);
       },
     ).catchError(
       (onError) {
@@ -106,7 +106,6 @@ class AuthCubit extends Cubit<AuthStates> {
         password: password,
         uId: value.user?.uid,
       );
-      snack(context, content: 'Welcome ${value.user?.email}'.capitalize!);
       emit(LoginSuccessState(model));
     }).catchError((onError) {
       if (kDebugMode) {

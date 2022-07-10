@@ -30,4 +30,8 @@ class AppCubit extends Cubit<AppStates> {
       emit(GetHomeDataFail(onError.toString()));
     });
   }
+
+  void changeThemeMode(){
+    emit(ChangeThemeMode());
+  }
 }

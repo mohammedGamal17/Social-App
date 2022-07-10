@@ -1,17 +1,17 @@
 class UserModel {
-  late String uId;
-  late String name;
+  late String? uId;
+  late String? name;
   late String email;
   late String password;
-  late String phone;
+  late String? phone;
   String? image;
 
   UserModel({
-    required this.name,
-    required this.phone,
+    this.name,
+    this.phone,
     required this.email,
     required this.password,
-    required this.uId,
+    this.uId,
     this.image,
   });
 

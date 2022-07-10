@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:hexcolor/hexcolor.dart';
+import 'package:social/main.dart';
 import 'package:social/modules/auth_screens/register_screen.dart';
 import 'package:social/modules/home_screen.dart';
 import 'package:social/shared/components/components.dart';
@@ -25,8 +26,15 @@ class LoginScreen extends StatelessWidget {
       create: (context) => AuthCubit(),
       child: BlocConsumer<AuthCubit, AuthStates>(
         listener: (context, state) {
-          if(state is LoginSuccessState){
-            return navigateToAndReplace(context, const HomeScreen(),);
+          if (state is LoginSuccessState) {
+            sharedPreferences.setString('isLogin', '${state.model.uId}');
+            return navigateToAndReplace(
+              context,
+              const HomeScreen(),
+            );
+          }
+          if(state is LoginFailState){
+            snack(context, content: state.onError.toString());
           }
         },
         builder: (context, state) {

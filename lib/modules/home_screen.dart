@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social/models/user_model/user_model.dart';
@@ -13,7 +14,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..getUserData(context),
+      create: (context) =>
+      AppCubit()
+        ..getUserData(context),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -41,14 +44,22 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget pageBuilder(context, UserModel model) {
+   bool? isVerified =  FirebaseAuth.instance.currentUser?.emailVerified;
     return Column(
       children: [
-        if (model.isEmailVerified == false)
+        if (isVerified == false)
           alertMessage(
             context,
             data: 'You Need To Verification Your Account',
             buttonText: 'Send ',
-            onPressed: () {},
+            onPressed: () {
+              FirebaseAuth.instance.currentUser?.sendEmailVerification().then((
+                  value) {
+                snack(context, content: 'Code Send Successfully Check Your Mail');
+              }).catchError((onError) {
+                snack(context, content: 'Code Did Not Send !! ${onError.toString()}', bgColor: Colors.red);
+              });
+            },
           ),
         Text(model.uId!),
       ],

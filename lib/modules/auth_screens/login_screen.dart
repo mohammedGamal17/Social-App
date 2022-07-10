@@ -33,9 +33,6 @@ class LoginScreen extends StatelessWidget {
               const HomeScreen(),
             );
           }
-          if(state is LoginFailState){
-            snack(context, content: state.onError.toString());
-          }
         },
         builder: (context, state) {
           AuthCubit cubit = AuthCubit.get(context);

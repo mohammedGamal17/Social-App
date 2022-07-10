@@ -41,7 +41,7 @@ Widget textFormField({
 }) {
   return TextFormField(
     keyboardType: textInputType,
-    style: TextStyle(color: darkBackground),
+    style: TextStyle(color: buttonColor),
     controller: controller,
     autofocus: autoFocus,
     obscureText: isPassword,
@@ -119,7 +119,7 @@ Widget separatorVertical() {
 Widget circularProgressIndicator() {
   return Center(
       child: CircularProgressIndicator(
-    backgroundColor: darkBackground,
+    backgroundColor: buttonColor,
     color: lightBackground,
   ));
 }

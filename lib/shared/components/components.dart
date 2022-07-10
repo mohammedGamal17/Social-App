@@ -199,23 +199,35 @@ Widget alertMessage(
   return Container(
     height: 50.0,
     width: double.infinity,
-    color: HexColor('66B2FF'),
-    child: Row(
-      children: [
-        Icon(Icons.info_outline_rounded, color: darkBackground),
-        const SizedBox(width: 10.0),
-        Text(data,
-            style: TextStyle(
-              color: darkBackground,
-            )),
-        const Spacer(),
-        TextButton(
-          onPressed: () {
-            onPressed!();
-          },
-          child: Text(buttonText!, style: TextStyle(color: darkBackground)),
-        )
-      ],
+    color: HexColor('66B2FF').withOpacity(0.6),
+    child: Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Row(
+          children: [
+            Icon(Icons.info_outline_rounded, color: darkBackground),
+            const SizedBox(width: 10.0),
+            Expanded(
+              child: Text(
+                data,
+                style: TextStyle(
+                  color: darkBackground,
+                  fontSize: 14.0,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const SizedBox(width: 10.0),
+            TextButton(
+              onPressed: () {
+                onPressed!();
+              },
+              child: Text(buttonText!, style: TextStyle(color: darkBackground)),
+            )
+          ],
+        ),
+      ),
     ),
   );
 }

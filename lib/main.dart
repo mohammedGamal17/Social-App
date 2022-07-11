@@ -11,7 +11,7 @@ import 'firebase_options.dart';
 
 import 'layout/home.dart';
 import 'modules/auth_screens/login_screen.dart';
-import 'modules/home_screen.dart';
+import 'modules/home/home_screen.dart';
 
 late SharedPreferences sharedPreferences;
 

@@ -5,8 +5,8 @@ import 'package:social/models/user_model/user_model.dart';
 import 'package:social/shared/components/components.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 
-import '../shared/cubit/app_cubit/app_states.dart';
-import '../shared/style/theme_service.dart';
+import '../../shared/cubit/app_cubit/app_states.dart';
+import '../../shared/style/theme_service.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -37,6 +37,7 @@ class HomeScreen extends StatelessWidget {
             body: cubit.userModel != null
                 ? pageBuilder(context, cubit.userModel!)
                 : circularProgressIndicator(),
+
           );
         },
       ),
@@ -61,7 +62,6 @@ class HomeScreen extends StatelessWidget {
               });
             },
           ),
-        Text(model.uId!),
       ],
     );
   }

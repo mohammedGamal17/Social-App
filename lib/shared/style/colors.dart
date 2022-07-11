@@ -8,12 +8,12 @@ final separatorColor = HexColor('007FFF');
 
 final appBarLightColor = HexColor('CCE5FF');
 final bottomNavigationBarLightColor = HexColor('CCE5FF');
-final selectedIconLightColor = HexColor('CCE5FF');
+final selectedIconLightColor = HexColor('007FFF');
 final unselectedIconLightColor = HexColor('99CCFF');
 
 final appBarDarkColor = HexColor('001933');
 final bottomNavigationBarDarkColor = HexColor('001933');
-final selectedIconDarkColor = HexColor('001933');
+final selectedIconDarkColor = HexColor('007FFF');
 final unselectedIconDarkColor = HexColor('003366');
 
 final lightBackground = HexColor('CCE5FF');

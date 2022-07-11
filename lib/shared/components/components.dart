@@ -245,7 +245,7 @@ Widget loadingAnimation(context) {
         size: 50,
       )),
       const SizedBox(height: 10.0),
-      Text('Loading, Please Wait...',style: Theme.of(context).textTheme.bodyText1,)
+      Text('Loading, Please Wait ...',style: Theme.of(context).textTheme.bodyText1,)
     ],
   );
 }

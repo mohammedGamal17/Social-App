@@ -2,13 +2,15 @@
 class Assets {
   Assets._();
 
+  static const String FontsLogos = 'assets/Fonts/logos.ttf';
   static const String FontsRobotoCondensed = 'assets/Fonts/RobotoCondensed.ttf';
+  static const String ImagesLoginpage = 'assets/Images/loginpage.png';
   static const String ImagesLogo = 'assets/Images/logo.png';
-  static const String ImagesLogopage = 'assets/Images/loginpage.png';
   static const String ImagesOnboarding1 = 'assets/Images/onboarding1.gif';
   static const String ImagesOnboarding2 = 'assets/Images/onboarding2.gif';
   static const String ImagesOnboarding3 = 'assets/Images/onboarding3.gif';
   static const String ImagesOnboarding4 = 'assets/Images/onboarding4.gif';
+  static const String ImagesRegpage = 'assets/Images/regpage.png';
   static const String ImagesSavag = 'assets/Images/savag.svg';
 
 }

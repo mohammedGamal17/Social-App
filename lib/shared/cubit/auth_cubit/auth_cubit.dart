@@ -106,6 +106,7 @@ class AuthCubit extends Cubit<AuthStates> {
         password: password,
         uId: value.user?.uid,
       );
+      snack(context, content: 'Welcome ${model.email}'.capitalize!);
       emit(LoginSuccessState(model));
     }).catchError((onError) {
       if (kDebugMode) {

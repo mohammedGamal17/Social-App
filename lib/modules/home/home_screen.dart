@@ -14,16 +14,14 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-      AppCubit()
-        ..getUserData(context),
+      create: (context) => AppCubit(),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
           AppCubit cubit = AppCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Home page'),
+              title: Text(cubit.title[cubit.currentIndex]),
               actions: [
                 IconButton(
                   onPressed: () {
@@ -34,35 +32,18 @@ class HomeScreen extends StatelessWidget {
                 )
               ],
             ),
-            body: cubit.userModel != null
-                ? pageBuilder(context, cubit.userModel!)
-                : circularProgressIndicator(),
-
+            body: cubit.screen[cubit.currentIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              items: cubit.navBarItem,
+              currentIndex: cubit.currentIndex,
+              type: BottomNavigationBarType.fixed,
+              onTap: (index) {
+                cubit.navBarChange(index);
+              },
+            ),
           );
         },
       ),
-    );
-  }
-
-  Widget pageBuilder(context, UserModel model) {
-   bool? isVerified =  FirebaseAuth.instance.currentUser?.emailVerified;
-    return Column(
-      children: [
-        if (isVerified == false)
-          alertMessage(
-            context,
-            data: 'You Need To Verification Your Account',
-            buttonText: 'Send ',
-            onPressed: () {
-              FirebaseAuth.instance.currentUser?.sendEmailVerification().then((
-                  value) {
-                snack(context, content: 'Code Send Successfully Check Your Mail');
-              }).catchError((onError) {
-                snack(context, content: 'Code Did Not Send !! ${onError.toString()}', bgColor: Colors.red);
-              });
-            },
-          ),
-      ],
     );
   }
 }

@@ -13,9 +13,9 @@ class NotificationsScreen extends StatelessWidget {
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return const Scaffold(
+          return Scaffold(
             body: Center(
-              child: Text('NotificationsScreen'),
+              child: Text('NotificationsScreen',style: Theme.of(context).textTheme.bodyText1),
             ),
           );
         },

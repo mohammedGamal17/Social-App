@@ -11,8 +11,8 @@ import '../modules/auth_screens/login_screen.dart';
 import '../shared/components/components.dart';
 import '../shared/cubit/app_cubit/app_states.dart';
 
-class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+class PageViewScreen extends StatelessWidget {
+  const PageViewScreen({Key? key}) : super(key: key);
 
   List<PageViewModel> listPagesViewModel() {
     return [

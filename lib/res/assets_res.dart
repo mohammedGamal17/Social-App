@@ -11,4 +11,7 @@ class AssetsRes {
   static const String ONBOARDING4 = 'assets/Images/onboarding4.gif';
   static const String REGPAGE = 'assets/Images/regpage.png';
   static const String SAVAG = 'assets/Images/savag.svg';
+  static const String W = 'assets/Images/w.png';
+  static const String W2 = 'assets/Images/w2.png';
+  static const String W3 = 'assets/Images/w3.png';
 }

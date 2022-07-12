@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
               firebaseSendNotification(context);
             },
           ),
-        Center(child: const Text('Home')),
+        const Center(child: Text('Home')),
       ],
     );
   }

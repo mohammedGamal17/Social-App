@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:social/main.dart';
 import 'package:social/modules/auth_screens/register_screen.dart';
-import 'package:social/modules/home/home_screen.dart';
+import 'package:social/layout/Layout_screen.dart';
 import 'package:social/shared/components/components.dart';
 
 import '../../shared/cubit/auth_cubit/auth_cubit.dart';
@@ -30,7 +30,7 @@ class LoginScreen extends StatelessWidget {
             sharedPreferences.setString('isLogin', '${state.model.uId}');
             return navigateToAndReplace(
               context,
-              const HomeScreen(),
+              const LayOutScreen(),
             );
           }
         },

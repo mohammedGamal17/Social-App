@@ -18,31 +18,24 @@ class PageViewScreen extends StatelessWidget {
     return [
       PageViewModel(
         image: const Image(
-          image: AssetImage('assets/Images/onboarding1.gif'),
+          image: AssetImage('assets/Images/w.png'),
         ),
         body: 'Go social to see what happen '.capitalize!,
         title: 'news feed'.capitalize!,
       ),
       PageViewModel(
         image: const Image(
-          image: AssetImage('assets/Images/onboarding2.gif'),
+          image: AssetImage('assets/Images/w2.png'),
         ),
         body: 'body 2',
         title: 'title 2',
       ),
       PageViewModel(
         image: const Image(
-          image: AssetImage('assets/Images/onboarding3.gif'),
+          image: AssetImage('assets/Images/w3.png'),
         ),
         body: 'body 3',
         title: 'title 3',
-      ),
-      PageViewModel(
-        image: const Image(
-          image: AssetImage('assets/Images/onboarding4.gif'),
-        ),
-        body: 'body 4',
-        title: 'title 4',
       ),
     ];
   }
@@ -55,12 +48,12 @@ class PageViewScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: listPagesViewColor,
+            backgroundColor: lightBackground,
             body: Padding(
               padding: const EdgeInsets.all(20.0),
               child: IntroductionScreen(
                 pages: listPagesViewModel(),
-                globalBackgroundColor: listPagesViewColor,
+                globalBackgroundColor: lightBackground,
                 onDone: () {
                   sharedPreferences.setBool('skip', true).then((value) {
                     return navigateToAndReplace(context, LoginScreen());

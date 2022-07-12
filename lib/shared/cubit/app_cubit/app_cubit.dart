@@ -12,8 +12,8 @@ import 'package:social/shared/components/constants.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
 
 import '../../../models/user_model/user_model.dart';
+import '../../../layout/Layout_screen.dart';
 import '../../../modules/home/home_screen.dart';
-import '../../../modules/home/home_screen2.dart';
 import '../../networks/remote/dio_helper.dart';
 import '../../style/theme_service.dart';
 
@@ -28,7 +28,7 @@ class AppCubit extends Cubit<AppStates> {
   int currentIndex = 0;
 
   List<Widget> screen = [
-    const HomeScreen2(),
+    const HomeScreen(),
     const VideosScreen(),
     const MessagesScreen(),
     const NotificationsScreen(),
@@ -68,7 +68,7 @@ class AppCubit extends Cubit<AppStates> {
   void navBarChange(int index) {
     currentIndex = index;
     if (index == 0) {
-      const HomeScreen();
+      const LayOutScreen();
     }
     if (index == 1) {
       const VideosScreen();
@@ -88,7 +88,6 @@ class AppCubit extends Cubit<AppStates> {
     emit(GetHomeDataLoading());
     FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
       userModel = UserModel.fromJson(value.data()!);
-      snack(context, content: 'Welcome ${userModel?.name}'.capitalize!);
       emit(GetHomeDataSuccess());
     }).catchError((onError) {
       snack(context, content: onError.toString(), bgColor: Colors.red);

@@ -13,4 +13,22 @@ class GetHomeDataFail extends AppStates {
 }
  class ChangeThemeMode extends AppStates{}
 
+class GetMessagesLoading extends AppStates{}
+
+class GetMessagesSuccess extends AppStates{}
+
+class GetMessagesFail extends AppStates{}
+
+class GetNotificationsLoading extends AppStates{}
+
+class GetNotificationsSuccess extends AppStates{}
+
+class GetNotificationsFail extends AppStates{}
+
+class GetSettingsLoading extends AppStates{}
+
+class GetSettingsSuccess extends AppStates{}
+
+class GetSettingsFail extends AppStates{}
+
 class BtmNavBarChangeItemState extends AppStates {}

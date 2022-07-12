@@ -21,7 +21,7 @@ class HomeScreen2 extends StatelessWidget {
           return Scaffold(
             body: cubit.userModel != null
                 ? pageBuilder(context, cubit.userModel!)
-                : circularProgressIndicator(),
+                : loadingAnimation(context),
           );
         },
       ),
@@ -50,7 +50,7 @@ class HomeScreen2 extends StatelessWidget {
               });
             },
           ),
-        Text('Home'),
+        Center(child: const Text('Home')),
       ],
     );
   }

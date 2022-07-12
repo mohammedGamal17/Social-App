@@ -7,7 +7,7 @@ import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/style/colors.dart';
 
 import '../main.dart';
-import '../modules/auth_screens/login_screen.dart';
+import 'auth_screens/login_screen.dart';
 import '../shared/components/components.dart';
 import '../shared/cubit/app_cubit/app_states.dart';
 

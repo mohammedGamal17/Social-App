@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:social/modules/search/search_screen.dart';
+import 'package:social/shared/components/components.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import '../shared/cubit/app_cubit/app_states.dart';
 import '../shared/style/theme_service.dart';
@@ -28,7 +30,9 @@ class LayOutScreen extends StatelessWidget {
                   icon: const Icon(Icons.dark_mode_outlined),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                   navigateTo(context, const SearchScreen());
+                  },
                   icon: const Icon(Icons.search_outlined),
                 )
               ],

@@ -14,8 +14,9 @@ class SearchScreen extends StatelessWidget {
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return const Scaffold(
-            body: Center(
+          return Scaffold(
+            appBar: AppBar(),
+            body: const Center(
               child: Text('SearchScreen'),
             ),
           );

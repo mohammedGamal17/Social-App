@@ -9,7 +9,7 @@ import 'package:social/shared/style/theme_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-import 'layout/page_view.dart';
+import 'modules/page_view.dart';
 import 'modules/auth_screens/login_screen.dart';
 import 'modules/home/home_screen.dart';
 

@@ -2,7 +2,6 @@
 class Assets {
   Assets._();
 
-  static const String FontsLogos = 'assets/Fonts/logos.ttf';
   static const String FontsRobotoCondensed = 'assets/Fonts/RobotoCondensed.ttf';
   static const String ImagesLoginpage = 'assets/Images/loginpage.png';
   static const String ImagesLogo = 'assets/Images/logo.png';

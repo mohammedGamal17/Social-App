@@ -11,7 +11,7 @@ import 'firebase_options.dart';
 
 import 'modules/page_view.dart';
 import 'modules/auth_screens/login_screen.dart';
-import 'modules/home/home_screen.dart';
+import 'layout/Layout_screen.dart';
 
 late SharedPreferences sharedPreferences;
 
@@ -39,7 +39,7 @@ void main() async {
 Widget? widget() {
   if (sharedPreferences.getBool('skip') != null) {
     if (sharedPreferences.get('isLogin') != null) {
-      return const HomeScreen();
+      return const LayOutScreen();
     } else {
       return LoginScreen();
     }

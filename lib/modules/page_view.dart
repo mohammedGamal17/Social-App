@@ -18,14 +18,14 @@ class PageViewScreen extends StatelessWidget {
     return [
       PageViewModel(
         image: const Image(
-          image: AssetImage('assets/Images/w.png'),
+          image: AssetImage('assets/Images/w2.png'),
         ),
         body: 'Go social to see what happen '.capitalize!,
         title: 'news feed'.capitalize!,
       ),
       PageViewModel(
         image: const Image(
-          image: AssetImage('assets/Images/w2.png'),
+          image: AssetImage('assets/Images/w.png'),
         ),
         body: 'body 2',
         title: 'title 2',

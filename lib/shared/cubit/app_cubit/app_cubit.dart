@@ -35,7 +35,7 @@ class AppCubit extends Cubit<AppStates> {
     const SettingsScreen(),
   ];
   List<String> title = [
-    'Home',
+    'News Feed',
     'Videos',
     'Messages',
     'Notifications',

@@ -7,7 +7,7 @@ import 'package:social/shared/cubit/app_cubit/app_states.dart';
 
 import '../../models/user_model/user_model.dart';
 import '../../shared/components/components.dart';
-import '../../shared/style/colors.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
           Card(
             shadowColor: const Color(0xFF0066CC),
             elevation: 3.0,
-            color: const Color(0xFFB0D5FF),
+            color: const Color(0xFF66B2FF),
             child: Column(
               children: [
                 Padding(
@@ -89,7 +89,7 @@ class HomeScreen extends StatelessWidget {
           Card(
             shadowColor: const Color(0xFF0066CC),
             elevation: 3.0,
-            color: const Color(0xFFB0D5FF),
+            color: const Color(0xFF66B2FF),
             child: Column(
               children: [
                 Padding(
@@ -106,13 +106,11 @@ class HomeScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Text('Mohammed Gamal'),
+                           Text('Mohammed Gamal',style: Theme.of(context).textTheme.subtitle2),
                           Text(
                             '10:00 pm',
                             style:
-                                Theme.of(context).textTheme.bodyText1?.copyWith(
-                                      color: textColor.withOpacity(0.6),
-                                    ),
+                            Theme.of(context).textTheme.subtitle2
                           ),
                         ],
                       ),
@@ -124,7 +122,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                separatorHorizontal(height: 0.1, opacity: 0.3),
+                separatorHorizontal(height: 0.5, opacity: 0.4),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: SizedBox(
@@ -132,7 +130,7 @@ class HomeScreen extends StatelessWidget {
                     child: Expanded(
                       child: Text(
                         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Theme.of(context).textTheme.subtitle2,
                         maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -155,7 +153,7 @@ class HomeScreen extends StatelessWidget {
                           const SizedBox(width: 5.0),
                           Text(
                             '1',
-                            style: Theme.of(context).textTheme.caption,
+                            style: Theme.of(context).textTheme.subtitle2?.copyWith(fontSize: 10.0),
                           ),
                         ],
                       ),
@@ -166,14 +164,14 @@ class HomeScreen extends StatelessWidget {
                           const SizedBox(width: 5.0),
                           Text(
                             '1',
-                            style: Theme.of(context).textTheme.caption,
+                            style: Theme.of(context).textTheme.subtitle2?.copyWith(fontSize: 10.0),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                separatorHorizontal(height: 0.1, opacity: 0.3),
+                separatorHorizontal(height: 0.2, opacity: 0.3),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -185,10 +183,10 @@ class HomeScreen extends StatelessWidget {
                           icon: const Icon(Icons.favorite_outlined, size: 16.0),
                           splashColor: const Color(0xFF66B2FF),
                         ),
-                        const Text(
+                         Text(
                           'Like',
-                          style: TextStyle(
-                            height: 0.3,
+                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                            height: 0.3
                           ),
                         ),
                       ],
@@ -202,10 +200,10 @@ class HomeScreen extends StatelessWidget {
                               const Icon(FontAwesomeIcons.comment, size: 16.0),
                           splashColor: const Color(0xFF66B2FF),
                         ),
-                        const Text(
+                         Text(
                           'Comment',
-                          style: TextStyle(
-                            height: 0.3,
+                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                              height: 0.3
                           ),
                         ),
                       ],
@@ -219,7 +217,7 @@ class HomeScreen extends StatelessWidget {
           Card(
             shadowColor: const Color(0xFF0066CC),
             elevation: 3.0,
-            color: const Color(0xFFB0D5FF),
+            color: const Color(0xFF66B2FF),
             child: Column(
               children: [
                 Padding(
@@ -236,13 +234,11 @@ class HomeScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Text('Mohammed Gamal'),
+                          Text('Mohammed Gamal',style: Theme.of(context).textTheme.subtitle2),
                           Text(
-                            '10:00 pm',
-                            style:
-                                Theme.of(context).textTheme.bodyText1?.copyWith(
-                                      color: textColor.withOpacity(0.6),
-                                    ),
+                              '10:00 pm',
+                              style:
+                              Theme.of(context).textTheme.subtitle2
                           ),
                         ],
                       ),
@@ -254,7 +250,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                separatorHorizontal(height: 0.1, opacity: 0.3),
+                separatorHorizontal(height: 0.5, opacity: 0.4),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: SizedBox(
@@ -262,7 +258,7 @@ class HomeScreen extends StatelessWidget {
                     child: Expanded(
                       child: Text(
                         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Theme.of(context).textTheme.subtitle2,
                         maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -279,29 +275,31 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Row(
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      Row(
                         children: [
                           const Icon(Icons.favorite, size: 10.0),
-                          Text('Like',
-                              style: Theme.of(context).textTheme.caption),
+                          const SizedBox(width: 5.0),
+                          Text(
+                            '1',
+                            style: Theme.of(context).textTheme.subtitle2?.copyWith(fontSize: 10.0),
+                          ),
                         ],
                       ),
                       const Spacer(),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      Row(
                         children: [
                           const Icon(FontAwesomeIcons.comment, size: 10.0),
-                          Text('Comment',
-                              style: Theme.of(context).textTheme.caption),
+                          const SizedBox(width: 5.0),
+                          Text(
+                            '1',
+                            style: Theme.of(context).textTheme.subtitle2?.copyWith(fontSize: 10.0),
+                          ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                separatorHorizontal(height: 0.1, opacity: 0.3),
+                separatorHorizontal(height: 0.2, opacity: 0.3),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -310,13 +308,13 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         IconButton(
                           onPressed: () {},
-                          icon: const Icon(Icons.favorite_outlined, size: 14.0),
+                          icon: const Icon(Icons.favorite_outlined, size: 16.0),
                           splashColor: const Color(0xFF66B2FF),
                         ),
-                        const Text(
+                        Text(
                           'Like',
-                          style: TextStyle(
-                            height: 0.3,
+                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                              height: 0.3
                           ),
                         ),
                       ],
@@ -327,13 +325,13 @@ class HomeScreen extends StatelessWidget {
                         IconButton(
                           onPressed: () {},
                           icon:
-                              const Icon(FontAwesomeIcons.comment, size: 14.0),
+                          const Icon(FontAwesomeIcons.comment, size: 16.0),
                           splashColor: const Color(0xFF66B2FF),
                         ),
-                        const Text(
+                        Text(
                           'Comment',
-                          style: TextStyle(
-                            height: 0.3,
+                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                              height: 0.3
                           ),
                         ),
                       ],

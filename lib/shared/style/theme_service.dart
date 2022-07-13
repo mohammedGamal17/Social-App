@@ -63,6 +63,11 @@ class ThemeService {
         color: textColor,
         fontFamily: 'RobotoCondensed',
       ),
+      subtitle2: TextStyle(
+        fontSize: 14.0,
+        color: lightBackground,
+        fontFamily: 'RobotoCondensed',
+      ),
     ),
     iconTheme: IconThemeData(
       color: iconColor,
@@ -135,6 +140,11 @@ class ThemeService {
       overline: TextStyle(
         color: HexColor('FFFFFF'),
         backgroundColor: HexColor('0077B6'),
+        fontFamily: 'RobotoCondensed',
+      ),
+      subtitle2: TextStyle(
+        fontSize: 14.0,
+        color: darkBackground,
         fontFamily: 'RobotoCondensed',
       ),
     ),

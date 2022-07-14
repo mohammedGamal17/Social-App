@@ -26,6 +26,8 @@ class AppCubit extends Cubit<AppStates> {
 
   UserModel? userModel;
   int currentIndex = 0;
+  bool isLike = false;
+  IconData likeIcon = Icons.favorite_outline;
 
   List<Widget> screen = [
     const HomeScreen(),
@@ -84,6 +86,7 @@ class AppCubit extends Cubit<AppStates> {
     }
     emit(BtmNavBarChangeItemState());
   }
+
   void getUserData(context) {
     emit(GetHomeDataLoading());
     FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
@@ -95,7 +98,12 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  void changeThemeMode(){
+  void changeThemeMode() {
     emit(ChangeThemeMode());
+  }
+
+  void changeLikeIcon() {
+    isLike = !isLike;
+    emit(ChangeLikeIconState());
   }
 }

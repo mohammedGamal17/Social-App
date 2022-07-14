@@ -32,3 +32,5 @@ class GetSettingsSuccess extends AppStates{}
 class GetSettingsFail extends AppStates{}
 
 class BtmNavBarChangeItemState extends AppStates {}
+
+class ChangeLikeIconState extends AppStates{}

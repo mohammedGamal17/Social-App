@@ -49,6 +49,7 @@ class ThemeService {
       ),
       bodyText1: TextStyle(
         color: textColor,
+        fontWeight: FontWeight.bold,
         fontFamily: 'RobotoCondensed',
       ),
       bodyText2: TextStyle(
@@ -66,6 +67,11 @@ class ThemeService {
       subtitle2: TextStyle(
         fontSize: 14.0,
         color: lightBackground,
+        fontFamily: 'RobotoCondensed',
+      ),
+      headline1: TextStyle(
+        fontSize: 14.0,
+        color: lightBackground.withOpacity(0.6),
         fontFamily: 'RobotoCondensed',
       ),
     ),
@@ -127,6 +133,7 @@ class ThemeService {
       ),
       bodyText1: TextStyle(
         color: textColor,
+        fontWeight: FontWeight.bold,
         fontFamily: 'RobotoCondensed',
       ),
       bodyText2: TextStyle(
@@ -145,6 +152,11 @@ class ThemeService {
       subtitle2: TextStyle(
         fontSize: 14.0,
         color: darkBackground,
+        fontFamily: 'RobotoCondensed',
+      ),
+      headline1: TextStyle(
+        fontSize: 14.0,
+        color: darkBackground.withOpacity(0.6),
         fontFamily: 'RobotoCondensed',
       ),
     ),

@@ -19,6 +19,7 @@ class AuthCubit extends Cubit<AuthStates> {
   void userRegister(
     context, {
     required String name,
+    required String lastName,
     required String email,
     required String password,
     required String phone,
@@ -34,6 +35,7 @@ class AuthCubit extends Cubit<AuthStates> {
         userCreate(
           context,
           name: name,
+          lastName: lastName,
           email: email,
           password: password,
           phone: phone,
@@ -55,6 +57,7 @@ class AuthCubit extends Cubit<AuthStates> {
   void userCreate(
     context, {
     required String name,
+    required String lastName,
     required String email,
     required String password,
     required String phone,
@@ -62,7 +65,7 @@ class AuthCubit extends Cubit<AuthStates> {
     String image =
         'https://pixsector.com/cache/94bed8d5/av3cbfdc7ee86dab9a41d.png',
     String bio = 'Write your bio',
-        String coverImage = 'https://wallpaperaccess.com/full/1216335.jpg',
+    String coverImage = 'https://wallpaperaccess.com/full/1216335.jpg',
   }) async {
     emit(CreateUserLoadingState());
     UserModel model = UserModel(
@@ -75,6 +78,7 @@ class AuthCubit extends Cubit<AuthStates> {
       image: image,
       coverImage: coverImage,
       bio: bio,
+      lastName: lastName,
     );
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     return users

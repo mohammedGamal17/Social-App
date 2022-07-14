@@ -6,6 +6,8 @@ class UserModel {
   late String? phone;
   late String? image;
   late bool? isEmailVerified;
+  late String? bio;
+  late String? coverImage;
 
   UserModel({
     this.name,
@@ -15,6 +17,8 @@ class UserModel {
     this.uId,
     this.image,
     this.isEmailVerified,
+    this.bio,
+    this.coverImage,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +30,8 @@ class UserModel {
       uId: json['uId'],
       image: json['image'],
       isEmailVerified: json['isEmailVerified'],
+      bio: json['bio'],
+      coverImage: json['coverImage'],
     );
   }
 
@@ -38,6 +44,8 @@ class UserModel {
     data['uId'] = uId;
     data['image'] = image;
     data['isEmailVerified'] = isEmailVerified;
+    data['bio'] = bio;
+    data['coverImage'] = coverImage;
     return data;
   }
 }

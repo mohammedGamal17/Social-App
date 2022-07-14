@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                               '${model.image}'),
                         ),
                         onTap: () {
-                          navigateTo(context, const ProfileScreen());
+                          navigateTo(context,  ProfileScreen(model: model,));
                         },
                       ),
                       const SizedBox(width: 20.0),
@@ -124,7 +124,7 @@ class HomeScreen extends StatelessWidget {
                         '${model.image}'),
                   ),
                   onTap: () {
-                    navigateTo(context, const ProfileScreen());
+                    navigateTo(context, ProfileScreen(model: model));
                   },
                 ),
                 const SizedBox(width: 10.0),
@@ -133,14 +133,14 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('${model.name}'.capitalize!,
+                      Text('${model.name} ${model.lastName}'.capitalize!,
                           style: Theme.of(context).textTheme.subtitle2),
                       Text('10:00 pm',
                           style: Theme.of(context).textTheme.headline1),
                     ],
                   ),
                   onTap: () {
-                    navigateTo(context, const ProfileScreen());
+                    navigateTo(context,  ProfileScreen(model: model));
                   },
                 ),
                 const Spacer(),
@@ -301,7 +301,7 @@ class HomeScreen extends StatelessWidget {
                         '${model.image}'),
                   ),
                   onTap: () {
-                    navigateTo(context, const ProfileScreen());
+                    navigateTo(context,  ProfileScreen(model: model));
                   },
                 ),
                 const SizedBox(width: 5.0),

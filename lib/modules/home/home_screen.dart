@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:social/modules/profile/profile_screen.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
@@ -57,10 +58,10 @@ class HomeScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       InkWell(
-                        child: const CircleAvatar(
+                        child:  CircleAvatar(
                           radius: 25.0,
                           backgroundImage: NetworkImage(
-                              'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1657727705~exp=1657728305~hmac=337639fbb551c90723bd4680ffaa477ea015c3c3e9b3360af86d9593052de99e&w=996'),
+                              '${model.image}'),
                         ),
                         onTap: () {
                           navigateTo(context, const ProfileScreen());
@@ -117,10 +118,10 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               children: [
                 InkWell(
-                  child: const CircleAvatar(
+                  child:  CircleAvatar(
                     radius: 20.0,
                     backgroundImage: NetworkImage(
-                        'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1657727705~exp=1657728305~hmac=337639fbb551c90723bd4680ffaa477ea015c3c3e9b3360af86d9593052de99e&w=996'),
+                        '${model.image}'),
                   ),
                   onTap: () {
                     navigateTo(context, const ProfileScreen());
@@ -132,7 +133,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('Mohammed Gamal',
+                      Text('${model.name}'.capitalize!,
                           style: Theme.of(context).textTheme.subtitle2),
                       Text('10:00 pm',
                           style: Theme.of(context).textTheme.headline1),
@@ -294,10 +295,10 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 InkWell(
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                     radius: 20.0,
                     backgroundImage: NetworkImage(
-                        'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1657727705~exp=1657728305~hmac=337639fbb551c90723bd4680ffaa477ea015c3c3e9b3360af86d9593052de99e&w=996'),
+                        '${model.image}'),
                   ),
                   onTap: () {
                     navigateTo(context, const ProfileScreen());

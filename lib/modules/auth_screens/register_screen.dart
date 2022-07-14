@@ -15,6 +15,7 @@ class RegisterScreen extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
 
   final name = TextEditingController();
+  final lastName = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
   final phone = TextEditingController();
@@ -69,11 +70,30 @@ class RegisterScreen extends StatelessWidget {
                                   if (value.isEmpty ||
                                       value.length < 4 ||
                                       value.length > 50) {
-                                    return 'Please Enter Yor Name';
+                                    return 'Please Enter Yor First Name';
                                   }
                                   return null;
                                 },
-                                labelText: 'Name',
+                                labelText: 'First Name',
+                                prefix: Icons.account_circle_outlined,
+                                borderRadius: 15.0,
+                                autoFocus: true,
+                                textInputType: TextInputType.name,
+                              ),
+                              const SizedBox(
+                                height: 10.0,
+                              ),
+                              textFormField(
+                                controller: lastName,
+                                validate: (value) {
+                                  if (value.isEmpty ||
+                                      value.length < 4 ||
+                                      value.length > 50) {
+                                    return 'Please Enter Yor Last Name';
+                                  }
+                                  return null;
+                                },
+                                labelText: 'Last Name',
                                 prefix: Icons.account_circle_outlined,
                                 borderRadius: 15.0,
                                 autoFocus: true,
@@ -153,6 +173,7 @@ class RegisterScreen extends StatelessWidget {
                                             password: password.text,
                                             name: name.text,
                                             phone: phone.text,
+                                            lastName: lastName.text
                                           );
                                         }
                                       },

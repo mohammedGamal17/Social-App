@@ -28,6 +28,7 @@ class AppCubit extends Cubit<AppStates> {
   int currentIndex = 0;
   bool isLike = false;
   IconData likeIcon = Icons.favorite_outline;
+  int likeNum=0;
 
   List<Widget> screen = [
     const HomeScreen(),
@@ -105,5 +106,15 @@ class AppCubit extends Cubit<AppStates> {
   void changeLikeIcon() {
     isLike = !isLike;
     emit(ChangeLikeIconState());
+  }
+
+  void likeCount(){
+    if(isLike == true){
+      likeNum++;
+    }else{
+      likeNum--;
+    }
+
+    emit(LikeCountState());
   }
 }

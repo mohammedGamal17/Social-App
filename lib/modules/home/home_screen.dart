@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:social/modules/profile/profile_screen.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
 
 import '../../models/user_model/user_model.dart';
 import '../../shared/components/components.dart';
-
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -56,10 +56,15 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: Row(
                     children: [
-                      const CircleAvatar(
-                        radius: 25.0,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1657727705~exp=1657728305~hmac=337639fbb551c90723bd4680ffaa477ea015c3c3e9b3360af86d9593052de99e&w=996'),
+                      InkWell(
+                        child: const CircleAvatar(
+                          radius: 25.0,
+                          backgroundImage: NetworkImage(
+                              'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1657727705~exp=1657728305~hmac=337639fbb551c90723bd4680ffaa477ea015c3c3e9b3360af86d9593052de99e&w=996'),
+                        ),
+                        onTap: () {
+                          navigateTo(context, const ProfileScreen());
+                        },
                       ),
                       const SizedBox(width: 20.0),
                       Expanded(
@@ -86,262 +91,263 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          Card(
-            shadowColor: const Color(0xFF0066CC),
-            elevation: 3.0,
-            color: const Color(0xFF66B2FF),
-            child: Column(
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) =>
+                postBuilderItem(context, AppCubit.get(context).userModel!),
+            separatorBuilder: (context, index) =>
+                separatorHorizontal(height: 0.1, opacity: 0.5),
+            itemCount: 10,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget postBuilderItem(context, UserModel model) {
+    return Card(
+      shadowColor: const Color(0xFF0066CC),
+      elevation: 3.0,
+      color: const Color(0xFF66B2FF),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
+                InkWell(
+                  child: const CircleAvatar(
+                    radius: 20.0,
+                    backgroundImage: NetworkImage(
+                        'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1657727705~exp=1657728305~hmac=337639fbb551c90723bd4680ffaa477ea015c3c3e9b3360af86d9593052de99e&w=996'),
+                  ),
+                  onTap: () {
+                    navigateTo(context, const ProfileScreen());
+                  },
+                ),
+                const SizedBox(width: 10.0),
+                InkWell(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const CircleAvatar(
-                        radius: 20.0,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1657727705~exp=1657728305~hmac=337639fbb551c90723bd4680ffaa477ea015c3c3e9b3360af86d9593052de99e&w=996'),
-                      ),
-                      const SizedBox(width: 20.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                           Text('Mohammed Gamal',style: Theme.of(context).textTheme.subtitle2),
-                          Text(
-                            '10:00 pm',
-                            style:
-                            Theme.of(context).textTheme.subtitle2
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.more_horiz_outlined),
-                      ),
+                      Text('Mohammed Gamal',
+                          style: Theme.of(context).textTheme.subtitle2),
+                      Text('10:00 pm',
+                          style: Theme.of(context).textTheme.headline1),
                     ],
                   ),
+                  onTap: () {
+                    navigateTo(context, const ProfileScreen());
+                  },
                 ),
-                separatorHorizontal(height: 0.5, opacity: 0.4),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Expanded(
-                      child: Text(
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
-                        style: Theme.of(context).textTheme.subtitle2,
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ),
+                const Spacer(),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.more_horiz_outlined),
                 ),
-                const SizedBox(height: 10.0),
-                const Image(
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-photo/emotional-bearded-male-has-surprised-facial-expression-astonished-look-dressed-white-shirt-with-red-braces-points-with-index-finger-upper-right-corner_273609-16001.jpg?t=st=1657727705~exp=1657728305~hmac=6fc3387378f08f2436466b0cbbe90edffff83bfc2aaa568d1317e12aaf36dc38&w=996'),
-                  fit: BoxFit.cover,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Row(
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.favorite, size: 10.0),
-                          const SizedBox(width: 5.0),
-                          Text(
-                            '1',
-                            style: Theme.of(context).textTheme.subtitle2?.copyWith(fontSize: 10.0),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          const Icon(FontAwesomeIcons.comment, size: 10.0),
-                          const SizedBox(width: 5.0),
-                          Text(
-                            '1',
-                            style: Theme.of(context).textTheme.subtitle2?.copyWith(fontSize: 10.0),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                separatorHorizontal(height: 0.2, opacity: 0.3),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.favorite_outlined, size: 16.0),
-                          splashColor: const Color(0xFF66B2FF),
-                        ),
-                         Text(
-                          'Like',
-                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                            height: 0.3
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Column(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon:
-                              const Icon(FontAwesomeIcons.comment, size: 16.0),
-                          splashColor: const Color(0xFF66B2FF),
-                        ),
-                         Text(
-                          'Comment',
-                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                              height: 0.3
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 5.0),
               ],
             ),
           ),
-          Card(
-            shadowColor: const Color(0xFF0066CC),
-            elevation: 3.0,
-            color: const Color(0xFF66B2FF),
-            child: Column(
+          separatorHorizontal(height: 0.5, opacity: 0.4),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: Expanded(
+                child: Text(
+                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
+                  style: Theme.of(context).textTheme.subtitle2,
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 5.0, left: 10.0, right: 10.0, bottom: 0.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: Wrap(
+                children: [
+                  SizedBox(
+                    height: 20.0,
+                    child: MaterialButton(
+                      onPressed: () {},
+                      padding: const EdgeInsets.only(right: 10.0),
+                      minWidth: 1.0,
+                      height: 10.0,
+                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                    child: MaterialButton(
+                      onPressed: () {},
+                      padding: const EdgeInsets.only(right: 10.0),
+                      minWidth: 1.0,
+                      height: 10.0,
+                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                    child: MaterialButton(
+                      onPressed: () {},
+                      padding: const EdgeInsets.only(right: 10.0),
+                      minWidth: 1.0,
+                      height: 10.0,
+                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                    child: MaterialButton(
+                      onPressed: () {},
+                      padding: const EdgeInsets.only(right: 10.0),
+                      minWidth: 1.0,
+                      height: 10.0,
+                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                    child: MaterialButton(
+                      onPressed: () {},
+                      padding: const EdgeInsets.only(right: 10.0),
+                      minWidth: 1.0,
+                      height: 10.0,
+                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                    child: MaterialButton(
+                      onPressed: () {},
+                      padding: const EdgeInsets.only(right: 10.0),
+                      minWidth: 1.0,
+                      height: 10.0,
+                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                    child: MaterialButton(
+                      onPressed: () {},
+                      padding: const EdgeInsets.only(right: 10.0),
+                      minWidth: 1.0,
+                      height: 10.0,
+                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 10.0),
+          const Image(
+            image: NetworkImage(
+                'https://img.freepik.com/free-photo/emotional-bearded-male-has-surprised-facial-expression-astonished-look-dressed-white-shirt-with-red-braces-points-with-index-finger-upper-right-corner_273609-16001.jpg?t=st=1657727705~exp=1657728305~hmac=6fc3387378f08f2436466b0cbbe90edffff83bfc2aaa568d1317e12aaf36dc38&w=996'),
+            fit: BoxFit.cover,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 20.0,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1657727705~exp=1657728305~hmac=337639fbb551c90723bd4680ffaa477ea015c3c3e9b3360af86d9593052de99e&w=996'),
-                      ),
-                      const SizedBox(width: 20.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text('Mohammed Gamal',style: Theme.of(context).textTheme.subtitle2),
-                          Text(
-                              '10:00 pm',
-                              style:
-                              Theme.of(context).textTheme.subtitle2
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.more_horiz_outlined),
-                      ),
-                    ],
-                  ),
-                ),
-                separatorHorizontal(height: 0.5, opacity: 0.4),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Expanded(
-                      child: Text(
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
-                        style: Theme.of(context).textTheme.subtitle2,
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                const Image(
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-photo/emotional-bearded-male-has-surprised-facial-expression-astonished-look-dressed-white-shirt-with-red-braces-points-with-index-finger-upper-right-corner_273609-16001.jpg?t=st=1657727705~exp=1657728305~hmac=6fc3387378f08f2436466b0cbbe90edffff83bfc2aaa568d1317e12aaf36dc38&w=996'),
-                  fit: BoxFit.cover,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Row(
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.favorite, size: 10.0),
-                          const SizedBox(width: 5.0),
-                          Text(
-                            '1',
-                            style: Theme.of(context).textTheme.subtitle2?.copyWith(fontSize: 10.0),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          const Icon(FontAwesomeIcons.comment, size: 10.0),
-                          const SizedBox(width: 5.0),
-                          Text(
-                            '1',
-                            style: Theme.of(context).textTheme.subtitle2?.copyWith(fontSize: 10.0),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                separatorHorizontal(height: 0.2, opacity: 0.3),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Column(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.favorite_outlined, size: 16.0),
-                          splashColor: const Color(0xFF66B2FF),
-                        ),
-                        Text(
-                          'Like',
-                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                              height: 0.3
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Column(
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon:
-                          const Icon(FontAwesomeIcons.comment, size: 16.0),
-                          splashColor: const Color(0xFF66B2FF),
-                        ),
-                        Text(
-                          'Comment',
-                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                              height: 0.3
-                          ),
-                        ),
-                      ],
+                    const Icon(Icons.favorite, size: 14.0),
+                    const SizedBox(width: 5.0),
+                    Text(
+                      '${AppCubit.get(context).likeNum}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          ?.copyWith(fontSize: 14.0),
                     ),
                   ],
                 ),
-                const SizedBox(height: 5.0),
+                const Spacer(),
+                Row(
+                  children: [
+                    const Icon(FontAwesomeIcons.comment, size: 14.0),
+                    const SizedBox(width: 5.0),
+                    Text(
+                      '1',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          ?.copyWith(fontSize: 14.0),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
+          separatorHorizontal(height: 0.2, opacity: 0.3),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                InkWell(
+                  child: const CircleAvatar(
+                    radius: 20.0,
+                    backgroundImage: NetworkImage(
+                        'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1657727705~exp=1657728305~hmac=337639fbb551c90723bd4680ffaa477ea015c3c3e9b3360af86d9593052de99e&w=996'),
+                  ),
+                  onTap: () {
+                    navigateTo(context, const ProfileScreen());
+                  },
+                ),
+                const SizedBox(width: 5.0),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {},
+                    child: Container(
+                      width: double.infinity,
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        color: const Color(0xFFCCE5FF),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text('Write a Comment ..'),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                  child: InkWell(
+                    onTap: () {
+                      AppCubit.get(context).changeLikeIcon();
+                      AppCubit.get(context).likeCount();
+                    },
+                    child: Column(
+                      children: [
+                        AppCubit.get(context).isLike == true
+                            ? const Icon(Icons.favorite_outlined, size: 24.0)
+                            : const Icon(Icons.favorite_outline, size: 24.0),
+                        Text(
+                          'Like',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.copyWith(fontSize: 14.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 5.0),
         ],
       ),
     );

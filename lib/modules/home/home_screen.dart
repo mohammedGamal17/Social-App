@@ -9,6 +9,7 @@ import 'package:social/shared/cubit/app_cubit/app_states.dart';
 
 import '../../models/user_model/user_model.dart';
 import '../../shared/components/components.dart';
+import '../posts/post_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -58,19 +59,24 @@ class HomeScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       InkWell(
-                        child:  CircleAvatar(
+                        child: CircleAvatar(
                           radius: 25.0,
-                          backgroundImage: NetworkImage(
-                              '${model.image}'),
+                          backgroundImage: NetworkImage('${model.image}'),
                         ),
                         onTap: () {
-                          navigateTo(context,  ProfileScreen(model: model,));
+                          navigateTo(
+                              context,
+                              ProfileScreen(
+                                model: model,
+                              ));
                         },
                       ),
                       const SizedBox(width: 20.0),
                       Expanded(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            navigateTo(context,  PostScreen(model: model,));
+                          },
                           radius: 30.0,
                           child: Container(
                             width: double.infinity,
@@ -118,10 +124,9 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               children: [
                 InkWell(
-                  child:  CircleAvatar(
+                  child: CircleAvatar(
                     radius: 20.0,
-                    backgroundImage: NetworkImage(
-                        '${model.image}'),
+                    backgroundImage: NetworkImage('${model.image}'),
                   ),
                   onTap: () {
                     navigateTo(context, ProfileScreen(model: model));
@@ -140,7 +145,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   onTap: () {
-                    navigateTo(context,  ProfileScreen(model: model));
+                    navigateTo(context, ProfileScreen(model: model));
                   },
                 ),
                 const Spacer(),
@@ -180,7 +185,8 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 10.0),
                       minWidth: 1.0,
                       height: 10.0,
-                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                      child: Text('#PiGram',
+                          style: Theme.of(context).textTheme.bodyText1),
                     ),
                   ),
                   SizedBox(
@@ -190,7 +196,8 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 10.0),
                       minWidth: 1.0,
                       height: 10.0,
-                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                      child: Text('#PiGram',
+                          style: Theme.of(context).textTheme.bodyText1),
                     ),
                   ),
                   SizedBox(
@@ -200,7 +207,8 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 10.0),
                       minWidth: 1.0,
                       height: 10.0,
-                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                      child: Text('#PiGram',
+                          style: Theme.of(context).textTheme.bodyText1),
                     ),
                   ),
                   SizedBox(
@@ -210,7 +218,8 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 10.0),
                       minWidth: 1.0,
                       height: 10.0,
-                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                      child: Text('#PiGram',
+                          style: Theme.of(context).textTheme.bodyText1),
                     ),
                   ),
                   SizedBox(
@@ -220,7 +229,8 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 10.0),
                       minWidth: 1.0,
                       height: 10.0,
-                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                      child: Text('#PiGram',
+                          style: Theme.of(context).textTheme.bodyText1),
                     ),
                   ),
                   SizedBox(
@@ -230,7 +240,8 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 10.0),
                       minWidth: 1.0,
                       height: 10.0,
-                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                      child: Text('#PiGram',
+                          style: Theme.of(context).textTheme.bodyText1),
                     ),
                   ),
                   SizedBox(
@@ -240,7 +251,8 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 10.0),
                       minWidth: 1.0,
                       height: 10.0,
-                      child:  Text('#PiGram',style: Theme.of(context).textTheme.bodyText1),
+                      child: Text('#PiGram',
+                          style: Theme.of(context).textTheme.bodyText1),
                     ),
                   ),
                 ],
@@ -297,11 +309,10 @@ class HomeScreen extends StatelessWidget {
                 InkWell(
                   child: CircleAvatar(
                     radius: 20.0,
-                    backgroundImage: NetworkImage(
-                        '${model.image}'),
+                    backgroundImage: NetworkImage('${model.image}'),
                   ),
                   onTap: () {
-                    navigateTo(context,  ProfileScreen(model: model));
+                    navigateTo(context, ProfileScreen(model: model));
                   },
                 ),
                 const SizedBox(width: 5.0),

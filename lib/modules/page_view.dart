@@ -79,7 +79,7 @@ class PageViewScreen extends StatelessWidget {
                     });
                   },
                   style:
-                      TextButton.styleFrom(foregroundColor: HexColor('66B2FF')),
+                      TextButton.styleFrom(backgroundColor: HexColor('66B2FF')),
                   child:
                       Text('Skip', style: Theme.of(context).textTheme.caption),
                 ),

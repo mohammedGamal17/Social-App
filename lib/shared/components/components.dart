@@ -277,21 +277,22 @@ Widget alertMessage(
 }
 
 Widget loadingAnimation(context) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Center(
-          child: LoadingAnimationWidget.flickr(
-        leftDotColor: const Color(0xFF66B2FF),
-        rightDotColor: const Color(0xFF004C99),
-        size: 50,
-      )),
-      const SizedBox(height: 10.0),
-      Text(
-        'Loading, Please Wait ...',
-        style: Theme.of(context).textTheme.bodyText1,
-      )
-    ],
+  return Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        LoadingAnimationWidget.flickr(
+          leftDotColor: const Color(0xFF66B2FF),
+          rightDotColor: const Color(0xFF004C99),
+          size: 50,
+        ),
+        const SizedBox(height: 10.0),
+        Text(
+          'Loading, Please Wait ...',
+          style: Theme.of(context).textTheme.bodyText1,
+        )
+      ],
+    ),
   );
 }

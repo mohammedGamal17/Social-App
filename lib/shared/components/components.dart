@@ -97,7 +97,7 @@ Widget textFormField({
 
 Widget separatorHorizontal({
   double height = 2.0,
-  double opacity= 1.0,
+  double opacity = 1.0,
 }) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -126,7 +126,7 @@ Widget circularProgressIndicator() {
   ));
 }
 
-Widget decorationButton(
+Widget decorationPageRouteButton(
   context, {
   Widget? pageRoute,
   Color? color,
@@ -154,6 +154,48 @@ Widget decorationButton(
           ),
         ),
         child: Text(text, style: Theme.of(context).textTheme.bodyText1),
+      ),
+    ),
+  );
+}
+
+Widget decorationButton(
+  context, {
+  Function? onTap,
+  Color? color,
+  double borderRadius = 15.0,
+  required String text,
+}) {
+  return InkWell(
+    onTap: () {
+      onTap!();
+    },
+    child: Center(
+      child: Container(
+        height: 40.0,
+        width: double.infinity,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(borderRadius),
+          color: buttonColor,
+          gradient: LinearGradient(
+            begin: AlignmentDirectional.topStart,
+            end: AlignmentDirectional.bottomEnd,
+            colors: [
+              gradientColor1,
+              gradientColor2,
+            ],
+          ),
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 16.0,
+            color: HexColor('004C99'),
+            fontWeight: FontWeight.bold,
+            fontFamily: 'RobotoCondensed',
+          ),
+        ),
       ),
     ),
   );
@@ -246,7 +288,10 @@ Widget loadingAnimation(context) {
         size: 50,
       )),
       const SizedBox(height: 10.0),
-      Text('Loading, Please Wait ...',style: Theme.of(context).textTheme.bodyText1,)
+      Text(
+        'Loading, Please Wait ...',
+        style: Theme.of(context).textTheme.bodyText1,
+      )
     ],
   );
 }

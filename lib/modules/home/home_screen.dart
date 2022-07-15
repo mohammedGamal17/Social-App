@@ -65,17 +65,23 @@ class HomeScreen extends StatelessWidget {
                         ),
                         onTap: () {
                           navigateTo(
-                              context,
-                              ProfileScreen(
-                                model: model,
-                              ));
+                            context,
+                            ProfileScreen(
+                              model: model,
+                            ),
+                          );
                         },
                       ),
                       const SizedBox(width: 20.0),
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            navigateTo(context,  PostScreen(model: model,));
+                            navigateTo(
+                              context,
+                              PostScreen(
+                                model: model,
+                              ),
+                            );
                           },
                           radius: 30.0,
                           child: Container(
@@ -105,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                 postBuilderItem(context, AppCubit.get(context).userModel!),
             separatorBuilder: (context, index) =>
                 separatorHorizontal(height: 0.1, opacity: 0.5),
-            itemCount: 10,
+            itemCount: 3,
           )
         ],
       ),
@@ -124,24 +130,23 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               children: [
                 InkWell(
-                  child: CircleAvatar(
-                    radius: 20.0,
-                    backgroundImage: NetworkImage('${model.image}'),
-                  ),
-                  onTap: () {
-                    navigateTo(context, ProfileScreen(model: model));
-                  },
-                ),
-                const SizedBox(width: 10.0),
-                InkWell(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  child: Row(
                     children: [
-                      Text('${model.name} ${model.lastName}'.capitalize!,
-                          style: Theme.of(context).textTheme.subtitle2),
-                      Text('10:00 pm',
-                          style: Theme.of(context).textTheme.headline1),
+                      CircleAvatar(
+                        radius: 20.0,
+                        backgroundImage: NetworkImage('${model.image}'),
+                      ),
+                      const SizedBox(width: 10.0),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text('${model.name} ${model.lastName}'.capitalize!,
+                              style: Theme.of(context).textTheme.subtitle2),
+                          Text('10:00 pm',
+                              style: Theme.of(context).textTheme.headline1),
+                        ],
+                      ),
                     ],
                   ),
                   onTap: () {

@@ -57,7 +57,7 @@ class SettingsScreen extends StatelessWidget {
                             navigateTo(
                               context,
                               ProfileScreen(
-                                model: model!,
+                                userModel: model!,
                               ),
                             );
                           },

@@ -98,9 +98,10 @@ Widget textFormField({
 Widget separatorHorizontal({
   double height = 2.0,
   double opacity = 1.0,
+  double padding = 10.0,
 }) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+    padding:  EdgeInsets.symmetric(horizontal: padding),
     child: Container(
       height: height,
       color: separatorColor.withOpacity(opacity),

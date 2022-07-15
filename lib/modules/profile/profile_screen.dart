@@ -9,9 +9,9 @@ import 'package:social/shared/cubit/app_cubit/app_states.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key, required this.model});
+  const ProfileScreen({super.key, required this.userModel});
 
-  final UserModel model;
+  final UserModel userModel;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,6 @@ class ProfileScreen extends StatelessWidget {
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          AppCubit cubit = AppCubit.get(context);
-
           return Scaffold(
             appBar: AppBar(),
             body: SingleChildScrollView(
@@ -42,7 +40,7 @@ class ProfileScreen extends StatelessWidget {
                                 height: 160.0,
                                 child: Image(
                                   image: NetworkImage(
-                                    '${model.coverImage}',
+                                    '${userModel.coverImage}',
                                   ),
                                   width: double.infinity,
                                   fit: BoxFit.cover,
@@ -58,7 +56,7 @@ class ProfileScreen extends StatelessWidget {
                                 child: Image(
                                   width: 100.0,
                                   height: 100.0,
-                                  image: NetworkImage('${model.image}'),
+                                  image: NetworkImage('${userModel.image}'),
                                 ),
                               ),
                             ),
@@ -69,14 +67,15 @@ class ProfileScreen extends StatelessWidget {
                         width: double.infinity,
                         alignment: AlignmentDirectional.center,
                         child: Text(
-                            '${model.name} ${model.lastName}'.capitalize!,
+                            '${userModel.name} ${userModel.lastName}'
+                                .capitalize!,
                             style: Theme.of(context).textTheme.headline5),
                       ),
                       const SizedBox(height: 10.0),
                       Container(
                         width: double.infinity,
                         alignment: AlignmentDirectional.center,
-                        child: Text('${model.bio}'.capitalize!,
+                        child: Text('${userModel.bio}'.capitalize!,
                             style: Theme.of(context).textTheme.caption),
                       ),
                       const SizedBox(height: 15.0),

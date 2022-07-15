@@ -23,13 +23,6 @@ class LayOutScreen extends StatelessWidget {
               actions: [
                 IconButton(
                   onPressed: () {
-                    ThemeService().changeTheme();
-                    cubit.changeThemeMode();
-                  },
-                  icon: const Icon(Icons.dark_mode_outlined),
-                ),
-                IconButton(
-                  onPressed: () {
                    navigateTo(context, const SearchScreen());
                   },
                   icon: const Icon(Icons.search_outlined),

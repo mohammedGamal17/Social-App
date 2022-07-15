@@ -119,6 +119,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget postBuilderItem(context, UserModel model) {
+    AppCubit cubit =AppCubit.get(context);
     return Card(
       shadowColor: const Color(0xFF0066CC),
       elevation: 3.0,
@@ -348,8 +349,8 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         AppCubit.get(context).isLike == true
-                            ? const Icon(Icons.favorite_outlined, size: 24.0)
-                            : const Icon(Icons.favorite_outline, size: 24.0),
+                            ?  Icon(cubit.likedIcon, size: 24.0)
+                            :  Icon(cubit.disLikeIcon, size: 24.0),
                         Text(
                           'Like',
                           style: Theme.of(context)

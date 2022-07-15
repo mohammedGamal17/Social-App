@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 import 'package:social/modules/messages/messages_screen.dart';
 import 'package:social/modules/notifications/notifications_screen.dart';
 import 'package:social/modules/settings/settings_screen.dart';
@@ -10,12 +9,12 @@ import 'package:social/modules/videos/videos_screen.dart';
 import 'package:social/shared/components/components.dart';
 import 'package:social/shared/components/constants.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
+import 'package:social/shared/style/theme_service.dart';
 
 import '../../../models/user_model/user_model.dart';
 import '../../../layout/Layout_screen.dart';
 import '../../../modules/home/home_screen.dart';
 import '../../networks/remote/dio_helper.dart';
-import '../../style/theme_service.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInit());
@@ -28,14 +27,19 @@ class AppCubit extends Cubit<AppStates> {
   int currentIndex = 0;
   bool isLike = false;
   IconData likeIcon = Icons.favorite_outline;
+  IconData darkIcon = Icons.dark_mode;
+  IconData lightIcon = Icons.light_mode;
+  String darkMode = 'Dark mode';
+  String lightMode = 'Light mode';
   int likeNum = 0;
+  bool isDark = false;
 
   List<Widget> screen = [
     const HomeScreen(),
     const VideosScreen(),
     const MessagesScreen(),
     const NotificationsScreen(),
-     SettingsScreen(),
+    const SettingsScreen(),
   ];
   List<String> title = [
     'News Feed',
@@ -83,7 +87,7 @@ class AppCubit extends Cubit<AppStates> {
       const NotificationsScreen();
     }
     if (index == 4) {
-       SettingsScreen();
+      const SettingsScreen();
     }
     emit(BtmNavBarChangeItemState());
   }
@@ -100,6 +104,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void changeThemeMode() {
+    isDark = !isDark;
     emit(ChangeThemeMode());
   }
 

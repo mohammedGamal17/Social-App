@@ -26,7 +26,8 @@ class AppCubit extends Cubit<AppStates> {
   UserModel? userModel;
   int currentIndex = 0;
   bool isLike = false;
-  IconData likeIcon = Icons.favorite_outline;
+  IconData disLikeIcon = Icons.favorite_outline;
+  IconData likedIcon = Icons.favorite_outlined;
   IconData darkIcon = Icons.dark_mode;
   IconData lightIcon = Icons.light_mode;
   String darkMode = 'Dark mode';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:social/modules/home/home_screen.dart';
+
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
 
@@ -11,9 +11,9 @@ import '../../shared/components/components.dart';
 import '../profile/profile_screen.dart';
 
 class PostScreen extends StatelessWidget {
-  PostScreen({super.key, required this.model});
+  PostScreen({super.key, required this.userModel});
 
-  final UserModel model;
+  final UserModel userModel;
   final post = TextEditingController();
 
   @override
@@ -23,7 +23,6 @@ class PostScreen extends StatelessWidget {
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          AppCubit cubit = AppCubit.get(context);
           return Scaffold(
             appBar: AppBar(),
             body: SingleChildScrollView(
@@ -43,13 +42,14 @@ class PostScreen extends StatelessWidget {
                             InkWell(
                               child: CircleAvatar(
                                 radius: 25.0,
-                                backgroundImage: NetworkImage('${model.image}'),
+                                backgroundImage:
+                                    NetworkImage('${userModel.image}'),
                               ),
                               onTap: () {
                                 navigateTo(
                                   context,
                                   ProfileScreen(
-                                    model: model,
+                                    userModel: userModel,
                                   ),
                                 );
                               },
@@ -61,7 +61,7 @@ class PostScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                      '${model.name} ${model.lastName}'
+                                      '${userModel.name} ${userModel.lastName}'
                                           .capitalize!,
                                       style: Theme.of(context)
                                           .textTheme
@@ -69,8 +69,8 @@ class PostScreen extends StatelessWidget {
                                 ],
                               ),
                               onTap: () {
-                                navigateTo(
-                                    context, ProfileScreen(model: model));
+                                navigateTo(context,
+                                    ProfileScreen(userModel: userModel));
                               },
                             ),
                           ],
@@ -100,12 +100,10 @@ class PostScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: decorationButton(
-                          context,
-                          text: 'Post',
-                          borderRadius: 5.0,
-                          onTap: (){navigateTo(context, const LayOutScreen());}
-                        ),
+                        child: decorationButton(context,
+                            text: 'Post', borderRadius: 5.0, onTap: () {
+                          navigateTo(context, const LayOutScreen());
+                        }),
                       )
                     ],
                   ),

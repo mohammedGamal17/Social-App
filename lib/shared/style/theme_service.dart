@@ -145,8 +145,7 @@ class ThemeService {
         fontFamily: 'RobotoCondensed',
       ),
       overline: TextStyle(
-        color: HexColor('FFFFFF'),
-        backgroundColor: HexColor('0077B6'),
+        color: textColor,
         fontFamily: 'RobotoCondensed',
       ),
       subtitle2: TextStyle(

@@ -67,7 +67,7 @@ class HomeScreen extends StatelessWidget {
                           navigateTo(
                             context,
                             ProfileScreen(
-                              model: model,
+                              userModel: model,
                             ),
                           );
                         },
@@ -79,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                             navigateTo(
                               context,
                               PostScreen(
-                                model: model,
+                                userModel: model,
                               ),
                             );
                           },
@@ -119,7 +119,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget postBuilderItem(context, UserModel model) {
-    AppCubit cubit =AppCubit.get(context);
+    AppCubit cubit = AppCubit.get(context);
     return Card(
       shadowColor: const Color(0xFF0066CC),
       elevation: 3.0,
@@ -151,7 +151,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   onTap: () {
-                    navigateTo(context, ProfileScreen(model: model));
+                    navigateTo(context, ProfileScreen(userModel: model));
                   },
                 ),
                 const Spacer(),
@@ -318,7 +318,7 @@ class HomeScreen extends StatelessWidget {
                     backgroundImage: NetworkImage('${model.image}'),
                   ),
                   onTap: () {
-                    navigateTo(context, ProfileScreen(model: model));
+                    navigateTo(context, ProfileScreen(userModel: model));
                   },
                 ),
                 const SizedBox(width: 5.0),
@@ -349,8 +349,8 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         AppCubit.get(context).isLike == true
-                            ?  Icon(cubit.likedIcon, size: 24.0)
-                            :  Icon(cubit.disLikeIcon, size: 24.0),
+                            ? Icon(cubit.likedIcon, size: 24.0)
+                            : Icon(cubit.disLikeIcon, size: 24.0),
                         Text(
                           'Like',
                           style: Theme.of(context)

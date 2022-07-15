@@ -28,14 +28,14 @@ class AppCubit extends Cubit<AppStates> {
   int currentIndex = 0;
   bool isLike = false;
   IconData likeIcon = Icons.favorite_outline;
-  int likeNum=0;
+  int likeNum = 0;
 
   List<Widget> screen = [
     const HomeScreen(),
     const VideosScreen(),
     const MessagesScreen(),
     const NotificationsScreen(),
-    const SettingsScreen(),
+     SettingsScreen(),
   ];
   List<String> title = [
     'News Feed',
@@ -83,7 +83,7 @@ class AppCubit extends Cubit<AppStates> {
       const NotificationsScreen();
     }
     if (index == 4) {
-      const SettingsScreen();
+       SettingsScreen();
     }
     emit(BtmNavBarChangeItemState());
   }
@@ -108,10 +108,10 @@ class AppCubit extends Cubit<AppStates> {
     emit(ChangeLikeIconState());
   }
 
-  void likeCount(){
-    if(isLike == true){
+  void likeCount() {
+    if (isLike == true) {
       likeNum++;
-    }else{
+    } else {
       likeNum--;
     }
 

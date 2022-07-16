@@ -96,7 +96,6 @@ class RegisterScreen extends StatelessWidget {
                                 labelText: 'Last Name',
                                 prefix: Icons.account_circle_outlined,
                                 borderRadius: 15.0,
-                                autoFocus: true,
                                 textInputType: TextInputType.name,
                               ),
                               const SizedBox(

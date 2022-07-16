@@ -7,7 +7,7 @@ class AuthInit extends AuthStates {}
 class LoginLoadingState extends AuthStates {}
 
 class LoginSuccessState extends AuthStates {
- final UserModel model;
+  final UserModel model;
 
   LoginSuccessState(this.model);
 }

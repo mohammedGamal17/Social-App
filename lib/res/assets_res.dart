@@ -5,12 +5,7 @@
 class AssetsRes {
   static const String LOGINPAGE = 'assets/Images/loginpage.png';
   static const String LOGO = 'assets/Images/logo.png';
-  static const String ONBOARDING1 = 'assets/Images/onboarding1.gif';
-  static const String ONBOARDING2 = 'assets/Images/onboarding2.gif';
-  static const String ONBOARDING3 = 'assets/Images/onboarding3.gif';
-  static const String ONBOARDING4 = 'assets/Images/onboarding4.gif';
   static const String REGPAGE = 'assets/Images/regpage.png';
-  static const String SAVAG = 'assets/Images/savag.svg';
   static const String W = 'assets/Images/w.png';
   static const String W2 = 'assets/Images/w2.png';
   static const String W3 = 'assets/Images/w3.png';

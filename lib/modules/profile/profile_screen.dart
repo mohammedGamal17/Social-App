@@ -152,7 +152,11 @@ class ProfileScreen extends StatelessWidget {
                           const SizedBox(width: 10.0),
                           OutlinedButton(
                               onPressed: () {
-                                navigateTo(context, const EditProfileScreen());
+                                navigateTo(
+                                    context,
+                                    EditProfileScreen(
+                                      userModel: userModel,
+                                    ));
                               },
                               child: const Icon(Icons.edit))
                         ],

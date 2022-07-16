@@ -34,6 +34,8 @@ class AppCubit extends Cubit<AppStates> {
   String lightMode = 'Light mode';
   int likeNum = 0;
   bool isDark = false;
+  bool isPassword = true;
+  IconData suffix = Icons.visibility_outlined;
 
   List<Widget> screen = [
     const HomeScreen(),
@@ -122,5 +124,12 @@ class AppCubit extends Cubit<AppStates> {
     }
 
     emit(LikeCountState());
+  }
+
+  void changePasswordVisibility() {
+    isPassword = !isPassword;
+    suffix =
+        isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
+    emit(PasswordVisibilityState());
   }
 }

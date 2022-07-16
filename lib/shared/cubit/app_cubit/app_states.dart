@@ -37,3 +37,5 @@ class BtmNavBarChangeItemState extends AppStates {}
 class ChangeLikeIconState extends AppStates {}
 
 class LikeCountState extends AppStates {}
+
+class PasswordVisibilityState extends AppStates {}

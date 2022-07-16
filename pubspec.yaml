@@ -63,12 +63,7 @@ flutter:
   assets:
     - assets/Images/loginpage.png
     - assets/Images/logo.png
-    - assets/Images/onboarding1.gif
-    - assets/Images/onboarding2.gif
-    - assets/Images/onboarding3.gif
-    - assets/Images/onboarding4.gif
     - assets/Images/regpage.png
-    - assets/Images/savag.svg
     - assets/Images/w.png
     - assets/Images/w2.png
     - assets/Images/w3.png

@@ -11,28 +11,29 @@ class GetHomeDataFail extends AppStates {
 
   GetHomeDataFail(this.onError);
 }
- class ChangeThemeMode extends AppStates{}
 
-class GetMessagesLoading extends AppStates{}
+class ChangeThemeMode extends AppStates {}
 
-class GetMessagesSuccess extends AppStates{}
+class GetMessagesLoading extends AppStates {}
 
-class GetMessagesFail extends AppStates{}
+class GetMessagesSuccess extends AppStates {}
 
-class GetNotificationsLoading extends AppStates{}
+class GetMessagesFail extends AppStates {}
 
-class GetNotificationsSuccess extends AppStates{}
+class GetNotificationsLoading extends AppStates {}
 
-class GetNotificationsFail extends AppStates{}
+class GetNotificationsSuccess extends AppStates {}
 
-class GetSettingsLoading extends AppStates{}
+class GetNotificationsFail extends AppStates {}
 
-class GetSettingsSuccess extends AppStates{}
+class GetSettingsLoading extends AppStates {}
 
-class GetSettingsFail extends AppStates{}
+class GetSettingsSuccess extends AppStates {}
+
+class GetSettingsFail extends AppStates {}
 
 class BtmNavBarChangeItemState extends AppStates {}
 
-class ChangeLikeIconState extends AppStates{}
+class ChangeLikeIconState extends AppStates {}
 
-class LikeCountState extends AppStates{}
+class LikeCountState extends AppStates {}

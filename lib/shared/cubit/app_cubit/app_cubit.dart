@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:social/modules/messages/messages_screen.dart';
 import 'package:social/modules/notifications/notifications_screen.dart';
 import 'package:social/modules/settings/settings_screen.dart';
@@ -30,12 +33,12 @@ class AppCubit extends Cubit<AppStates> {
   IconData likedIcon = Icons.favorite_outlined;
   IconData darkIcon = Icons.dark_mode;
   IconData lightIcon = Icons.light_mode;
+  IconData suffix = Icons.visibility_outlined;
   String darkMode = 'Dark mode';
   String lightMode = 'Light mode';
   int likeNum = 0;
   bool isDark = false;
   bool isPassword = true;
-  IconData suffix = Icons.visibility_outlined;
 
   List<Widget> screen = [
     const HomeScreen(),
@@ -131,5 +134,31 @@ class AppCubit extends Cubit<AppStates> {
     suffix =
         isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
     emit(PasswordVisibilityState());
+  }
+
+ late File ?profileImage;
+ late File ?coverImage;
+  final _picker = ImagePicker();
+
+  Future<void> getProfileImage(context) async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery,imageQuality: 100);
+    if (pickedFile != null) {
+      profileImage = File(pickedFile.path);
+      emit(ProfileImagePickedSuccess());
+    } else {
+      snack(context, content: 'No Profile Image Selected', bgColor: Colors.red);
+      emit(ProfileImagePickedFail());
+    }
+  }
+
+  Future<void> getCoverImage(context) async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      profileImage = File(pickedFile.path);
+      emit(CoverImagePickedSuccess());
+    } else {
+      snack(context, content: 'No Cover Image Selected', bgColor: Colors.red);
+      emit(CoverImagePickedFail());
+    }
   }
 }

@@ -6,8 +6,8 @@ final iconColor = HexColor('007FFF');
 final buttonColor = HexColor('007FFF');
 final separatorColor = HexColor('007FFF');
 
-final appBarLightColor = HexColor('CCE5FF');
-final bottomNavigationBarLightColor = HexColor('CCE5FF');
+final appBarLightColor = HexColor('edf2fb');
+final bottomNavigationBarLightColor = HexColor('edf2fb');
 final selectedIconLightColor = HexColor('007FFF');
 final unselectedIconLightColor = HexColor('99CCFF');
 
@@ -16,7 +16,7 @@ final bottomNavigationBarDarkColor = HexColor('001933');
 final selectedIconDarkColor = HexColor('007FFF');
 final unselectedIconDarkColor = HexColor('003366');
 
-final lightBackground = HexColor('CCE5FF');
+final lightBackground = HexColor('edf2fb');
 final darkBackground = HexColor('001933');
 
 final gradientColor1 = HexColor('66B2FF');

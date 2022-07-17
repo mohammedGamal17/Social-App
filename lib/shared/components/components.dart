@@ -24,13 +24,13 @@ Widget textFormField({
   required TextEditingController controller,
   required Function validate,
   String? labelText,
-  required IconData prefix,
+  IconData? prefix,
   required TextInputType textInputType,
   double borderRadius = 10.0,
   String? hintText,
   String? counterText,
   String? helperText,
-  String?prefixText,
+  String? prefixText,
   bool autoFocus = false,
   bool isPassword = false,
   IconData? suffix,
@@ -39,7 +39,6 @@ Widget textFormField({
   Function? onChange,
   Function? onSubmit,
   TextDirection? textDirection,
-  int maxLen = 75,
 }) {
   return TextFormField(
     keyboardType: textInputType,
@@ -47,6 +46,8 @@ Widget textFormField({
     controller: controller,
     autofocus: autoFocus,
     obscureText: isPassword,
+    minLines: 1,
+    maxLines: 10,
     decoration: InputDecoration(
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: iconColor, width: 3.0),
@@ -65,7 +66,7 @@ Widget textFormField({
       focusColor: iconColor,
       filled: true,
       prefixText: prefixText,
-      prefixStyle:TextStyle(color: textColor),
+      prefixStyle: TextStyle(color: textColor),
       labelStyle: TextStyle(color: textColor),
       hintStyle: TextStyle(color: textColor),
       counterStyle: TextStyle(color: textColor),
@@ -104,7 +105,7 @@ Widget separatorHorizontal({
   double padding = 10.0,
 }) {
   return Padding(
-    padding:  EdgeInsets.symmetric(horizontal: padding),
+    padding: EdgeInsets.symmetric(horizontal: padding),
     child: Container(
       height: height,
       color: separatorColor.withOpacity(opacity),

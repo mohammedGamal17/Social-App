@@ -12,7 +12,7 @@ import 'package:social/modules/videos/videos_screen.dart';
 import 'package:social/shared/components/components.dart';
 import 'package:social/shared/components/constants.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
-import 'package:social/shared/style/theme_service.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../../models/user_model/user_model.dart';
 import '../../../layout/Layout_screen.dart';
@@ -191,4 +191,6 @@ class AppCubit extends Cubit<AppStates> {
       emit(CoverImagePickedFail());
     }
   }
+
+
 }

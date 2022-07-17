@@ -63,7 +63,7 @@ class AuthCubit extends Cubit<AuthStates> {
     required String phone,
     required String uId,
     String image =
-        'https://pixsector.com/cache/94bed8d5/av3cbfdc7ee86dab9a41d.png',
+        'https://static5.depositphotos.com/1007168/472/i/950/depositphotos_4725473-stock-photo-hot-summer-sun-wearing-shades.jpg',
     String bio = 'Write your bio',
     String coverImage = 'https://wallpaperaccess.com/full/1216335.jpg',
   }) async {

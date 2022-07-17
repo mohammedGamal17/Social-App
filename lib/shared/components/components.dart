@@ -46,8 +46,6 @@ Widget textFormField({
     controller: controller,
     autofocus: autoFocus,
     obscureText: isPassword,
-    minLines: 1,
-    maxLines: 10,
     decoration: InputDecoration(
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: iconColor, width: 3.0),

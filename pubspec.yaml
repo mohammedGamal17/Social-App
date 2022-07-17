@@ -12,7 +12,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.5
   dio: ^4.0.6
   flutter_bloc: ^8.0.1
@@ -27,6 +26,7 @@ dependencies:
   font_awesome_flutter: ^10.1.0
   loading_animation_widget: ^1.2.0+2
   country_code_picker: ^2.0.2
+  image_picker: ^0.8.5+3
 
   #firebase
   firebase_core: 1.19.2

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:social/shared/components/components.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
 
 import '../../models/user_model/user_model.dart';
+import '../../shared/style/colors.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key, required this.userModel});
@@ -23,7 +25,12 @@ class EditProfileScreen extends StatelessWidget {
           var lastName = TextEditingController();
           var email = TextEditingController();
           var phone = TextEditingController();
-          var password = TextEditingController();
+          var bio = TextEditingController();
+
+          firstName.text = userModel.name!;
+          lastName.text = userModel.lastName!;
+          email.text = userModel.email;
+          phone.text = userModel.phone!;
           return Scaffold(
             appBar: AppBar(
               title: const Text('Edit'),
@@ -48,18 +55,24 @@ class EditProfileScreen extends StatelessWidget {
                                 child: SizedBox(
                                   height: 160.0,
                                   child: Image(
-                                    image: NetworkImage(
-                                      '${userModel.coverImage}',
-                                    ),
+                                    image: cubit.coverImage != null
+                                        ? FileImage(cubit.coverImage!)
+                                            as ImageProvider
+                                        : NetworkImage(
+                                            '${userModel.coverImage}',
+                                          ),
                                     width: double.infinity,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
                               IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.camera_alt_outlined),
-                                  color: Colors.grey),
+                                onPressed: () {
+                                  cubit.getCoverImage(context);
+                                },
+                                icon: const Icon(Icons.camera_alt_outlined),
+                                color: Colors.grey,
+                              ),
                             ],
                           ),
                           Stack(
@@ -74,14 +87,20 @@ class EditProfileScreen extends StatelessWidget {
                                   child: Image(
                                     width: 100.0,
                                     height: 100.0,
-                                    image: NetworkImage('${userModel.image}'),
+                                    image: cubit.profileImage != null
+                                        ? FileImage(cubit.profileImage!)
+                                            as ImageProvider
+                                        : NetworkImage('${userModel.image}'),
                                   ),
                                 ),
                               ),
                               IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.camera_alt_outlined),
-                                  color: Colors.grey),
+                                onPressed: () {
+                                  cubit.getProfileImage(context);
+                                },
+                                icon: const Icon(Icons.camera_alt_outlined),
+                                color: Colors.grey,
+                              ),
                             ],
                           ),
                         ],
@@ -103,6 +122,7 @@ class EditProfileScreen extends StatelessWidget {
                       borderRadius: 15.0,
                       autoFocus: true,
                       textInputType: TextInputType.name,
+                      hintText: userModel.name,
                     ),
                     const SizedBox(
                       height: 10.0,
@@ -138,7 +158,6 @@ class EditProfileScreen extends StatelessWidget {
                       labelText: 'Email',
                       prefix: Icons.email_outlined,
                       borderRadius: 20.0,
-                      autoFocus: true,
                       textInputType: TextInputType.emailAddress,
                     ),
                     const SizedBox(
@@ -157,34 +176,50 @@ class EditProfileScreen extends StatelessWidget {
                       labelText: 'Phone',
                       prefix: Icons.phone,
                       borderRadius: 15.0,
-                      autoFocus: true,
                       textInputType: TextInputType.phone,
                     ),
                     const SizedBox(
                       height: 10.0,
                     ),
-                    textFormField(
-                      controller: password,
-                      validate: (value) {
-                        if (value.isEmpty ||
-                            value.length < 8 ||
-                            value.length > 50) {
-                          return 'Please Enter Valid Password';
+                    TextFormField(
+                      controller: bio,
+                      maxLines: 10,
+                      maxLength: 100,
+                      minLines: 1,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          if (value.length < 25) {
+                            return 'Bio must me more than 25 character';
+                          }
+                          if (value.length > 100) {
+                            return 'Bio must me less than 100 character';
+                          }
+                          return "Mustn't be empty";
                         }
                         return null;
                       },
-                      labelText: 'Password',
-                      prefix: Icons.lock_outline,
-                      borderRadius: 20.0,
-                      textInputType: TextInputType.visiblePassword,
-                      isPassword: cubit.isPassword,
-                      suffix: cubit.suffix,
-                      suffixOnTap: () {
-                        cubit.changePasswordVisibility();
-                      },
-                    ),
-                    const SizedBox(
-                      height: 10.0,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: iconColor, width: 3.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: lightBackground, width: 1.0),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.5),
+                        ),
+                        focusColor: iconColor,
+                        hoverColor: HexColor('023E8A'),
+                        filled: true,
+                        labelText: 'Bio',
+                        prefixStyle: TextStyle(color: textColor),
+                        labelStyle: TextStyle(color: textColor),
+                        hintStyle: TextStyle(color: textColor),
+                        counterStyle: TextStyle(color: textColor),
+                        helperStyle: TextStyle(color: textColor),
+                      ),
+                      style: TextStyle(color: iconColor),
                     ),
                   ],
                 ),

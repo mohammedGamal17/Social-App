@@ -140,12 +140,9 @@ class AppCubit extends Cubit<AppStates> {
   File? coverImage;
   final _picker = ImagePicker();
 
-  Future<void> getProfileImage(context) async {
+  Future<void> getProfileImageGallery(context) async {
     final pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
-      imageQuality: 100,
-      maxHeight: 100,
-      maxWidth: 100
     );
     if (pickedFile != null) {
       profileImage = File(pickedFile.path);
@@ -156,8 +153,36 @@ class AppCubit extends Cubit<AppStates> {
     }
   }
 
-  Future<void> getCoverImage(context) async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  Future<void> getProfileImageCamera(context) async {
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.camera,
+    );
+    if (pickedFile != null) {
+      profileImage = File(pickedFile.path);
+      emit(ProfileImagePickedSuccess());
+    } else {
+      snack(context, content: 'No Profile Image Selected', bgColor: Colors.red);
+      emit(ProfileImagePickedFail());
+    }
+  }
+
+  Future<void> getCoverImageGallery(context) async {
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      coverImage = File(pickedFile.path);
+      emit(CoverImagePickedSuccess());
+    } else {
+      snack(context, content: 'No Cover Image Selected', bgColor: Colors.red);
+      emit(CoverImagePickedFail());
+    }
+  }
+
+  Future<void> getCoverImageCamera(context) async {
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.camera,
+    );
     if (pickedFile != null) {
       coverImage = File(pickedFile.path);
       emit(CoverImagePickedSuccess());

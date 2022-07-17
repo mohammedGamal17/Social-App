@@ -136,12 +136,17 @@ class AppCubit extends Cubit<AppStates> {
     emit(PasswordVisibilityState());
   }
 
- late File ?profileImage;
- late File ?coverImage;
+  File? profileImage;
+  File? coverImage;
   final _picker = ImagePicker();
 
   Future<void> getProfileImage(context) async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery,imageQuality: 100);
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 100,
+      maxHeight: 100,
+      maxWidth: 100
+    );
     if (pickedFile != null) {
       profileImage = File(pickedFile.path);
       emit(ProfileImagePickedSuccess());
@@ -154,7 +159,7 @@ class AppCubit extends Cubit<AppStates> {
   Future<void> getCoverImage(context) async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      profileImage = File(pickedFile.path);
+      coverImage = File(pickedFile.path);
       emit(CoverImagePickedSuccess());
     } else {
       snack(context, content: 'No Cover Image Selected', bgColor: Colors.red);

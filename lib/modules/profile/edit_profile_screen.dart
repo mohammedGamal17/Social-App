@@ -56,8 +56,8 @@ class EditProfileScreen extends StatelessWidget {
                                   height: 160.0,
                                   child: Image(
                                     image: cubit.coverImage != null
-                                        ? FileImage(cubit.coverImage!,scale: 1.0)
-                                            as ImageProvider
+                                        ? FileImage(cubit.coverImage!,
+                                            scale: 1.0) as ImageProvider
                                         : NetworkImage(
                                             '${userModel.coverImage}',
                                           ),
@@ -68,7 +68,71 @@ class EditProfileScreen extends StatelessWidget {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  cubit.getCoverImage(context);
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Choose your picker'),
+                                        shape: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(5.0),
+                                        ),
+                                        actions: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    cubit.getCoverImageCamera(context);
+                                                  },
+                                                  child: Column(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons
+                                                            .camera_alt_outlined,
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 5.0),
+                                                      Text(
+                                                        'Camera',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 10.0),
+                                              Expanded(
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    cubit.getCoverImageGallery(context);
+                                                  },
+                                                  child: Column(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.image,
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                      Text(
+                                                        'Gallery',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  );
                                 },
                                 icon: const Icon(Icons.camera_alt_outlined),
                                 color: Colors.grey,
@@ -83,21 +147,79 @@ class EditProfileScreen extends StatelessWidget {
                                 backgroundColor:
                                     Theme.of(context).scaffoldBackgroundColor,
                                 child: CircleAvatar(
-                                  radius: 57.0,
-                                  child: Image(
-                                    width: 100.0,
-                                    height: 100.0,
-                                    image: cubit.profileImage != null
-                                        ? FileImage(cubit.profileImage!,scale: 1.0)
-                                            as ImageProvider
-                                        : NetworkImage('${userModel.image}'),
-                                    fit: BoxFit.fill,
-                                  ),
+                                  radius: 56.0,
+                                  backgroundImage: cubit.profileImage != null
+                                      ? FileImage(cubit.profileImage!) as ImageProvider
+                                      : NetworkImage('${userModel.image}'),
                                 ),
                               ),
                               IconButton(
                                 onPressed: () {
-                                  cubit.getProfileImage(context);
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Choose your picker'),
+                                        shape: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5.0),
+                                        ),
+                                        actions: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    cubit.getProfileImageCamera(context);
+                                                  },
+                                                  child: Column(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons
+                                                            .camera_alt_outlined,
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 5.0),
+                                                      Text(
+                                                        'Camera',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 10.0),
+                                              Expanded(
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    cubit.getProfileImageGallery(context);
+                                                  },
+                                                  child: Column(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.image,
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5.0,
+                                                      ),
+                                                      Text(
+                                                        'Gallery',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  );
                                 },
                                 icon: const Icon(Icons.camera_alt_outlined),
                                 color: Colors.grey,

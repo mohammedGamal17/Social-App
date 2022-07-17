@@ -53,11 +53,7 @@ class ProfileScreen extends StatelessWidget {
                                   Theme.of(context).scaffoldBackgroundColor,
                               child: CircleAvatar(
                                 radius: 57.0,
-                                child: Image(
-                                  width: 100.0,
-                                  height: 100.0,
-                                  image: NetworkImage('${userModel.image}'),
-                                ),
+                                backgroundImage : NetworkImage('${userModel.image}'),
                               ),
                             ),
                           ],

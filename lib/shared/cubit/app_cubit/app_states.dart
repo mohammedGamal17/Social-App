@@ -39,3 +39,11 @@ class ChangeLikeIconState extends AppStates {}
 class LikeCountState extends AppStates {}
 
 class PasswordVisibilityState extends AppStates {}
+
+class ProfileImagePickedSuccess extends AppStates {}
+
+class ProfileImagePickedFail extends AppStates {}
+
+class CoverImagePickedSuccess extends AppStates {}
+
+class CoverImagePickedFail extends AppStates {}

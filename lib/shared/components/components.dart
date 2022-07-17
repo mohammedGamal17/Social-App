@@ -30,6 +30,7 @@ Widget textFormField({
   String? hintText,
   String? counterText,
   String? helperText,
+  String?prefixText,
   bool autoFocus = false,
   bool isPassword = false,
   IconData? suffix,
@@ -63,11 +64,13 @@ Widget textFormField({
       hoverColor: HexColor('023E8A'),
       focusColor: iconColor,
       filled: true,
-      labelStyle: TextStyle(color: iconColor),
-      hintStyle: TextStyle(color: iconColor),
-      counterStyle: TextStyle(color: iconColor),
-      helperStyle: TextStyle(color: iconColor),
-      prefixIcon: Icon(prefix, color: iconColor),
+      prefixText: prefixText,
+      prefixStyle:TextStyle(color: textColor),
+      labelStyle: TextStyle(color: textColor),
+      hintStyle: TextStyle(color: textColor),
+      counterStyle: TextStyle(color: textColor),
+      helperStyle: TextStyle(color: textColor),
+      prefixIcon: Icon(prefix, color: textColor),
       suffixIcon: suffix != null
           ? IconButton(
               onPressed: () {

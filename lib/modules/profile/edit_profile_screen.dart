@@ -56,7 +56,7 @@ class EditProfileScreen extends StatelessWidget {
                                   height: 160.0,
                                   child: Image(
                                     image: cubit.coverImage != null
-                                        ? FileImage(cubit.coverImage!)
+                                        ? FileImage(cubit.coverImage!,scale: 1.0)
                                             as ImageProvider
                                         : NetworkImage(
                                             '${userModel.coverImage}',
@@ -88,9 +88,10 @@ class EditProfileScreen extends StatelessWidget {
                                     width: 100.0,
                                     height: 100.0,
                                     image: cubit.profileImage != null
-                                        ? FileImage(cubit.profileImage!)
+                                        ? FileImage(cubit.profileImage!,scale: 1.0)
                                             as ImageProvider
                                         : NetworkImage('${userModel.image}'),
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
                               ),

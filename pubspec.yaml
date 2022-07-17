@@ -18,7 +18,7 @@ dependencies:
   hexcolor: ^2.0.7
   shared_preferences: ^2.0.15
   get_storage: ^2.0.3
-  flutter_native_splash: 2.2.4
+  flutter_native_splash: 2.2.5
   get: ^4.6.5
   simple_animations: ^4.2.0
   introduction_screen: ^3.0.2
@@ -32,6 +32,7 @@ dependencies:
   firebase_core: 1.19.2
   firebase_auth: 3.4.2
   cloud_firestore: 3.3.0
+  firebase_storage: ^10.3.2
 
 dev_dependencies:
   flutter_test:

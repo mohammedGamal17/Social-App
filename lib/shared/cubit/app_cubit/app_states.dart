@@ -47,3 +47,29 @@ class ProfileImagePickedFail extends AppStates {}
 class CoverImagePickedSuccess extends AppStates {}
 
 class CoverImagePickedFail extends AppStates {}
+
+class UploadProfileImageLoading extends AppStates{}
+
+class UploadProfileImageSuccess extends AppStates{}
+
+class UploadProfileImageFail extends AppStates{}
+
+class GetDownloadURLProfileImageSuccess extends AppStates{}
+
+class GetDownloadURLProfileImageFail extends AppStates{}
+
+class UploadCoverImageLoading extends AppStates{}
+
+class UploadCoverImageSuccess extends AppStates{}
+
+class UploadCoverImageFail extends AppStates{}
+
+class GetDownloadURLCoverImageSuccess extends AppStates{}
+
+class GetDownloadURLCoverImageFail extends AppStates{}
+
+class UpdateUserDataLoading extends AppStates{}
+
+class UpdateUserDataSuccess extends AppStates{}
+
+class UpdateUserDataFail extends AppStates{}

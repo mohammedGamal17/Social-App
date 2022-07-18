@@ -23,24 +23,46 @@ class EditProfileScreen extends StatelessWidget {
           AppCubit cubit = AppCubit.get(context);
           var firstName = TextEditingController();
           var lastName = TextEditingController();
-          var email = TextEditingController();
           var phone = TextEditingController();
           var bio = TextEditingController();
 
           firstName.text = userModel.name!;
           lastName.text = userModel.lastName!;
-          email.text = userModel.email;
           phone.text = userModel.phone!;
+          bio.text = userModel.bio!;
+
           return Scaffold(
             appBar: AppBar(
               title: const Text('Edit'),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: TextButton(
+                    onPressed: () {
+                      //cubit.uploadProfileImage(context);
+                      cubit.updateData(
+                        name: firstName.text,
+                        lastName: lastName.text,
+                        phone: phone.text,
+                        bio: bio.text,
+                        context,
+                      );
+                    },
+                    child: const Text('Update'),
+                  ),
+                ),
+              ],
             ),
             body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
+
+
                 child: Column(
                   children: [
+                    if(state is UpdateUserDataLoading)
+                      loadingAnimation(context),
                     SizedBox(
                       height: 220.0,
                       width: double.infinity,
@@ -75,7 +97,7 @@ class EditProfileScreen extends StatelessWidget {
                                         title: const Text('Choose your picker'),
                                         shape: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(5.0),
+                                              BorderRadius.circular(5.0),
                                         ),
                                         actions: [
                                           Row(
@@ -83,7 +105,9 @@ class EditProfileScreen extends StatelessWidget {
                                               Expanded(
                                                 child: InkWell(
                                                   onTap: () {
-                                                    cubit.getCoverImageCamera(context);
+                                                    cubit.getCoverImageCamera(
+                                                      context,
+                                                    );
                                                   },
                                                   child: Column(
                                                     children: [
@@ -107,7 +131,8 @@ class EditProfileScreen extends StatelessWidget {
                                               Expanded(
                                                 child: InkWell(
                                                   onTap: () {
-                                                    cubit.getCoverImageGallery(context);
+                                                    cubit.getCoverImageGallery(
+                                                        context);
                                                   },
                                                   child: Column(
                                                     children: [
@@ -149,7 +174,8 @@ class EditProfileScreen extends StatelessWidget {
                                 child: CircleAvatar(
                                   radius: 56.0,
                                   backgroundImage: cubit.profileImage != null
-                                      ? FileImage(cubit.profileImage!) as ImageProvider
+                                      ? FileImage(cubit.profileImage!)
+                                          as ImageProvider
                                       : NetworkImage('${userModel.image}'),
                                 ),
                               ),
@@ -170,7 +196,8 @@ class EditProfileScreen extends StatelessWidget {
                                               Expanded(
                                                 child: InkWell(
                                                   onTap: () {
-                                                    cubit.getProfileImageCamera(context);
+                                                    cubit.getProfileImageCamera(
+                                                        context);
                                                   },
                                                   child: Column(
                                                     children: [
@@ -179,7 +206,8 @@ class EditProfileScreen extends StatelessWidget {
                                                             .camera_alt_outlined,
                                                       ),
                                                       const SizedBox(
-                                                          height: 5.0),
+                                                        height: 5.0,
+                                                      ),
                                                       Text(
                                                         'Camera',
                                                         style: Theme.of(context)
@@ -194,7 +222,10 @@ class EditProfileScreen extends StatelessWidget {
                                               Expanded(
                                                 child: InkWell(
                                                   onTap: () {
-                                                    cubit.getProfileImageGallery(context);
+                                                    cubit
+                                                        .getProfileImageGallery(
+                                                      context,
+                                                    );
                                                   },
                                                   child: Column(
                                                     children: [
@@ -243,7 +274,6 @@ class EditProfileScreen extends StatelessWidget {
                       labelText: 'First Name',
                       prefix: Icons.account_circle_outlined,
                       borderRadius: 15.0,
-                      autoFocus: true,
                       textInputType: TextInputType.name,
                       hintText: userModel.name,
                     ),
@@ -269,24 +299,6 @@ class EditProfileScreen extends StatelessWidget {
                       height: 10.0,
                     ),
                     textFormField(
-                      controller: email,
-                      validate: (value) {
-                        if (value.isEmpty ||
-                            value.length < 14 ||
-                            value.length > 50) {
-                          return 'Please Enter Valid Email';
-                        }
-                        return null;
-                      },
-                      labelText: 'Email',
-                      prefix: Icons.email_outlined,
-                      borderRadius: 20.0,
-                      textInputType: TextInputType.emailAddress,
-                    ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    textFormField(
                       controller: phone,
                       validate: (value) {
                         if (value.isEmpty ||
@@ -307,15 +319,15 @@ class EditProfileScreen extends StatelessWidget {
                     TextFormField(
                       controller: bio,
                       maxLines: 10,
-                      maxLength: 100,
+                      maxLength: 50,
                       minLines: 1,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          if (value.length < 25) {
-                            return 'Bio must me more than 25 character';
+                          if (value.length < 10) {
+                            return 'Bio must me more than 10 character';
                           }
-                          if (value.length > 100) {
-                            return 'Bio must me less than 100 character';
+                          if (value.length > 50) {
+                            return 'Bio must me less than 50 character';
                           }
                           return "Mustn't be empty";
                         }

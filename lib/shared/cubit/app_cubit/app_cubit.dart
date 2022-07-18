@@ -27,7 +27,7 @@ class AppCubit extends Cubit<AppStates> {
 
   DioHelper dio = DioHelper();
 
-   UserModel? userModel;
+  UserModel? userModel;
   int currentIndex = 0;
   IconData disLikeIcon = Icons.favorite_outline;
   IconData likedIcon = Icons.favorite_outlined;
@@ -280,8 +280,6 @@ class AppCubit extends Cubit<AppStates> {
     );
   }
 
-  UserModel localModel =  UserModel();
-
   void updateData(
     context, {
     required String name,
@@ -289,48 +287,54 @@ class AppCubit extends Cubit<AppStates> {
     required String phone,
     required String bio,
   }) {
-    if (profileImage != null) {
-      uploadProfileImage(context);
-    }
-    else if (coverImage != null) {
-      uploadCoverImage(context);
-    }
-    else if (profileImage != null && coverImage != null) {
-    }
-    else {
-      UserModel model = UserModel(
-        name: name,
-        lastName: lastName,
-        coverImage: coverImageUrl,
-        image: profileImageUrl,
-        phone: phone,
-        bio: bio,
-        uId: localModel.uId,
-        isEmailVerified: localModel.isEmailVerified,
-        email: localModel.email,
-        password: localModel.password,
-      );
-      emit(UpdateUserDataLoading());
-      final fireStore = FirebaseFirestore.instance;
-      final fireStoreDirection = fireStore.collection('users').doc(uId);
-      fireStoreDirection.update(userModel!.toMap()).then(
-        (value) {
-          getUserData(context);
-          emit(UpdateUserDataSuccess());
-        },
-      ).catchError(
-        (onError) {
-          emit(UpdateUserDataFail());
-          if (kDebugMode) {
-            print('* ${onError.toString()} *  Update User Data Fail');
-          }
-          snack(
-            context,
-            content: '* ${onError.toString()} * Update User Data Fail',
-            bgColor: Colors.red,
-          );
-        },
-      );
-    }
+    updateUserData(
+      context,
+      bio: bio,
+      lastName: lastName,
+      name: name,
+      phone: phone,
+    );
+  }
+
+  void updateUserData(
+    context, {
+    required String name,
+    required String lastName,
+    required String phone,
+    required String bio,
+  }) {
+    UserModel model = UserModel(
+      name: name,
+      lastName: lastName,
+      phone: phone,
+      bio: bio,
+      coverImage: userModel!.coverImage,
+      image: userModel!.image,
+      uId: userModel!.uId,
+      isEmailVerified: userModel!.isEmailVerified,
+      email: userModel!.email,
+      password: userModel!.password,
+    );
+    emit(UpdateUserDataLoading());
+    final fireStore = FirebaseFirestore.instance;
+    final fireStoreDirection = fireStore.collection('users').doc(uId);
+    fireStoreDirection.update(model.toMap()).then(
+      (value) {
+        getUserData(context);
+        snack(context, content: 'Your Data Are Updated');
+      },
+    ).catchError(
+      (onError) {
+        emit(UpdateUserDataFail());
+        if (kDebugMode) {
+          print('* ${onError.toString()} *  Update User Data Fail');
+        }
+        snack(
+          context,
+          content: '* ${onError.toString()} * Update User Data Fail',
+          bgColor: Colors.red,
+        );
+      },
+    );
   }
 }

@@ -5,10 +5,14 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../style/colors.dart';
 
-void navigateTo(context, widget) =>
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return widget;
-    }));
+void navigateTo(context, widget) => Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return widget;
+        },
+      ),
+    );
 
 void navigateToAndReplace(context, widget) => Navigator.pushAndRemoveUntil(
       context,

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,15 +21,14 @@ import '../../../modules/home/home_screen.dart';
 import '../../networks/remote/dio_helper.dart';
 
 class AppCubit extends Cubit<AppStates> {
-  AppCubit() : super(AppInit());
+  AppCubit({this.userModel}) : super(AppInit());
 
   static AppCubit get(context) => BlocProvider.of(context);
 
   DioHelper dio = DioHelper();
 
-  UserModel? userModel;
+   UserModel? userModel;
   int currentIndex = 0;
-  bool isLike = false;
   IconData disLikeIcon = Icons.favorite_outline;
   IconData likedIcon = Icons.favorite_outlined;
   IconData darkIcon = Icons.dark_mode;
@@ -36,9 +36,16 @@ class AppCubit extends Cubit<AppStates> {
   IconData suffix = Icons.visibility_outlined;
   String darkMode = 'Dark mode';
   String lightMode = 'Light mode';
+  String profileImageUrl = '';
+  String coverImageUrl = '';
   int likeNum = 0;
   bool isDark = false;
   bool isPassword = true;
+  bool isLike = false;
+  File? profileImage;
+  File? coverImage;
+  final _picker = ImagePicker();
+  final storage = FirebaseStorage.instance;
 
   List<Widget> screen = [
     const HomeScreen(),
@@ -100,7 +107,10 @@ class AppCubit extends Cubit<AppStates> {
 
   void getUserData(context) {
     emit(GetHomeDataLoading());
-    FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
+
+    final fireStore = FirebaseFirestore.instance;
+    final fireStoreDirection = fireStore.collection('users').doc(uId);
+    fireStoreDirection.get().then((value) {
       userModel = UserModel.fromJson(value.data()!);
       emit(GetHomeDataSuccess());
     }).catchError((onError) {
@@ -135,10 +145,6 @@ class AppCubit extends Cubit<AppStates> {
         isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
     emit(PasswordVisibilityState());
   }
-
-  File? profileImage;
-  File? coverImage;
-  final _picker = ImagePicker();
 
   Future<void> getProfileImageGallery(context) async {
     final pickedFile = await _picker.pickImage(
@@ -192,5 +198,139 @@ class AppCubit extends Cubit<AppStates> {
     }
   }
 
+  void uploadProfileImage(context) {
+    emit(UploadProfileImageLoading());
+    final storageRef = storage.ref();
+    final storageRefData = storageRef
+        .child('users/${Uri.file(profileImage!.path).pathSegments.last}');
+    storageRefData.putFile(profileImage!).then(
+      (value) {
+        value.ref.getDownloadURL().then((value) {
+          profileImageUrl = value;
+          emit(GetDownloadURLProfileImageSuccess());
+        }).catchError(
+          (onError) {
+            emit(GetDownloadURLProfileImageFail());
+            if (kDebugMode) {
+              print('* ${onError.toString()} * Profile Image URI Fail');
+            }
+            snack(
+              context,
+              content: '* ${onError.toString()} * Profile Image Upload Fail',
+              bgColor: Colors.red,
+            );
+          },
+        );
+        emit(UploadProfileImageSuccess());
+        snack(context, content: 'Profile Image Uploaded Successfully');
+      },
+    ).catchError(
+      (onError) {
+        emit(UploadProfileImageFail());
+        if (kDebugMode) {
+          print('* ${onError.toString()} *  Profile Image Upload Fail');
+        }
+        snack(
+          context,
+          content: '* ${onError.toString()} * Profile Image Upload Fail',
+          bgColor: Colors.red,
+        );
+      },
+    );
+  }
 
+  void uploadCoverImage(context) {
+    emit(UploadCoverImageLoading());
+    final storageRef = storage.ref();
+    final storageRefData = storageRef
+        .child('users/${Uri.file(coverImage!.path).pathSegments.last}');
+    storageRefData.putFile(coverImage!).then(
+      (value) {
+        value.ref.getDownloadURL().then((value) {
+          coverImageUrl = value;
+          emit(GetDownloadURLCoverImageSuccess());
+        }).catchError(
+          (onError) {
+            emit(GetDownloadURLCoverImageFail());
+            if (kDebugMode) {
+              print('* ${onError.toString()} * Cover Image URI Fail');
+            }
+            snack(
+              context,
+              content: '* ${onError.toString()} * Cover Image Upload Fail',
+              bgColor: Colors.red,
+            );
+          },
+        );
+        emit(UploadCoverImageSuccess());
+        snack(context, content: 'Cover Image Uploaded Successfully');
+      },
+    ).catchError(
+      (onError) {
+        emit(UploadCoverImageFail());
+        if (kDebugMode) {
+          print('* ${onError.toString()} *  Cover Image Upload Fail');
+        }
+        snack(
+          context,
+          content: '* ${onError.toString()} * Cover Image Upload Fail',
+          bgColor: Colors.red,
+        );
+      },
+    );
+  }
+
+  UserModel localModel =  UserModel();
+
+  void updateData(
+    context, {
+    required String name,
+    required String lastName,
+    required String phone,
+    required String bio,
+  }) {
+    if (profileImage != null) {
+      uploadProfileImage(context);
+    }
+    else if (coverImage != null) {
+      uploadCoverImage(context);
+    }
+    else if (profileImage != null && coverImage != null) {
+    }
+    else {
+      UserModel model = UserModel(
+        name: name,
+        lastName: lastName,
+        coverImage: coverImageUrl,
+        image: profileImageUrl,
+        phone: phone,
+        bio: bio,
+        uId: localModel.uId,
+        isEmailVerified: localModel.isEmailVerified,
+        email: localModel.email,
+        password: localModel.password,
+      );
+      emit(UpdateUserDataLoading());
+      final fireStore = FirebaseFirestore.instance;
+      final fireStoreDirection = fireStore.collection('users').doc(uId);
+      fireStoreDirection.update(userModel!.toMap()).then(
+        (value) {
+          getUserData(context);
+          emit(UpdateUserDataSuccess());
+        },
+      ).catchError(
+        (onError) {
+          emit(UpdateUserDataFail());
+          if (kDebugMode) {
+            print('* ${onError.toString()} *  Update User Data Fail');
+          }
+          snack(
+            context,
+            content: '* ${onError.toString()} * Update User Data Fail',
+            bgColor: Colors.red,
+          );
+        },
+      );
+    }
+  }
 }

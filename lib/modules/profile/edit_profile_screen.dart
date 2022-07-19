@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:social/modules/profile/profile_screen.dart';
 import 'package:social/shared/components/components.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
@@ -51,7 +50,7 @@ class EditProfileScreen extends StatelessWidget {
                 ),
               ],
             ),
-            body: cubit.userModel != null
+            body: state is GetHomeDataSuccess
                 ? SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: Padding(
@@ -60,218 +59,6 @@ class EditProfileScreen extends StatelessWidget {
                         children: [
                           if (state is GetHomeDataLoading)
                             loadingAnimation(context),
-                          if (state is GetHomeDataLoading)
-                            const LinearProgressIndicator(),
-                          SizedBox(
-                            height: 220.0,
-                            width: double.infinity,
-                            child: Stack(
-                              alignment: AlignmentDirectional.bottomCenter,
-                              children: [
-                                Stack(
-                                  alignment: AlignmentDirectional.topEnd,
-                                  children: [
-                                    Align(
-                                      alignment: AlignmentDirectional.topCenter,
-                                      child: SizedBox(
-                                        height: 160.0,
-                                        child: Image(
-                                          image: cubit.coverImage != null
-                                              ? FileImage(cubit.coverImage!,
-                                                  scale: 1.0) as ImageProvider
-                                              : NetworkImage(
-                                                  '${userModel.coverImage}',
-                                                ),
-                                          width: double.infinity,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: const Text(
-                                                  'Choose your picker'),
-                                              shape: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5.0),
-                                              ),
-                                              actions: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          cubit
-                                                              .getCoverImageCamera(
-                                                            context,
-                                                          );
-                                                        },
-                                                        child: Column(
-                                                          children: [
-                                                            const Icon(
-                                                              Icons
-                                                                  .camera_alt_outlined,
-                                                            ),
-                                                            const SizedBox(
-                                                                height: 5.0),
-                                                            Text(
-                                                              'Camera',
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .bodyText2,
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(width: 10.0),
-                                                    Expanded(
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          cubit
-                                                              .getCoverImageGallery(
-                                                                  context);
-                                                        },
-                                                        child: Column(
-                                                          children: [
-                                                            const Icon(
-                                                              Icons.image,
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 5.0,
-                                                            ),
-                                                            Text(
-                                                              'Gallery',
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .bodyText2,
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                      icon:
-                                          const Icon(Icons.camera_alt_outlined),
-                                      color: Colors.grey,
-                                    ),
-                                  ],
-                                ),
-                                Stack(
-                                  alignment: AlignmentDirectional.bottomEnd,
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 60.0,
-                                      backgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      child: CircleAvatar(
-                                        radius: 56.0,
-                                        backgroundImage:
-                                            cubit.profileImage != null
-                                                ? FileImage(cubit.profileImage!)
-                                                    as ImageProvider
-                                                : NetworkImage(
-                                                    '${userModel.image}'),
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: const Text(
-                                                  'Choose your picker'),
-                                              shape: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5.0),
-                                              ),
-                                              actions: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          cubit
-                                                              .getProfileImageCamera(
-                                                                  context);
-                                                        },
-                                                        child: Column(
-                                                          children: [
-                                                            const Icon(
-                                                              Icons
-                                                                  .camera_alt_outlined,
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 5.0,
-                                                            ),
-                                                            Text(
-                                                              'Camera',
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .bodyText2,
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(width: 10.0),
-                                                    Expanded(
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          cubit
-                                                              .getProfileImageGallery(
-                                                            context,
-                                                          );
-                                                        },
-                                                        child: Column(
-                                                          children: [
-                                                            const Icon(
-                                                              Icons.image,
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 5.0,
-                                                            ),
-                                                            Text(
-                                                              'Gallery',
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .bodyText2,
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                      icon:
-                                          const Icon(Icons.camera_alt_outlined),
-                                      color: Colors.grey,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
                           const SizedBox(height: 10.0),
                           textFormField(
                             controller: firstName,
@@ -328,6 +115,7 @@ class EditProfileScreen extends StatelessWidget {
                           const SizedBox(
                             height: 10.0,
                           ),
+
                           TextFormField(
                             controller: bio,
                             maxLines: 10,

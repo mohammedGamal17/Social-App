@@ -262,9 +262,11 @@ class ProfileScreen extends StatelessWidget {
                                         ),
                                       ),
                                       const SizedBox(height: 5.0),
-                                      Padding(
+                                      if(state is UploadProfileImageLoading)
+                                        Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 1.8),
+
                                         child: LinearProgressIndicator(
                                           color: lightBackground,
                                           backgroundColor: darkBackground,
@@ -288,7 +290,8 @@ class ProfileScreen extends StatelessWidget {
                                         ),
                                       ),
                                       const SizedBox(height: 5.0),
-                                      Padding(
+                                      if(state is UploadCoverImageLoading)
+                                        Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 4),
                                         child: LinearProgressIndicator(

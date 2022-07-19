@@ -206,7 +206,15 @@ class AppCubit extends Cubit<AppStates> {
     storageRefData.putFile(profileImage!).then(
       (value) {
         value.ref.getDownloadURL().then((value) {
-          profileImageUrl = value;
+          updateData(
+            context,
+            name: userModel!.name!,
+            lastName: userModel!.lastName!,
+            phone: userModel!.phone!,
+            bio: userModel!.bio!,
+            cover: userModel!.coverImage!,
+            image: value,
+          );
           emit(GetDownloadURLProfileImageSuccess());
         }).catchError(
           (onError) {
@@ -247,7 +255,15 @@ class AppCubit extends Cubit<AppStates> {
     storageRefData.putFile(coverImage!).then(
       (value) {
         value.ref.getDownloadURL().then((value) {
-          coverImageUrl = value;
+          updateData(
+            context,
+            name: userModel!.name!,
+            lastName: userModel!.lastName!,
+            phone: userModel!.phone!,
+            bio: userModel!.bio!,
+            image: userModel!.image!,
+            cover: value,
+          );
           emit(GetDownloadURLCoverImageSuccess());
         }).catchError(
           (onError) {
@@ -286,30 +302,16 @@ class AppCubit extends Cubit<AppStates> {
     required String lastName,
     required String phone,
     required String bio,
-  }) {
-    updateUserData(
-      context,
-      bio: bio,
-      lastName: lastName,
-      name: name,
-      phone: phone,
-    );
-  }
-
-  void updateUserData(
-    context, {
-    required String name,
-    required String lastName,
-    required String phone,
-    required String bio,
+    String? image,
+    String? cover,
   }) {
     UserModel model = UserModel(
       name: name,
       lastName: lastName,
       phone: phone,
       bio: bio,
-      coverImage: userModel!.coverImage,
-      image: userModel!.image,
+      coverImage: cover ?? userModel!.coverImage,
+      image: image ?? userModel!.image,
       uId: userModel!.uId,
       isEmailVerified: userModel!.isEmailVerified,
       email: userModel!.email,
@@ -322,6 +324,7 @@ class AppCubit extends Cubit<AppStates> {
       (value) {
         getUserData(context);
         snack(context, content: 'Your Data Are Updated');
+        getUserData(context);
       },
     ).catchError(
       (onError) {

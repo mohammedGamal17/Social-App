@@ -45,7 +45,8 @@ class AppCubit extends Cubit<AppStates> {
   bool isLike = false;
   File? profileImage;
   File? coverImage;
-  File? postImage ;
+  File? postImage;
+
   final _picker = ImagePicker();
   final storage = FirebaseStorage.instance;
 
@@ -347,14 +348,19 @@ class AppCubit extends Cubit<AppStates> {
     context, {
     required String text,
     required String dateTime,
+    required String uId,
+    required String name,
+    required String lastName,
+    required String email,
+    required String image,
     String? postImage,
   }) {
     PostModel model = PostModel(
-      uId:userModel?.uId,
-      name: userModel?.name,
-      lastName: userModel?.lastName,
-      email: userModel?.email,
-      image: userModel?.image,
+      uId: uId,
+      name: name,
+      lastName: lastName,
+      email: email,
+      image: image,
       text: text,
       dateTime: dateTime,
       postImage: postImage ?? '',
@@ -388,7 +394,6 @@ class AppCubit extends Cubit<AppStates> {
       postImage = File(pickedFile.path);
     } else {
       snack(context, content: 'No Image Selected', bgColor: Colors.red);
-
     }
   }
 
@@ -412,6 +417,11 @@ class AppCubit extends Cubit<AppStates> {
     context, {
     required String text,
     required String dateTime,
+        required String uId,
+        required String name,
+        required String lastName,
+        required String email,
+        required String image,
   }) {
     emit(CreatePostLoadingState());
     emit(UploadPostImageLoading());
@@ -427,6 +437,11 @@ class AppCubit extends Cubit<AppStates> {
             text: text,
             dateTime: dateTime,
             postImage: value,
+            uId: uId,
+            name: name,
+            lastName: lastName,
+            email: email,
+            image: image,
           );
         }).catchError(
           (onError) {

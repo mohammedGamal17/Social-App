@@ -189,8 +189,8 @@ Widget decorationButton(
             begin: AlignmentDirectional.topStart,
             end: AlignmentDirectional.bottomEnd,
             colors: [
-              gradientColor1,
-              gradientColor2,
+              lightBackground,
+              iconColor,
             ],
           ),
         ),

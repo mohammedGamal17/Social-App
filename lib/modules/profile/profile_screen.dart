@@ -331,7 +331,7 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget nameBuilder(context) {
     return Container(
       width: double.infinity,

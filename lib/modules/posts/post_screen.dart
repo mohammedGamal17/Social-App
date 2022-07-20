@@ -24,7 +24,15 @@ class PostScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              title: const Text('Create Post'),
+              actions: [
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Post'),
+                )
+              ],
+            ),
             body: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Card(
@@ -73,9 +81,9 @@ class PostScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
+                    const SizedBox(height: 10.0),
+                    separatorHorizontal(
+                        height: 0.6, opacity: 0.6, padding: 0.0),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
@@ -94,10 +102,80 @@ class PostScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: decorationButton(context,
-                          text: 'Post', borderRadius: 5.0, onTap: () {
-                        navigateTo(context, const LayOutScreen());
-                      }),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: decorationButton(
+                              context,
+                              text: 'Add Photo',
+                              borderRadius: 5.0,
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Choose your picker'),
+                                      shape: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                      ),
+                                      actions: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: InkWell(
+                                                onTap: () {
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    const Icon(
+                                                      Icons.camera_alt_outlined,
+                                                    ),
+                                                    const SizedBox(height: 5.0),
+                                                    Text(
+                                                      'Camera',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText2,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 10.0),
+                                            Expanded(
+                                              child: InkWell(
+                                                onTap: () {
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    const Icon(
+                                                      Icons.image,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5.0,
+                                                    ),
+                                                    Text(
+                                                      'Gallery',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText2,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),

@@ -37,12 +37,22 @@ class PostScreen extends StatelessWidget {
                           context,
                           dateTime: now.toString(),
                           text: post.text,
+                          uId: userModel.uId!,
+                          name: userModel.name!,
+                          lastName: userModel.lastName!,
+                          email: userModel.email!,
+                          image: userModel.image!,
                         );
                       } else {
                         AppCubit.get(context).uploadPostImage(
                           context,
                           dateTime: now.toString(),
                           text: post.text,
+                          uId: userModel.uId!,
+                          name: userModel.name!,
+                          lastName: userModel.lastName!,
+                          email: userModel.email!,
+                          image: userModel.image!,
                         );
                       }
                     }

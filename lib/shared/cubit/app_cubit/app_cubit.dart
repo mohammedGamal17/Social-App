@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:social/models/post_model/post_model.dart';
 import 'package:social/modules/messages/messages_screen.dart';
 import 'package:social/modules/notifications/notifications_screen.dart';
 import 'package:social/modules/settings/settings_screen.dart';
@@ -44,6 +45,7 @@ class AppCubit extends Cubit<AppStates> {
   bool isLike = false;
   File? profileImage;
   File? coverImage;
+  File? postImage ;
   final _picker = ImagePicker();
   final storage = FirebaseStorage.instance;
 
@@ -335,6 +337,122 @@ class AppCubit extends Cubit<AppStates> {
         snack(
           context,
           content: '* ${onError.toString()} * Update User Data Fail',
+          bgColor: Colors.red,
+        );
+      },
+    );
+  }
+
+  void createPost(
+    context, {
+    required String text,
+    required String dateTime,
+    String? postImage,
+  }) {
+    PostModel model = PostModel(
+      uId:userModel?.uId,
+      name: userModel?.name,
+      lastName: userModel?.lastName,
+      email: userModel?.email,
+      image: userModel?.image,
+      text: text,
+      dateTime: dateTime,
+      postImage: postImage ?? '',
+    );
+    emit(CreatePostLoadingState());
+
+    final fireStore = FirebaseFirestore.instance;
+    final fireStoreDirection = fireStore.collection('posts');
+    fireStoreDirection.add(model.toMap()).then((value) {
+      emit(CreatePostSuccessState());
+      snack(context, content: 'Post Added Successfully');
+      navigateToAndReplace(context, const LayOutScreen());
+    }).catchError(
+      (onError) {
+        emit(CreatePostFailState());
+        if (kDebugMode) {
+          print(onError.toString());
+        }
+        snack(context,
+            content: '* ${onError.toString()} * Post Added Fail',
+            bgColor: Colors.red);
+      },
+    );
+  }
+
+  Future<void> postImageGallery(context) async {
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      postImage = File(pickedFile.path);
+    } else {
+      snack(context, content: 'No Image Selected', bgColor: Colors.red);
+
+    }
+  }
+
+  Future<void> postImageCamera(context) async {
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.camera,
+    );
+    if (pickedFile != null) {
+      postImage = File(pickedFile.path);
+    } else {
+      snack(context, content: 'No Image Selected', bgColor: Colors.red);
+    }
+  }
+
+  void removePickedPhoto() {
+    postImage = null;
+    emit(PostImagePickedRemove());
+  }
+
+  void uploadPostImage(
+    context, {
+    required String text,
+    required String dateTime,
+  }) {
+    emit(CreatePostLoadingState());
+    emit(UploadPostImageLoading());
+    storage
+        .ref()
+        .child('posts/${Uri.file(postImage!.path).pathSegments.last}')
+        .putFile(postImage!)
+        .then(
+      (value) {
+        value.ref.getDownloadURL().then((value) {
+          createPost(
+            context,
+            text: text,
+            dateTime: dateTime,
+            postImage: value,
+          );
+        }).catchError(
+          (onError) {
+            emit(GetDownloadURLPostImageFail());
+            if (kDebugMode) {
+              print('* ${onError.toString()} * Post Image URI Fail');
+            }
+            snack(
+              context,
+              content: '* ${onError.toString()} * Post Image Upload Fail',
+              bgColor: Colors.red,
+            );
+          },
+        );
+        emit(UploadPostImageSuccess());
+        snack(context, content: 'Post Image Uploaded Successfully');
+      },
+    ).catchError(
+      (onError) {
+        emit(UploadPostImageFail());
+        if (kDebugMode) {
+          print('* ${onError.toString()} *  Post Image Upload Fail');
+        }
+        snack(
+          context,
+          content: '* ${onError.toString()} * Post Image Upload Fail',
           bgColor: Colors.red,
         );
       },

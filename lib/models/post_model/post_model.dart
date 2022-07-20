@@ -1,21 +1,21 @@
 class PostModel {
-  late String uId;
-  late String name;
-  late String lastName;
-  late String email;
-  late String image;
-  late String dateTime;
-  late String text;
-  String? postImage;
+  late String ?uId;
+  late String ?name;
+  late String ?lastName;
+  late String ?email;
+  late String ?image;
+  late String ?dateTime;
+  late String ?text;
+  late String? postImage;
 
   PostModel({
-    required this.uId,
-    required this.name,
-    required this.lastName,
-    required this.email,
-    required this.dateTime,
-    required this.text,
-    required this.image,
+     this.uId,
+     this.name,
+     this.lastName,
+     this.email,
+     this.dateTime,
+     this.text,
+     this.image,
     this.postImage,
   });
 

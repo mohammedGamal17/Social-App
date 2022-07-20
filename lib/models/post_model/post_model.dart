@@ -3,7 +3,7 @@ class PostModel {
   late String name;
   late String lastName;
   late String email;
-  late String? image;
+  late String image;
   late String dateTime;
   late String text;
   String? postImage;
@@ -14,7 +14,8 @@ class PostModel {
     required this.lastName,
     required this.email,
     required this.dateTime,
-    this.image,
+    required this.text,
+    required this.image,
     this.postImage,
   });
 
@@ -27,6 +28,7 @@ class PostModel {
       image: json['image'],
       dateTime: json['dateTime'],
       postImage: json['postImage'],
+      text: json['text'],
     );
   }
 
@@ -39,6 +41,7 @@ class PostModel {
     data['image'] = image;
     data['dateTime'] = dateTime;
     data['postImage'] = postImage;
+    data['text'] = text;
     return data;
   }
 }

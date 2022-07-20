@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
 
-import '../../layout/Layout_screen.dart';
 import '../../models/user_model/user_model.dart';
 import '../../shared/components/components.dart';
 import '../profile/profile_screen.dart';
@@ -15,7 +14,7 @@ class PostScreen extends StatelessWidget {
 
   final UserModel userModel;
   final post = TextEditingController();
-
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -23,71 +22,87 @@ class PostScreen extends StatelessWidget {
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
+          AppCubit cubit = AppCubit.get(context);
           return Scaffold(
             appBar: AppBar(
               title: const Text('Create Post'),
               actions: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    var now = DateTime.now();
+
+                    if (formKey.currentState!.validate()) {
+                      if (AppCubit.get(context).postImage == null) {
+                        AppCubit.get(context).createPost(
+                          context,
+                          dateTime: now.toString(),
+                          text: post.text,
+                        );
+                      } else {
+                        AppCubit.get(context).uploadPostImage(
+                          context,
+                          dateTime: now.toString(),
+                          text: post.text,
+                        );
+                      }
+                    }
+                  },
                   child: const Text('Post'),
                 )
               ],
             ),
             body: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Card(
-                shadowColor: const Color(0xFF0066CC),
-                elevation: 20.0,
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Row(
-                        children: [
-                          InkWell(
-                            child: CircleAvatar(
-                              radius: 25.0,
-                              backgroundImage:
-                                  NetworkImage('${userModel.image}'),
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  if(state is CreatePostLoadingState)
+                    loadingAnimation(context),
+                  Row(
+                    children: [
+                      InkWell(
+                        child: CircleAvatar(
+                          radius: 25.0,
+                          backgroundImage:
+                              NetworkImage('${userModel.image}'),
+                        ),
+                        onTap: () {
+                          navigateTo(
+                            context,
+                            ProfileScreen(
+                              userModel: userModel,
                             ),
-                            onTap: () {
-                              navigateTo(
-                                context,
-                                ProfileScreen(
-                                  userModel: userModel,
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(width: 10.0),
-                          InkWell(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${userModel.name} ${userModel.lastName}'
-                                      .capitalize!,
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                              ],
-                            ),
-                            onTap: () {
-                              navigateTo(
-                                  context, ProfileScreen(userModel: userModel));
-                            },
-                          ),
-                        ],
+                          );
+                        },
                       ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    separatorHorizontal(
-                        height: 0.6, opacity: 0.6, padding: 5.0),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: TextField(
+                      const SizedBox(width: 10.0),
+                      InkWell(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${userModel.name} ${userModel.lastName}'
+                                  .capitalize!,
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                          ],
+                        ),
+                        onTap: () {
+                          navigateTo(
+                              context, ProfileScreen(userModel: userModel));
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10.0),
+                  separatorHorizontal(
+                      height: 0.6, opacity: 0.6, padding: 5.0),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Form(
+                        key: formKey,
+                        child: TextFormField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'What\'s on your mind ?',
@@ -95,107 +110,147 @@ class PostScreen extends StatelessWidget {
                           ),
                           style: Theme.of(context).textTheme.bodyText2,
                           controller: post,
-                          keyboardType: TextInputType.text,
-                          maxLines: 1000,
+                          maxLines: 20,
+                          validator: (value){
+                            if(value!.isEmpty){
+                              return 'Please Write Your Post';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
+                  ),
+                  if (cubit.postImage!=null)
+                    SizedBox(
+                      height: 100,
+                      child: Stack(
+                        alignment: AlignmentDirectional.bottomCenter,
                         children: [
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.0),
+                          Stack(
+                            alignment: AlignmentDirectional.topEnd,
+                            children: [
+                              Align(
+                                alignment: AlignmentDirectional.topCenter,
+                                child: SizedBox(
+                                  child: Image(
+                                    image:
+                                    FileImage(AppCubit.get(context).postImage!),
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                              height: 40.0,
-                              child: OutlinedButton(
-                                onPressed: (){
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text('Choose your picker'),
-                                        shape: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                        ),
-                                        actions: [
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: InkWell(
-                                                  onTap: () {
-                                                  },
-                                                  child: Column(
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.camera_alt_outlined,
-                                                      ),
-                                                      const SizedBox(height: 5.0),
-                                                      Text(
-                                                        'Camera',
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyText2,
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(width: 10.0),
-                                              Expanded(
-                                                child: InkWell(
-                                                  onTap: () {
-                                                  },
-                                                  child: Column(
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.image,
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 5.0,
-                                                      ),
-                                                      Text(
-                                                        'Gallery',
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyText2,
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      );
-                                    },
-                                  );
+                              IconButton(
+                                onPressed: () {
+                                  AppCubit.get(context).removePickedPhoto();
                                 },
-                                child: const Text('Add Photo'),
+                                icon: const Icon(Icons.close),
+                                color: Colors.grey,
                               ),
-                            ),
-                          ),
-                          const SizedBox(width: 10.0),
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              height: 40.0,
-                              child: OutlinedButton(
-                              onPressed: (){},
-                                child: const Text('# Tags'),
-                              ),
-                            ),
+                            ],
                           ),
                         ],
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          height: 40.0,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Choose your picker'),
+                                    shape: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(5.0),
+                                    ),
+                                    actions: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: InkWell(
+                                              onTap: () {
+                                                cubit.postImageCamera(
+                                                    context);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  const Icon(
+                                                    Icons
+                                                        .camera_alt_outlined,
+                                                  ),
+                                                  const SizedBox(
+                                                      height: 5.0),
+                                                  Text(
+                                                    'Camera',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10.0),
+                                          Expanded(
+                                            child: InkWell(
+                                              onTap: () {
+                                               cubit.postImageGallery(context);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.image,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5.0,
+                                                  ),
+                                                  Text(
+                                                    'Gallery',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: const Text('Add Photo'),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10.0),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          height: 40.0,
+                          child: OutlinedButton(
+                            onPressed: () {},
+                            child: const Text('# Tags'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
               ),
             ),
           );

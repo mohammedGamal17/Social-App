@@ -66,7 +66,7 @@ class SettingsScreen extends StatelessWidget {
                         separatorHorizontal(
                             height: 0.6, opacity: 0.6, padding: 0.0),
                         const SizedBox(height: 10.0),
-                        Container(
+                        SizedBox(
                           height: 40.0,
                           width: double.infinity,
                           child: Row(

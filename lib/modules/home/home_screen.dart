@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:social/models/post_model/post_model.dart';
 import 'package:social/modules/profile/profile_screen.dart';
+import 'package:social/modules/profile/user_screen.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
 
@@ -17,7 +19,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..getUserData(context),
+      create: (context) => AppCubit()..getUserData(context)..getPosts(context),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -108,17 +110,17 @@ class HomeScreen extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) =>
-                postBuilderItem(context, AppCubit.get(context).userModel!),
+                postBuilderItem(context, AppCubit.get(context).posts[index],AppCubit.get(context).userModel!),
             separatorBuilder: (context, index) =>
                 separatorHorizontal(height: 0.1, opacity: 0.5),
-            itemCount: 3,
+            itemCount: AppCubit.get(context).posts.length,
           )
         ],
       ),
     );
   }
 
-  Widget postBuilderItem(context, UserModel model) {
+  Widget postBuilderItem(context, PostModel model,UserModel userModel) {
     AppCubit cubit = AppCubit.get(context);
     return Card(
       shadowColor: const Color(0xFF0066CC),
@@ -144,14 +146,14 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           Text('${model.name} ${model.lastName}'.capitalize!,
                               style: Theme.of(context).textTheme.subtitle2),
-                          Text('10:00 pm',
+                          Text('${model.dateTime}',
                               style: Theme.of(context).textTheme.headline1),
                         ],
                       ),
                     ],
                   ),
                   onTap: () {
-                    navigateTo(context, ProfileScreen(userModel: model));
+                    navigateTo(context, UserScreen(postModel: model));
                   },
                 ),
                 const Spacer(),
@@ -169,7 +171,7 @@ class HomeScreen extends StatelessWidget {
               width: double.infinity,
               child: Expanded(
                 child: Text(
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
+                  '${model.text}',
                   style: Theme.of(context).textTheme.subtitle2,
                   maxLines: 4,
                   overflow: TextOverflow.ellipsis,
@@ -265,11 +267,14 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 10.0),
-          const Image(
-            image: NetworkImage(
-                'https://img.freepik.com/free-photo/emotional-bearded-male-has-surprised-facial-expression-astonished-look-dressed-white-shirt-with-red-braces-points-with-index-finger-upper-right-corner_273609-16001.jpg?t=st=1657727705~exp=1657728305~hmac=6fc3387378f08f2436466b0cbbe90edffff83bfc2aaa568d1317e12aaf36dc38&w=996'),
-            fit: BoxFit.cover,
+          if(model.postImage!='')
+            Padding(
+            padding: const EdgeInsetsDirectional.only(top: 10.0),
+            child: Image(
+              image: NetworkImage(
+                  '${model.postImage}'),
+              fit: BoxFit.cover,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -315,10 +320,10 @@ class HomeScreen extends StatelessWidget {
                 InkWell(
                   child: CircleAvatar(
                     radius: 20.0,
-                    backgroundImage: NetworkImage('${model.image}'),
+                    backgroundImage: NetworkImage('${userModel.image}'),
                   ),
                   onTap: () {
-                    navigateTo(context, ProfileScreen(userModel: model));
+                    navigateTo(context, ProfileScreen(userModel: userModel));
                   },
                 ),
                 const SizedBox(width: 5.0),

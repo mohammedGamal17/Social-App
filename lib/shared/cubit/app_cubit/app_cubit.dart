@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -126,21 +127,6 @@ class AppCubit extends Cubit<AppStates> {
   void changeThemeMode() {
     isDark = !isDark;
     emit(ChangeThemeMode());
-  }
-
-  void changeLikeIcon() {
-    isLike = !isLike;
-    emit(ChangeLikeIconState());
-  }
-
-  void likeCount() {
-    if (isLike == true) {
-      likeNum++;
-    } else {
-      likeNum--;
-    }
-
-    emit(LikeCountState());
   }
 
   void changePasswordVisibility() {
@@ -490,6 +476,8 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   List<PostModel> posts = [];
+  List<String> postsId = [];
+  List<int> likesCount = [];
 
   void getPosts(context) {
     emit(GetPostsLoading());
@@ -497,12 +485,36 @@ class AppCubit extends Cubit<AppStates> {
     final fireStoreDirection = fireStore.collection('posts');
     fireStoreDirection.get().then((value) {
       for (var element in value.docs) {
-        posts.add(PostModel.fromJson(element.data()));
+        element.reference
+            .collection('likes')
+            .get()
+            .then((value) {
+          likesCount.add(value.docs.length);
+          postsId.add(element.id);
+          posts.add(PostModel.fromJson(element.data()));
+        })
+            .catchError((onError) {});
+        if (kDebugMode) {
+          print(' * Enter Action Fail * ${onError.toString()}');
+        }
       }
       emit(GetPostsSuccess());
     }).catchError((onError) {
       emit(GetPostsFail());
       snack(context, content: 'Posts Don\'t Loaded');
+    });
+  }
+
+  void likePost(String postId) {
+    final fireStore = FirebaseFirestore.instance;
+    final fireStoreDirec =
+        fireStore.collection('posts').doc(postId).collection('likes');
+
+    fireStoreDirec.doc(userModel?.uId).set({'like': true}).then((value) {
+      isLike = !isLike;
+      emit(LikePostSuccess());
+    }).catchError((onError) {
+      emit(LikePostFail());
     });
   }
 }

@@ -37,7 +37,6 @@ class EditProfileScreen extends StatelessWidget {
               actions: [
                 TextButton(
                   onPressed: () {
-                    //cubit.uploadProfileImage(context);
                     cubit.updateData(
                       name: firstName.text,
                       lastName: lastName.text,

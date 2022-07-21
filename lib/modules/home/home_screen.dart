@@ -19,7 +19,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..getUserData(context)..getPosts(context),
+      create: (context) => AppCubit()
+        ..getUserData(context)
+        ..getPosts(context),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -109,8 +111,10 @@ class HomeScreen extends StatelessWidget {
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) =>
-                postBuilderItem(context, AppCubit.get(context).posts[index],AppCubit.get(context).userModel!),
+            itemBuilder: (context, index) => postBuilderItem(
+                context,
+                AppCubit.get(context).posts[index],
+                AppCubit.get(context).userModel!),
             separatorBuilder: (context, index) =>
                 separatorHorizontal(height: 0.1, opacity: 0.5),
             itemCount: AppCubit.get(context).posts.length,
@@ -120,7 +124,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget postBuilderItem(context, PostModel model,UserModel userModel) {
+  Widget postBuilderItem(context, PostModel model, UserModel userModel) {
     AppCubit cubit = AppCubit.get(context);
     return Card(
       shadowColor: const Color(0xFF0066CC),
@@ -267,15 +271,14 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          if(model.postImage!='')
+          if (model.postImage != '')
             Padding(
-            padding: const EdgeInsetsDirectional.only(top: 10.0),
-            child: Image(
-              image: NetworkImage(
-                  '${model.postImage}'),
-              fit: BoxFit.cover,
+              padding: const EdgeInsetsDirectional.only(top: 10.0),
+              child: Image(
+                image: NetworkImage('${model.postImage}'),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Row(

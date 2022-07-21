@@ -166,14 +166,12 @@ class RegisterScreen extends StatelessWidget {
                                   ? InkWell(
                                       onTap: () {
                                         if (formKey.currentState!.validate()) {
-                                          cubit.userRegister(
-                                            context,
-                                            email: email.text,
-                                            password: password.text,
-                                            name: name.text,
-                                            phone: phone.text,
-                                            lastName: lastName.text
-                                          );
+                                          cubit.userRegister(context,
+                                              email: email.text,
+                                              password: password.text,
+                                              name: name.text,
+                                              phone: phone.text,
+                                              lastName: lastName.text);
                                         }
                                       },
                                       child: Center(

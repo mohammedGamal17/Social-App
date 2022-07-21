@@ -6,7 +6,7 @@ class CommentModel {
   late String? image;
   late String? dateTime;
   late String? text;
-  late String? postImage;
+  late String? commentImage;
   late String? coverImage;
   late String? bio;
 
@@ -18,7 +18,7 @@ class CommentModel {
     this.dateTime,
     this.text,
     this.image,
-    this.postImage,
+    this.commentImage,
     this.coverImage,
     this.bio,
   });
@@ -31,7 +31,7 @@ class CommentModel {
       email: json['email'],
       image: json['image'],
       dateTime: json['dateTime'],
-      postImage: json['postImage'],
+      commentImage: json['commentImage'],
       text: json['text'],
       coverImage: json['coverImage'],
       bio: json['bio'],
@@ -46,7 +46,7 @@ class CommentModel {
     data['email'] = email;
     data['image'] = image;
     data['dateTime'] = dateTime;
-    data['postImage'] = postImage;
+    data['commentImage'] = commentImage;
     data['text'] = text;
     data['coverImage'] = coverImage;
     data['bio'] = bio;

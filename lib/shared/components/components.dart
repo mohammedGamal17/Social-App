@@ -37,6 +37,7 @@ Widget textFormField({
   String? prefixText,
   bool autoFocus = false,
   bool isPassword = false,
+  bool isDense = false,
   IconData? suffix,
   Function? suffixOnTap,
   Function? onTap,
@@ -60,6 +61,7 @@ Widget textFormField({
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius),
       ),
+      isDense: isDense,
       labelText: labelText,
       hintText: hintText,
       helperText: helperText,

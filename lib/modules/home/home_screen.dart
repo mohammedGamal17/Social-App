@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
         builder: (context, state) {
           AppCubit cubit = AppCubit.get(context);
           return Scaffold(
-            body: cubit.userModel != null
+            body: cubit.userModel != null && cubit.posts != null
                 ? pageBuilder(context, cubit.userModel!)
                 : loadingAnimation(context),
           );
@@ -112,9 +112,11 @@ class HomeScreen extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => postBuilderItem(
-                context,
-                AppCubit.get(context).posts[index],
-                AppCubit.get(context).userModel!),
+              context,
+              AppCubit.get(context).posts[index],
+              AppCubit.get(context).userModel!,
+              index,
+            ),
             separatorBuilder: (context, index) =>
                 separatorHorizontal(height: 0.1, opacity: 0.5),
             itemCount: AppCubit.get(context).posts.length,
@@ -124,7 +126,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget postBuilderItem(context, PostModel model, UserModel userModel) {
+  Widget postBuilderItem(context, PostModel model, UserModel userModel, index) {
     AppCubit cubit = AppCubit.get(context);
     return Card(
       shadowColor: const Color(0xFF0066CC),
@@ -184,7 +186,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
+          /*Padding(
             padding: const EdgeInsets.only(
                 top: 5.0, left: 10.0, right: 10.0, bottom: 0.0),
             child: SizedBox(
@@ -271,7 +273,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
+          ),*/
           if (model.postImage != '')
             Padding(
               padding: const EdgeInsetsDirectional.only(top: 10.0),
@@ -289,7 +291,7 @@ class HomeScreen extends StatelessWidget {
                     const Icon(Icons.favorite, size: 14.0),
                     const SizedBox(width: 5.0),
                     Text(
-                      '${AppCubit.get(context).likeNum}',
+                      '${cubit.likesCount[index]}',
                       style: Theme.of(context)
                           .textTheme
                           .subtitle2
@@ -352,8 +354,7 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 2.0),
                   child: InkWell(
                     onTap: () {
-                      AppCubit.get(context).changeLikeIcon();
-                      AppCubit.get(context).likeCount();
+                      cubit.likePost(cubit.postsId[index]);
                     },
                     child: Column(
                       children: [

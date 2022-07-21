@@ -15,6 +15,7 @@ class PostScreen extends StatelessWidget {
   final UserModel userModel;
   final post = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -33,27 +34,27 @@ class PostScreen extends StatelessWidget {
 
                     if (formKey.currentState!.validate()) {
                       if (AppCubit.get(context).postImage == null) {
-                        AppCubit.get(context).createPost(
-                          context,
-                          dateTime: now.toString(),
-                          text: post.text,
-                          uId: userModel.uId!,
-                          name: userModel.name!,
-                          lastName: userModel.lastName!,
-                          email: userModel.email!,
-                          image: userModel.image!,
-                        );
+                        AppCubit.get(context).createPost(context,
+                            dateTime: now.toString(),
+                            text: post.text,
+                            uId: userModel.uId!,
+                            name: userModel.name!,
+                            lastName: userModel.lastName!,
+                            email: userModel.email!,
+                            image: userModel.image!,
+                            coverImage: userModel.coverImage!,
+                            bio: userModel.bio!);
                       } else {
-                        AppCubit.get(context).uploadPostImage(
-                          context,
-                          dateTime: now.toString(),
-                          text: post.text,
-                          uId: userModel.uId!,
-                          name: userModel.name!,
-                          lastName: userModel.lastName!,
-                          email: userModel.email!,
-                          image: userModel.image!,
-                        );
+                        AppCubit.get(context).uploadPostImage(context,
+                            dateTime: now.toString(),
+                            text: post.text,
+                            uId: userModel.uId!,
+                            name: userModel.name!,
+                            lastName: userModel.lastName!,
+                            email: userModel.email!,
+                            image: userModel.image!,
+                            coverImage: userModel.coverImage!,
+                            bio: userModel.bio!);
                       }
                     }
                   },
@@ -65,15 +66,14 @@ class PostScreen extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  if(state is CreatePostLoadingState)
+                  if (state is CreatePostLoadingState)
                     loadingAnimation(context),
                   Row(
                     children: [
                       InkWell(
                         child: CircleAvatar(
                           radius: 25.0,
-                          backgroundImage:
-                              NetworkImage('${userModel.image}'),
+                          backgroundImage: NetworkImage('${userModel.image}'),
                         ),
                         onTap: () {
                           navigateTo(
@@ -105,8 +105,7 @@ class PostScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10.0),
-                  separatorHorizontal(
-                      height: 0.6, opacity: 0.6, padding: 5.0),
+                  separatorHorizontal(height: 0.6, opacity: 0.6, padding: 5.0),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
@@ -121,8 +120,8 @@ class PostScreen extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyText2,
                           controller: post,
                           maxLines: 20,
-                          validator: (value){
-                            if(value!.isEmpty){
+                          validator: (value) {
+                            if (value!.isEmpty) {
                               return 'Please Write Your Post';
                             }
                             return null;
@@ -131,7 +130,7 @@ class PostScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (cubit.postImage!=null)
+                  if (cubit.postImage != null)
                     SizedBox(
                       height: 100,
                       child: Stack(
@@ -144,8 +143,8 @@ class PostScreen extends StatelessWidget {
                                 alignment: AlignmentDirectional.topCenter,
                                 child: SizedBox(
                                   child: Image(
-                                    image:
-                                    FileImage(AppCubit.get(context).postImage!),
+                                    image: FileImage(
+                                        AppCubit.get(context).postImage!),
                                     width: double.infinity,
                                     fit: BoxFit.cover,
                                   ),
@@ -180,8 +179,7 @@ class PostScreen extends StatelessWidget {
                                   return AlertDialog(
                                     title: const Text('Choose your picker'),
                                     shape: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(5.0),
+                                      borderRadius: BorderRadius.circular(5.0),
                                     ),
                                     actions: [
                                       Row(
@@ -189,17 +187,14 @@ class PostScreen extends StatelessWidget {
                                           Expanded(
                                             child: InkWell(
                                               onTap: () {
-                                                cubit.postImageCamera(
-                                                    context);
+                                                cubit.postImageCamera(context);
                                               },
                                               child: Column(
                                                 children: [
                                                   const Icon(
-                                                    Icons
-                                                        .camera_alt_outlined,
+                                                    Icons.camera_alt_outlined,
                                                   ),
-                                                  const SizedBox(
-                                                      height: 5.0),
+                                                  const SizedBox(height: 5.0),
                                                   Text(
                                                     'Camera',
                                                     style: Theme.of(context)
@@ -214,7 +209,7 @@ class PostScreen extends StatelessWidget {
                                           Expanded(
                                             child: InkWell(
                                               onTap: () {
-                                               cubit.postImageGallery(context);
+                                                cubit.postImageGallery(context);
                                               },
                                               child: Column(
                                                 children: [

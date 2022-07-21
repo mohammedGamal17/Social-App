@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:social/models/comment_model/comment_model.dart';
 import 'package:social/models/post_model/post_model.dart';
 import 'package:social/modules/messages/messages_screen.dart';
 import 'package:social/modules/notifications/notifications_screen.dart';
@@ -478,6 +479,7 @@ class AppCubit extends Cubit<AppStates> {
   List<PostModel> posts = [];
   List<String> postsId = [];
   List<int> likesCount = [];
+  List<int> commentsCount = [];
 
   void getPosts(context) {
     emit(GetPostsLoading());
@@ -485,24 +487,47 @@ class AppCubit extends Cubit<AppStates> {
     final fireStoreDirection = fireStore.collection('posts');
     fireStoreDirection.get().then((value) {
       for (var element in value.docs) {
-        element.reference
-            .collection('likes')
-            .get()
-            .then((value) {
+        emit(GetLikesLoading());
+        element.reference.collection('likes').get().then((value) {
           likesCount.add(value.docs.length);
           postsId.add(element.id);
           posts.add(PostModel.fromJson(element.data()));
-        })
-            .catchError((onError) {});
-        if (kDebugMode) {
-          print(' * Enter Action Fail * ${onError.toString()}');
-        }
+          emit(GetLikesSuccess());
+        }).catchError((onError) {
+          emit(GetLikesFail());
+          snack(context,
+              content: ' * Likes not loaded * ${onError.toString()}');
+          if (kDebugMode) {
+            print(' * Like not loaded * ${onError.toString()}');
+          }
+        });
       }
-      emit(GetPostsSuccess());
+
+
     }).catchError((onError) {
       emit(GetPostsFail());
-      snack(context, content: 'Posts Don\'t Loaded');
+      snack(context, content: 'Posts not loaded');
     });
+    fireStoreDirection.get().then((value) {
+      for (var element in value.docs) {
+        element.reference.collection('comments').get().then((value) {
+          commentsCount.add(value.docs.length);
+          postsId.add(element.id);
+          posts.add(PostModel.fromJson(element.data()));
+          emit(GetCommentsSuccess());
+        }).catchError((onError) {
+          snack(context,
+              content: ' * comments not loaded * ${onError.toString()}');
+          if (kDebugMode) {
+            print(' * Comments not loaded * ${onError.toString()}');
+          }
+          emit(GetCommentsFail());
+        });
+      }
+    }).catchError((onError){
+      emit(GetCommentsFail());
+    });
+    emit(GetPostsSuccess());
   }
 
   void likePost(String postId) {
@@ -515,6 +540,19 @@ class AppCubit extends Cubit<AppStates> {
       emit(LikePostSuccess());
     }).catchError((onError) {
       emit(LikePostFail());
+    });
+  }
+
+  void addComment(String postId,String comment) {
+    FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .doc(userModel?.uId)
+        .set({'comment': comment}).then((value) {
+      emit(AddCommentsSuccess());
+    }).catchError((onError) {
+      emit(AddCommentsFail());
     });
   }
 }

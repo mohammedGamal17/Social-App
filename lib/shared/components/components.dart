@@ -24,6 +24,8 @@ void navigateToAndReplace(context, widget) => Navigator.pushAndRemoveUntil(
       (route) => false,
     );
 
+void navigatePop(context) => Navigator.pop(context);
+
 Widget textFormField({
   required TextEditingController controller,
   required Function validate,

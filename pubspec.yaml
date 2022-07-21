@@ -27,6 +27,7 @@ dependencies:
   loading_animation_widget: ^1.2.0+2
   country_code_picker: ^2.0.2
   image_picker: ^0.8.5+3
+  intl: ^0.17.0
 
   #firebase
   firebase_core: 1.19.2

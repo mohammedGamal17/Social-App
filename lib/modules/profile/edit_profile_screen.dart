@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
+
 import 'package:hexcolor/hexcolor.dart';
 import 'package:social/shared/components/components.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';

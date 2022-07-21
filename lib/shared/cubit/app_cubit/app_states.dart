@@ -95,3 +95,9 @@ class UploadPostImageLoading extends AppStates{}
 class UploadPostImageSuccess extends AppStates{}
 
 class UploadPostImageFail extends AppStates{}
+
+class GetPostsLoading extends AppStates{}
+
+class GetPostsSuccess extends AppStates{}
+
+class GetPostsFail extends AppStates{}

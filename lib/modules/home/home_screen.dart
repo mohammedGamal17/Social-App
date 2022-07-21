@@ -169,6 +169,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           separatorHorizontal(height: 0.5, opacity: 0.4),
+          const SizedBox(height: 5.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: SizedBox(

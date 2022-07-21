@@ -1,23 +1,26 @@
 class PostModel {
-  late String ?uId;
-  late String ?name;
-  late String ?lastName;
-  late String ?email;
-  late String ?image;
-  late String ?dateTime;
-  late String ?text;
+  late String? uId;
+  late String? name;
+  late String? lastName;
+  late String? email;
+  late String? image;
+  late String? dateTime;
+  late String? text;
   late String? postImage;
+  late String? coverImage;
+  late String? bio;
 
-  PostModel({
-     this.uId,
-     this.name,
-     this.lastName,
-     this.email,
-     this.dateTime,
-     this.text,
-     this.image,
-    this.postImage,
-  });
+  PostModel(
+      {this.uId,
+      this.name,
+      this.lastName,
+      this.email,
+      this.dateTime,
+      this.text,
+      this.image,
+      this.postImage,
+      this.coverImage,
+      this.bio});
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return PostModel(
@@ -29,6 +32,8 @@ class PostModel {
       dateTime: json['dateTime'],
       postImage: json['postImage'],
       text: json['text'],
+      coverImage: json['coverImage'],
+      bio: json['bio'],
     );
   }
 
@@ -42,6 +47,8 @@ class PostModel {
     data['dateTime'] = dateTime;
     data['postImage'] = postImage;
     data['text'] = text;
+    data['coverImage'] = coverImage;
+    data['bio'] = bio;
     return data;
   }
 }

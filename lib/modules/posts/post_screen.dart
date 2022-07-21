@@ -34,27 +34,31 @@ class PostScreen extends StatelessWidget {
 
                     if (formKey.currentState!.validate()) {
                       if (AppCubit.get(context).postImage == null) {
-                        AppCubit.get(context).createPost(context,
-                            dateTime: now.toString(),
-                            text: post.text,
-                            uId: userModel.uId!,
-                            name: userModel.name!,
-                            lastName: userModel.lastName!,
-                            email: userModel.email!,
-                            image: userModel.image!,
-                            coverImage: userModel.coverImage!,
-                            bio: userModel.bio!);
+                        AppCubit.get(context).createPost(
+                          context,
+                          dateTime: now.toString(),
+                          text: post.text,
+                          uId: userModel.uId!,
+                          name: userModel.name!,
+                          lastName: userModel.lastName!,
+                          email: userModel.email!,
+                          image: userModel.image!,
+                          coverImage: userModel.coverImage!,
+                          bio: userModel.bio!,
+                        );
                       } else {
-                        AppCubit.get(context).uploadPostImage(context,
-                            dateTime: now.toString(),
-                            text: post.text,
-                            uId: userModel.uId!,
-                            name: userModel.name!,
-                            lastName: userModel.lastName!,
-                            email: userModel.email!,
-                            image: userModel.image!,
-                            coverImage: userModel.coverImage!,
-                            bio: userModel.bio!);
+                        AppCubit.get(context).uploadPostImage(
+                          context,
+                          dateTime: now.toString(),
+                          text: post.text,
+                          uId: userModel.uId!,
+                          name: userModel.name!,
+                          lastName: userModel.lastName!,
+                          email: userModel.email!,
+                          image: userModel.image!,
+                          coverImage: userModel.coverImage!,
+                          bio: userModel.bio!,
+                        );
                       }
                     }
                   },

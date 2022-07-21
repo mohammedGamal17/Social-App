@@ -29,6 +29,7 @@ class AppCubit extends Cubit<AppStates> {
   DioHelper dio = DioHelper();
 
   UserModel? userModel;
+  PostModel? postModel;
   int currentIndex = 0;
   IconData disLikeIcon = Icons.favorite_outline;
   IconData likedIcon = Icons.favorite_outlined;
@@ -353,6 +354,8 @@ class AppCubit extends Cubit<AppStates> {
     required String lastName,
     required String email,
     required String image,
+    required String coverImage,
+    required String bio,
     String? postImage,
   }) {
     PostModel model = PostModel(
@@ -364,6 +367,8 @@ class AppCubit extends Cubit<AppStates> {
       text: text,
       dateTime: dateTime,
       postImage: postImage ?? '',
+      coverImage: coverImage,
+      bio: bio,
     );
     emit(CreatePostLoadingState());
 
@@ -417,11 +422,13 @@ class AppCubit extends Cubit<AppStates> {
     context, {
     required String text,
     required String dateTime,
-        required String uId,
-        required String name,
-        required String lastName,
-        required String email,
-        required String image,
+    required String uId,
+    required String name,
+    required String lastName,
+    required String email,
+    required String image,
+    required String coverImage,
+    required String bio,
   }) {
     emit(CreatePostLoadingState());
     emit(UploadPostImageLoading());
@@ -442,6 +449,8 @@ class AppCubit extends Cubit<AppStates> {
             lastName: lastName,
             email: email,
             image: image,
+            coverImage: coverImage,
+            bio: bio,
           );
         }).catchError(
           (onError) {
@@ -472,5 +481,22 @@ class AppCubit extends Cubit<AppStates> {
         );
       },
     );
+  }
+
+  List<PostModel> posts = [];
+
+  void getPosts(context) {
+    emit(GetPostsLoading());
+    final fireStore = FirebaseFirestore.instance;
+    final fireStoreDirection = fireStore.collection('posts');
+    fireStoreDirection.get().then((value) {
+      for (var element in value.docs) {
+        posts.add(PostModel.fromJson(element.data()));
+      }
+      emit(GetPostsSuccess());
+    }).catchError((onError) {
+      emit(GetPostsFail());
+      snack(context, content: 'Posts Don\'t Loaded');
+    });
   }
 }

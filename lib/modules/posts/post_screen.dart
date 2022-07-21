@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
@@ -31,12 +32,13 @@ class PostScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     var now = DateTime.now();
-
+                    String formattedDate =
+                        DateFormat('yyyy-MM-dd , kk:mm a').format(now);
                     if (formKey.currentState!.validate()) {
                       if (AppCubit.get(context).postImage == null) {
                         AppCubit.get(context).createPost(
                           context,
-                          dateTime: now.toString(),
+                          dateTime: formattedDate.toString(),
                           text: post.text,
                           uId: userModel.uId!,
                           name: userModel.name!,
@@ -49,7 +51,7 @@ class PostScreen extends StatelessWidget {
                       } else {
                         AppCubit.get(context).uploadPostImage(
                           context,
-                          dateTime: now.toString(),
+                          dateTime: formattedDate.toString(),
                           text: post.text,
                           uId: userModel.uId!,
                           name: userModel.name!,
@@ -134,9 +136,10 @@ class PostScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 15.0),
                   if (cubit.postImage != null)
                     SizedBox(
-                      height: 100,
+                      height: 130,
                       child: Stack(
                         alignment: AlignmentDirectional.bottomCenter,
                         children: [
@@ -166,6 +169,7 @@ class PostScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                  const SizedBox(height: 15.0),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

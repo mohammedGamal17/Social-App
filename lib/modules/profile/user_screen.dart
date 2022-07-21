@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:social/models/post_model/post_model.dart';
-import 'package:social/models/user_model/user_model.dart';
 import 'package:social/shared/components/components.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
 
-import '../../shared/style/colors.dart';
-import 'edit_profile_screen.dart';
 
 class UserScreen extends StatelessWidget {
   const UserScreen({super.key, required this.postModel});

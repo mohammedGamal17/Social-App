@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/style/colors.dart';
@@ -78,8 +77,7 @@ class PageViewScreen extends StatelessWidget {
                       );
                     });
                   },
-                  style:
-                      TextButton.styleFrom(backgroundColor: lightBackground),
+                  style: TextButton.styleFrom(backgroundColor: lightBackground),
                   child:
                       Text('Skip', style: Theme.of(context).textTheme.caption),
                 ),

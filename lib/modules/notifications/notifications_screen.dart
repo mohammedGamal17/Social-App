@@ -15,12 +15,12 @@ class NotificationsScreen extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             body: Center(
-              child: Text('NotificationsScreen',style: Theme.of(context).textTheme.bodyText1),
+              child: Text('NotificationsScreen',
+                  style: Theme.of(context).textTheme.bodyText1),
             ),
           );
         },
       ),
     );
   }
-
 }

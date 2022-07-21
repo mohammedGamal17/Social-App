@@ -22,5 +22,4 @@ class VideosScreen extends StatelessWidget {
       ),
     );
   }
-
 }

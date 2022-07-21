@@ -4,7 +4,6 @@ import 'package:social/modules/search/search_screen.dart';
 import 'package:social/shared/components/components.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import '../shared/cubit/app_cubit/app_states.dart';
-import '../shared/style/theme_service.dart';
 
 class LayOutScreen extends StatelessWidget {
   const LayOutScreen({super.key});
@@ -23,7 +22,7 @@ class LayOutScreen extends StatelessWidget {
               actions: [
                 IconButton(
                   onPressed: () {
-                   navigateTo(context, const SearchScreen());
+                    navigateTo(context, const SearchScreen());
                   },
                   icon: const Icon(Icons.search_outlined),
                 )

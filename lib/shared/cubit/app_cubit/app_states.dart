@@ -105,3 +105,21 @@ class GetPostsFail extends AppStates {}
 class LikePostSuccess extends AppStates{}
 
 class LikePostFail extends AppStates{}
+
+class GetLikesLoading extends AppStates{}
+
+class GetLikesSuccess extends AppStates{}
+
+class GetLikesFail extends AppStates{}
+
+class GetCommentsLoading extends AppStates{}
+
+class GetCommentsSuccess extends AppStates{}
+
+class GetCommentsFail extends AppStates{}
+
+class AddCommentsLoading extends AppStates{}
+
+class AddCommentsSuccess extends AppStates{}
+
+class AddCommentsFail extends AppStates{}

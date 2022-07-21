@@ -153,6 +153,7 @@ class AppCubit extends Cubit<AppStates> {
   Future<void> getProfileImageGallery(context) async {
     final pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
+      imageQuality: 100,
     );
     if (pickedFile != null) {
       profileImage = File(pickedFile.path);
@@ -166,6 +167,7 @@ class AppCubit extends Cubit<AppStates> {
   Future<void> getProfileImageCamera(context) async {
     final pickedFile = await _picker.pickImage(
       source: ImageSource.camera,
+      imageQuality: 100,
     );
     if (pickedFile != null) {
       profileImage = File(pickedFile.path);
@@ -179,6 +181,7 @@ class AppCubit extends Cubit<AppStates> {
   Future<void> getCoverImageGallery(context) async {
     final pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
+      imageQuality: 75,
     );
     if (pickedFile != null) {
       coverImage = File(pickedFile.path);
@@ -192,6 +195,7 @@ class AppCubit extends Cubit<AppStates> {
   Future<void> getCoverImageCamera(context) async {
     final pickedFile = await _picker.pickImage(
       source: ImageSource.camera,
+      imageQuality: 75,
     );
     if (pickedFile != null) {
       coverImage = File(pickedFile.path);
@@ -394,6 +398,7 @@ class AppCubit extends Cubit<AppStates> {
   Future<void> postImageGallery(context) async {
     final pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
+      imageQuality: 75,
     );
     if (pickedFile != null) {
       postImage = File(pickedFile.path);
@@ -405,6 +410,7 @@ class AppCubit extends Cubit<AppStates> {
   Future<void> postImageCamera(context) async {
     final pickedFile = await _picker.pickImage(
       source: ImageSource.camera,
+      imageQuality: 75,
     );
     if (pickedFile != null) {
       postImage = File(pickedFile.path);

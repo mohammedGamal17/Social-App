@@ -48,37 +48,37 @@ class CoverImagePickedSuccess extends AppStates {}
 
 class CoverImagePickedFail extends AppStates {}
 
-class UploadProfileImageLoading extends AppStates{}
+class UploadProfileImageLoading extends AppStates {}
 
-class UploadProfileImageSuccess extends AppStates{}
+class UploadProfileImageSuccess extends AppStates {}
 
-class UploadProfileImageFail extends AppStates{}
+class UploadProfileImageFail extends AppStates {}
 
-class GetDownloadURLProfileImageSuccess extends AppStates{}
+class GetDownloadURLProfileImageSuccess extends AppStates {}
 
-class GetDownloadURLProfileImageFail extends AppStates{}
+class GetDownloadURLProfileImageFail extends AppStates {}
 
-class UploadCoverImageLoading extends AppStates{}
+class UploadCoverImageLoading extends AppStates {}
 
-class UploadCoverImageSuccess extends AppStates{}
+class UploadCoverImageSuccess extends AppStates {}
 
-class UploadCoverImageFail extends AppStates{}
+class UploadCoverImageFail extends AppStates {}
 
-class GetDownloadURLCoverImageSuccess extends AppStates{}
+class GetDownloadURLCoverImageSuccess extends AppStates {}
 
-class GetDownloadURLCoverImageFail extends AppStates{}
+class GetDownloadURLCoverImageFail extends AppStates {}
 
-class UpdateUserDataLoading extends AppStates{}
+class UpdateUserDataLoading extends AppStates {}
 
-class UpdateUserDataSuccess extends AppStates{}
+class UpdateUserDataSuccess extends AppStates {}
 
-class UpdateUserDataFail extends AppStates{}
+class UpdateUserDataFail extends AppStates {}
 
-class CreatePostLoadingState extends AppStates{}
+class CreatePostLoadingState extends AppStates {}
 
-class CreatePostSuccessState extends AppStates{}
+class CreatePostSuccessState extends AppStates {}
 
-class CreatePostFailState extends AppStates{}
+class CreatePostFailState extends AppStates {}
 
 class PostImagePickedSuccess extends AppStates {}
 
@@ -86,18 +86,18 @@ class PostImagePickedFail extends AppStates {}
 
 class PostImagePickedRemove extends AppStates {}
 
-class GetDownloadURLPostImageSuccess extends AppStates{}
+class GetDownloadURLPostImageSuccess extends AppStates {}
 
-class GetDownloadURLPostImageFail extends AppStates{}
+class GetDownloadURLPostImageFail extends AppStates {}
 
-class UploadPostImageLoading extends AppStates{}
+class UploadPostImageLoading extends AppStates {}
 
-class UploadPostImageSuccess extends AppStates{}
+class UploadPostImageSuccess extends AppStates {}
 
-class UploadPostImageFail extends AppStates{}
+class UploadPostImageFail extends AppStates {}
 
-class GetPostsLoading extends AppStates{}
+class GetPostsLoading extends AppStates {}
 
-class GetPostsSuccess extends AppStates{}
+class GetPostsSuccess extends AppStates {}
 
-class GetPostsFail extends AppStates{}
+class GetPostsFail extends AppStates {}

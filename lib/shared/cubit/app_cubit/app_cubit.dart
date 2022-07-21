@@ -327,7 +327,7 @@ class AppCubit extends Cubit<AppStates> {
       (value) {
         getUserData(context);
         snack(context, content: 'Your Data Are Updated');
-        getUserData(context);
+        navigateToAndReplace(context, const LayOutScreen());
       },
     ).catchError(
       (onError) {

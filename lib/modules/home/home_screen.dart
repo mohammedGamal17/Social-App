@@ -11,6 +11,7 @@ import 'package:social/shared/cubit/app_cubit/app_states.dart';
 
 import '../../models/user_model/user_model.dart';
 import '../../shared/components/components.dart';
+import '../comments/comments_screen.dart';
 import '../posts/post_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -186,94 +187,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          /*Padding(
-            padding: const EdgeInsets.only(
-                top: 5.0, left: 10.0, right: 10.0, bottom: 0.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: Wrap(
-                children: [
-                  SizedBox(
-                    height: 20.0,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      padding: const EdgeInsets.only(right: 10.0),
-                      minWidth: 1.0,
-                      height: 10.0,
-                      child: Text('#PiGram',
-                          style: Theme.of(context).textTheme.bodyText1),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      padding: const EdgeInsets.only(right: 10.0),
-                      minWidth: 1.0,
-                      height: 10.0,
-                      child: Text('#PiGram',
-                          style: Theme.of(context).textTheme.bodyText1),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      padding: const EdgeInsets.only(right: 10.0),
-                      minWidth: 1.0,
-                      height: 10.0,
-                      child: Text('#PiGram',
-                          style: Theme.of(context).textTheme.bodyText1),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      padding: const EdgeInsets.only(right: 10.0),
-                      minWidth: 1.0,
-                      height: 10.0,
-                      child: Text('#PiGram',
-                          style: Theme.of(context).textTheme.bodyText1),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      padding: const EdgeInsets.only(right: 10.0),
-                      minWidth: 1.0,
-                      height: 10.0,
-                      child: Text('#PiGram',
-                          style: Theme.of(context).textTheme.bodyText1),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      padding: const EdgeInsets.only(right: 10.0),
-                      minWidth: 1.0,
-                      height: 10.0,
-                      child: Text('#PiGram',
-                          style: Theme.of(context).textTheme.bodyText1),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      padding: const EdgeInsets.only(right: 10.0),
-                      minWidth: 1.0,
-                      height: 10.0,
-                      child: Text('#PiGram',
-                          style: Theme.of(context).textTheme.bodyText1),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),*/
           if (model.postImage != '')
             Padding(
               padding: const EdgeInsetsDirectional.only(top: 10.0),
@@ -335,7 +248,14 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(width: 5.0),
                 Expanded(
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      navigateTo(
+                        context,
+                        CommentsScreen(
+                          userModel: userModel,
+                        ),
+                      );
+                    },
                     child: Container(
                       width: double.infinity,
                       height: 40.0,

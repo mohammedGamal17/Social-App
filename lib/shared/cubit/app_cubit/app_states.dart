@@ -101,3 +101,7 @@ class GetPostsLoading extends AppStates {}
 class GetPostsSuccess extends AppStates {}
 
 class GetPostsFail extends AppStates {}
+
+class LikePostSuccess extends AppStates{}
+
+class LikePostFail extends AppStates{}

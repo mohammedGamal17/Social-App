@@ -61,7 +61,10 @@ class RegisterScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'SIGN UP',
-                                style: Theme.of(context).textTheme.headline5,
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .headline5,
                               ),
                               const SizedBox(height: 15.0),
                               textFormField(
@@ -69,8 +72,8 @@ class RegisterScreen extends StatelessWidget {
                                 validate: (value) {
                                   if (value.isEmpty ||
                                       value.length < 4 ||
-                                      value.length > 50) {
-                                    return 'Please Enter Yor First Name';
+                                      value.length > 50||!RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
+                                    return 'Please Enter Yor Valid First Name';
                                   }
                                   return null;
                                 },
@@ -88,9 +91,10 @@ class RegisterScreen extends StatelessWidget {
                                 validate: (value) {
                                   if (value.isEmpty ||
                                       value.length < 4 ||
-                                      value.length > 50) {
-                                    return 'Please Enter Yor Last Name';
+                                      value.length > 50||!RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
+                                    return 'Please Enter Your Valid Last Name';
                                   }
+
                                   return null;
                                 },
                                 labelText: 'Last Name',
@@ -106,7 +110,7 @@ class RegisterScreen extends StatelessWidget {
                                 validate: (value) {
                                   if (value.isEmpty ||
                                       value.length < 14 ||
-                                      value.length > 50) {
+                                      value.length > 50||!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
                                     return 'Please Enter Valid Email';
                                   }
                                   return null;
@@ -125,7 +129,7 @@ class RegisterScreen extends StatelessWidget {
                                 validate: (value) {
                                   if (value.isEmpty ||
                                       value.length < 11 ||
-                                      value.length > 50) {
+                                      value.length > 50||!RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$').hasMatch(value)) {
                                     return 'Please Enter Valid Phone';
                                   }
                                   return null;
@@ -164,48 +168,48 @@ class RegisterScreen extends StatelessWidget {
                               ),
                               state is! RegisterLoadingState
                                   ? InkWell(
-                                      onTap: () {
-                                        if (formKey.currentState!.validate()) {
-                                          cubit.userRegister(context,
-                                              email: email.text,
-                                              password: password.text,
-                                              name: name.text,
-                                              phone: phone.text,
-                                              lastName: lastName.text);
-                                        }
-                                      },
-                                      child: Center(
-                                        child: Container(
-                                          height: 40.0,
-                                          width: double.infinity,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                            color: buttonColor,
-                                            gradient: LinearGradient(
-                                              begin:
-                                                  AlignmentDirectional.topStart,
-                                              end: AlignmentDirectional
-                                                  .bottomEnd,
-                                              colors: [
-                                                HexColor('CCE5FF'),
-                                                HexColor('007FFF'),
-                                              ],
-                                            ),
-                                          ),
-                                          child: Text(
-                                            'SIGN UP'.capitalize!,
-                                            style: TextStyle(
-                                              fontSize: 16.0,
-                                              color: HexColor('004C99'),
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'RobotoCondensed',
-                                            ),
-                                          ),
-                                        ),
+                                onTap: () {
+                                  if (formKey.currentState!.validate()) {
+                                    cubit.userRegister(context,
+                                        email: email.text,
+                                        password: password.text,
+                                        name: name.text,
+                                        phone: phone.text,
+                                        lastName: lastName.text);
+                                  }
+                                },
+                                child: Center(
+                                  child: Container(
+                                    height: 40.0,
+                                    width: double.infinity,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(15.0),
+                                      color: buttonColor,
+                                      gradient: LinearGradient(
+                                        begin:
+                                        AlignmentDirectional.topStart,
+                                        end: AlignmentDirectional
+                                            .bottomEnd,
+                                        colors: [
+                                          HexColor('CCE5FF'),
+                                          HexColor('007FFF'),
+                                        ],
                                       ),
-                                    )
+                                    ),
+                                    child: Text(
+                                      'SIGN UP'.capitalize!,
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: HexColor('004C99'),
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'RobotoCondensed',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
                                   : Center(child: circularProgressIndicator()),
                             ],
                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:social/shared/components/components.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
@@ -30,7 +31,6 @@ class EditProfileScreen extends StatelessWidget {
           lastName.text = userModel.lastName!;
           phone.text = userModel.phone!;
           bio.text = userModel.bio!;
-
           return Scaffold(
             appBar: AppBar(
               title: const Text('Edit'),
@@ -114,7 +114,6 @@ class EditProfileScreen extends StatelessWidget {
                           const SizedBox(
                             height: 10.0,
                           ),
-
                           TextFormField(
                             controller: bio,
                             maxLines: 10,

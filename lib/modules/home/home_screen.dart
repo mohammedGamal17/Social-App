@@ -129,6 +129,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget postBuilderItem(context, PostModel model, UserModel userModel, index) {
     AppCubit cubit = AppCubit.get(context);
+    var comment = TextEditingController();
     return Card(
       shadowColor: const Color(0xFF0066CC),
       elevation: 3.0,
@@ -218,7 +219,7 @@ class HomeScreen extends StatelessWidget {
                     const Icon(FontAwesomeIcons.comment, size: 14.0),
                     const SizedBox(width: 5.0),
                     Text(
-                      '1',
+                      '${cubit.commentsCount[index]}',
                       style: Theme.of(context)
                           .textTheme
                           .subtitle2
@@ -247,27 +248,29 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 5.0),
                 Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      navigateTo(
-                        context,
-                        CommentsScreen(
-                          userModel: userModel,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: const Color(0xFFCCE5FF),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: TextFormField(
+                              controller: comment,
+                            ),
+                          ),
                         ),
-                      );
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 40.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: const Color(0xFFCCE5FF),
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Text('Write a Comment ..'),
-                      ),
-                    ),
+                        TextButton(
+                          onPressed: () {
+                            cubit.addComment(cubit.postsId[index],comment.text);
+                          }, child: const Text('Comment')),
+                    ],
                   ),
                 ),
                 Padding(

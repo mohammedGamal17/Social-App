@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 import 'package:hexcolor/hexcolor.dart';
 
 final textColor = HexColor('007FFF');

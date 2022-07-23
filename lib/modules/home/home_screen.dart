@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:social/layout/Layout_screen.dart';
 import 'package:social/models/post_model/post_model.dart';
 import 'package:social/modules/profile/profile_screen.dart';
 import 'package:social/modules/profile/user_screen.dart';
@@ -11,11 +13,13 @@ import 'package:social/shared/cubit/app_cubit/app_states.dart';
 
 import '../../models/user_model/user_model.dart';
 import '../../shared/components/components.dart';
-import '../comments/comments_screen.dart';
 import '../posts/post_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  final GlobalKey<RefreshIndicatorState> refIndKey =
+      GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,90 +43,102 @@ class HomeScreen extends StatelessWidget {
 
   Widget pageBuilder(context, UserModel model) {
     bool? isVerified = FirebaseAuth.instance.currentUser?.emailVerified;
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          if (isVerified == false)
-            alertMessage(
-              context,
-              data: 'You Need To Verification Your Account',
-              buttonText: 'Send ',
-              onPressed: () {
-                firebaseSendNotification(context);
-              },
-            ),
-          const SizedBox(height: 10.0),
-          Card(
-            shadowColor: const Color(0xFF0066CC),
-            elevation: 3.0,
-            color: const Color(0xFF66B2FF),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    children: [
-                      InkWell(
-                        child: CircleAvatar(
-                          radius: 25.0,
-                          backgroundImage: NetworkImage('${model.image}'),
-                        ),
-                        onTap: () {
-                          navigateTo(
-                            context,
-                            ProfileScreen(
-                              userModel: model,
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(width: 20.0),
-                      Expanded(
-                        child: InkWell(
+    return RefreshIndicator(
+      key: refIndKey,
+      strokeWidth: 4.0,
+      onRefresh: () async {
+        return Future<void>.delayed(
+          const Duration(seconds: 3),
+          () {
+            navigateTo(context, const LayOutScreen());
+          },
+        );
+      },
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            if (isVerified == false)
+              alertMessage(
+                context,
+                data: 'You Need To Verification Your Account',
+                buttonText: 'Send ',
+                onPressed: () {
+                  firebaseSendNotification(context);
+                },
+              ),
+            const SizedBox(height: 10.0),
+            Card(
+              shadowColor: const Color(0xFF0066CC),
+              elevation: 3.0,
+              color: const Color(0xFF66B2FF),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      children: [
+                        InkWell(
+                          child: CircleAvatar(
+                            radius: 25.0,
+                            backgroundImage: NetworkImage('${model.image}'),
+                          ),
                           onTap: () {
                             navigateTo(
                               context,
-                              PostScreen(
+                              ProfileScreen(
                                 userModel: model,
                               ),
                             );
                           },
-                          radius: 30.0,
-                          child: Container(
-                            width: double.infinity,
-                            height: 50.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30.0),
-                              color: const Color(0xFFCCE5FF),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(15.0),
-                              child: Text('What\'s on your mind ?'),
+                        ),
+                        const SizedBox(width: 20.0),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              navigateTo(
+                                context,
+                                PostScreen(
+                                  userModel: model,
+                                ),
+                              );
+                            },
+                            radius: 30.0,
+                            child: Container(
+                              width: double.infinity,
+                              height: 50.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30.0),
+                                color: const Color(0xFFCCE5FF),
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: Text('What\'s on your mind ?'),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) => postBuilderItem(
-              context,
-              AppCubit.get(context).posts[index],
-              AppCubit.get(context).userModel!,
-              index,
-            ),
-            separatorBuilder: (context, index) =>
-                separatorHorizontal(height: 0.1, opacity: 0.5),
-            itemCount: AppCubit.get(context).posts.length,
-          )
-        ],
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) => postBuilderItem(
+                context,
+                AppCubit.get(context).posts[index],
+                AppCubit.get(context).userModel!,
+                index,
+              ),
+              separatorBuilder: (context, index) =>
+                  separatorHorizontal(height: 0.1, opacity: 0.5),
+              itemCount: AppCubit.get(context).posts.length,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -188,6 +204,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
+          if (model.postImage != '') const SizedBox(height: 5.0),
           if (model.postImage != '')
             Padding(
               padding: const EdgeInsetsDirectional.only(top: 10.0),
@@ -196,106 +213,49 @@ class HomeScreen extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+          if (model.postImage != '')
+            separatorHorizontal(height: 0.5, opacity: 0.4),
+          const SizedBox(height: 10.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Row(
               children: [
-                Row(
-                  children: [
-                    const Icon(Icons.favorite, size: 14.0),
-                    const SizedBox(width: 5.0),
-                    Text(
-                      '${cubit.likesCount[index]}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          ?.copyWith(fontSize: 14.0),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                Row(
-                  children: [
-                    const Icon(FontAwesomeIcons.comment, size: 14.0),
-                    const SizedBox(width: 5.0),
-                    Text(
-                      '${cubit.commentsCount[index]}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          ?.copyWith(fontSize: 14.0),
-                    ),
-                  ],
+                const Icon(Icons.favorite, size: 14.0),
+                const SizedBox(width: 5.0),
+                Text(
+                  '${cubit.likesCount[index]}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2
+                      ?.copyWith(fontSize: 14.0),
                 ),
               ],
             ),
           ),
-          separatorHorizontal(height: 0.2, opacity: 0.3),
+          separatorHorizontal(height: 0.1, opacity: 0.1),
           Padding(
             padding: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                InkWell(
-                  child: CircleAvatar(
-                    radius: 20.0,
-                    backgroundImage: NetworkImage('${userModel.image}'),
-                  ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                child: InkWell(
                   onTap: () {
-                    navigateTo(context, ProfileScreen(userModel: userModel));
+                    cubit.likePost(cubit.postsId[index]);
                   },
-                ),
-                const SizedBox(width: 5.0),
-                Expanded(
-                  child: Row(
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: Container(
-                          width: double.infinity,
-                          height: 40.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: const Color(0xFFCCE5FF),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: TextFormField(
-                              controller: comment,
-                            ),
-                          ),
-                        ),
+                       Icon(cubit.likedIcon, size: 24.0),
+                      Text(
+                        'Like',
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2
+                            ?.copyWith(fontSize: 14.0),
                       ),
-                        TextButton(
-                          onPressed: () {
-                            cubit.addComment(cubit.postsId[index],comment.text);
-                          }, child: const Text('Comment')),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                  child: InkWell(
-                    onTap: () {
-                      cubit.likePost(cubit.postsId[index]);
-                    },
-                    child: Column(
-                      children: [
-                        AppCubit.get(context).isLike == true
-                            ? Icon(cubit.likedIcon, size: 24.0)
-                            : Icon(cubit.disLikeIcon, size: 24.0),
-                        Text(
-                          'Like',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2
-                              ?.copyWith(fontSize: 14.0),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
           const SizedBox(height: 5.0),

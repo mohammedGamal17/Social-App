@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:social/layout/Layout_screen.dart';
 import 'package:social/models/post_model/post_model.dart';
 import 'package:social/modules/profile/profile_screen.dart';
@@ -145,7 +143,6 @@ class HomeScreen extends StatelessWidget {
 
   Widget postBuilderItem(context, PostModel model, UserModel userModel, index) {
     AppCubit cubit = AppCubit.get(context);
-    var comment = TextEditingController();
     return Card(
       shadowColor: const Color(0xFF0066CC),
       elevation: 3.0,
@@ -244,7 +241,7 @@ class HomeScreen extends StatelessWidget {
                   },
                   child: Column(
                     children: [
-                       Icon(cubit.likedIcon, size: 24.0),
+                      Icon(cubit.likedIcon, size: 24.0),
                       Text(
                         'Like',
                         style: Theme.of(context)

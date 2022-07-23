@@ -63,6 +63,7 @@ flutter:
       fonts:
         - asset: assets/Fonts/RobotoCondensed.ttf
   assets:
+    - assets/Fonts/RobotoCondensed.ttf
     - assets/Images/loginpage.png
     - assets/Images/logo.png
     - assets/Images/regpage.png

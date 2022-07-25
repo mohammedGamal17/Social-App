@@ -232,27 +232,31 @@ class HomeScreen extends StatelessWidget {
           separatorHorizontal(height: 0.1, opacity: 0.1),
           Padding(
             padding: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                child: InkWell(
-                  onTap: () {
-                    cubit.likePost(cubit.postsId[index]);
-                  },
-                  child: Column(
-                    children: [
-                      Icon(cubit.likedIcon, size: 24.0),
-                      Text(
-                        'Like',
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle2
-                            ?.copyWith(fontSize: 14.0),
-                      ),
-                    ],
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                  child: InkWell(
+                    onTap: () {
+                      cubit.likePost(cubit.postsId[index]);
+                    },
+                    child: Column(
+                      children: [
+                        Icon(cubit.likedIcon, size: 24.0),
+                        Text(
+                          'Like',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.copyWith(fontSize: 14.0),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
           const SizedBox(height: 5.0),

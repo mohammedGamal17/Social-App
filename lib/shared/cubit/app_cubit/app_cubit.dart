@@ -585,4 +585,26 @@ class AppCubit extends Cubit<AppStates> {
       }
     });
   }
+
+  List<MessageModel> messages = [];
+
+  void getMessages({
+    required String receiverId,
+  }) {
+    final fireStore = FirebaseFirestore.instance;
+    final fireStoreDirection = fireStore.collection('users');
+    fireStoreDirection
+        .doc(uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .snapshots()
+        .listen((event) {
+      messages = [];
+      for (var element in event.docs) {
+        messages.add(MessageModel.fromJson(element.data()));
+      }
+      emit(GetMessagesSuccess());
+    });
+  }
 }

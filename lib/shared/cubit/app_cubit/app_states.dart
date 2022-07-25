@@ -20,6 +20,12 @@ class GetMessagesSuccess extends AppStates {}
 
 class GetMessagesFail extends AppStates {}
 
+class GetAllUsersLoading extends AppStates {}
+
+class GetAllUsersSuccess extends AppStates {}
+
+class GetAllUsersFail extends AppStates {}
+
 class GetNotificationsLoading extends AppStates {}
 
 class GetNotificationsSuccess extends AppStates {}

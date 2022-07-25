@@ -598,6 +598,7 @@ class AppCubit extends Cubit<AppStates> {
         .collection('chats')
         .doc(receiverId)
         .collection('messages')
+        .orderBy('messageTime')
         .snapshots()
         .listen((event) {
       messages = [];

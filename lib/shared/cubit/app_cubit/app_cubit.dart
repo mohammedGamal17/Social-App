@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:social/models/chat_model/chat_model.dart';
 import 'package:social/models/post_model/post_model.dart';
 import 'package:social/modules/messages/messages_screen.dart';
 import 'package:social/modules/notifications/notifications_screen.dart';
@@ -98,7 +99,7 @@ class AppCubit extends Cubit<AppStates> {
       const VideosScreen();
     }
     if (index == 2) {
-       MessagesScreen();
+      MessagesScreen();
     }
     if (index == 3) {
       const NotificationsScreen();
@@ -517,7 +518,7 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
- late List<UserModel> users ;
+  late List<UserModel> users;
 
   void getAllUsers() {
     users = [];
@@ -537,6 +538,50 @@ class AppCubit extends Cubit<AppStates> {
       emit(GetAllUsersFail());
       if (kDebugMode) {
         print('* Get All Users Fail * ${onError.toString()}');
+      }
+    });
+  }
+
+  void sendMessages({
+    required String messageText,
+    required String receiverId,
+    required String messageTime,
+  }) {
+    MessageModel model = MessageModel(
+      messageText: messageText,
+      senderId: uId!,
+      receiverId: receiverId,
+      messageTime: messageTime,
+    );
+    final fireStore = FirebaseFirestore.instance;
+    final fireStoreDirection = fireStore.collection('users');
+    fireStoreDirection
+        .doc(uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .add(model.toJson())
+        .then((value) {
+      emit(SendMessagesSuccess());
+    }).catchError((onError) {
+      emit(SendMessagesFail());
+      if (kDebugMode) {
+        print('* Send Messages Fail * ${onError.toString()}');
+      }
+    });
+
+    fireStoreDirection
+        .doc(receiverId)
+        .collection('chats')
+        .doc(uId)
+        .collection('messages')
+        .add(model.toJson())
+        .then((value) {
+      emit(SendMessagesSuccess());
+    }).catchError((onError) {
+      emit(SendMessagesFail());
+      if (kDebugMode) {
+        print('* Receiver Messages Fail * ${onError.toString()}');
       }
     });
   }

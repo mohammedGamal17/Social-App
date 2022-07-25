@@ -54,7 +54,7 @@ class AppCubit extends Cubit<AppStates> {
   List<Widget> screen = [
     HomeScreen(),
     const VideosScreen(),
-    const MessagesScreen(),
+    MessagesScreen(),
     const NotificationsScreen(),
     const SettingsScreen(),
   ];
@@ -98,7 +98,7 @@ class AppCubit extends Cubit<AppStates> {
       const VideosScreen();
     }
     if (index == 2) {
-      const MessagesScreen();
+       MessagesScreen();
     }
     if (index == 3) {
       const NotificationsScreen();
@@ -514,6 +514,30 @@ class AppCubit extends Cubit<AppStates> {
       emit(LikePostSuccess());
     }).catchError((onError) {
       emit(LikePostFail());
+    });
+  }
+
+ late List<UserModel> users ;
+
+  void getAllUsers() {
+    users = [];
+    final fireStore = FirebaseFirestore.instance;
+    final fireStoreDirection = fireStore.collection('users');
+    fireStoreDirection.get().then((value) {
+      emit(GetAllUsersLoading());
+      if (users.isEmpty) {
+        for (var element in value.docs) {
+          if (element.data()['uId'] != uId) {
+            users.add(UserModel.fromJson(element.data()));
+          }
+        }
+      }
+      emit(GetAllUsersSuccess());
+    }).catchError((onError) {
+      emit(GetAllUsersFail());
+      if (kDebugMode) {
+        print('* Get All Users Fail * ${onError.toString()}');
+      }
     });
   }
 }

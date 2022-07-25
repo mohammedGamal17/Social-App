@@ -44,48 +44,8 @@ class ChatScreen extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  Align(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: HexColor('66B2FF'),
-                        borderRadius: const BorderRadius.only(
-                          bottomRight: Radius.circular(10.0),
-                          topRight: Radius.circular(10.0),
-                          topLeft: Radius.circular(10.0),
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5.0, horizontal: 10.0),
-                      child: const Text(
-                        'Hello',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional.centerEnd,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: HexColor('004C99'),
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(10.0),
-                          topRight: Radius.circular(10.0),
-                          topLeft: Radius.circular(10.0),
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5.0, horizontal: 10.0),
-                      child: const Text(
-                        'Hello',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
+                  receiverMessages(),
+                  sendMessages(),
                   const Spacer(),
                   Container(
                     decoration: BoxDecoration(
@@ -110,11 +70,17 @@ class ChatScreen extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 50.0,
                           child: MaterialButton(
                             minWidth: 1.0,
-                            onPressed: () {},
+                            onPressed: () {
+                              AppCubit.get(context).sendMessages(
+                                messageText: messageController.text,
+                                receiverId: userModel.uId!,
+                                messageTime: DateTime.now().toString(),
+                              );
+                            },
                             color: iconColor,
                             child: const Icon(
                               Icons.send,
@@ -131,6 +97,52 @@ class ChatScreen extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget sendMessages() {
+    return Align(
+      alignment: AlignmentDirectional.centerEnd,
+      child: Container(
+        decoration: BoxDecoration(
+          color: HexColor('004C99'),
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(10.0),
+            topRight: Radius.circular(10.0),
+            topLeft: Radius.circular(10.0),
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+        child: const Text(
+          'Hello',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget receiverMessages() {
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: Container(
+        decoration: BoxDecoration(
+          color: HexColor('66B2FF'),
+          borderRadius: const BorderRadius.only(
+            bottomRight: Radius.circular(10.0),
+            topRight: Radius.circular(10.0),
+            topLeft: Radius.circular(10.0),
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+        child: const Text(
+          'Hello',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }

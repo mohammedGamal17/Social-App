@@ -1,18 +1,18 @@
-class ChatModel {
+class MessageModel {
   late String messageText;
   late String senderId;
   late String receiverId;
   late String messageTime;
 
-  ChatModel({
+  MessageModel({
     required this.messageText,
     required this.senderId,
     required this.receiverId,
     required this.messageTime,
   });
 
-  factory ChatModel.fromJson(Map<String, dynamic> json) {
-    return ChatModel(
+  factory MessageModel.fromJson(Map<String, dynamic> json) {
+    return MessageModel(
       messageText: json['messageText'],
       senderId: json['senderId'],
       receiverId: json['receiverId'],

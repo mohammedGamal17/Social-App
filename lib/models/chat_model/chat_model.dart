@@ -25,7 +25,7 @@ class ChatModel {
     data['messageText'] = messageText;
     data['senderId'] = senderId;
     data['receiverId'] = receiverId;
-    data['messageTime'] = messageTime;  
+    data['messageTime'] = messageTime;
     return data;
   }
 }

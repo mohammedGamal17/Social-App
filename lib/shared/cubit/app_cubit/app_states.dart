@@ -108,24 +108,34 @@ class GetPostsSuccess extends AppStates {}
 
 class GetPostsFail extends AppStates {}
 
-class LikePostSuccess extends AppStates{}
+class LikePostSuccess extends AppStates {}
 
-class LikePostFail extends AppStates{}
+class LikePostFail extends AppStates {}
 
-class GetLikesLoading extends AppStates{}
+class GetLikesLoading extends AppStates {}
 
-class GetLikesSuccess extends AppStates{}
+class GetLikesSuccess extends AppStates {}
 
-class GetLikesFail extends AppStates{}
+class GetLikesFail extends AppStates {}
 
-class GetCommentsLoading extends AppStates{}
+class GetCommentsLoading extends AppStates {}
 
-class GetCommentsSuccess extends AppStates{}
+class GetCommentsSuccess extends AppStates {}
 
-class GetCommentsFail extends AppStates{}
+class GetCommentsFail extends AppStates {}
 
-class AddCommentsLoading extends AppStates{}
+class AddCommentsLoading extends AppStates {}
 
-class AddCommentsSuccess extends AppStates{}
+class AddCommentsSuccess extends AppStates {}
 
-class AddCommentsFail extends AppStates{}
+class AddCommentsFail extends AppStates {}
+
+class SendMessagesSuccess extends AppStates {}
+
+class SendMessagesFail extends AppStates {}
+
+class GetAllMessagesLoading extends AppStates {}
+
+class GetAllMessagesSuccess extends AppStates {}
+
+class GetAllMessagesFail extends AppStates {}

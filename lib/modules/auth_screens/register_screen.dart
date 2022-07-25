@@ -210,7 +210,7 @@ class RegisterScreen extends StatelessWidget {
                                   ),
                                 ),
                               )
-                                  : Center(child: circularProgressIndicator()),
+                                  : Center(child: loadingAnimation(context)),
                             ],
                           ),
                         ),

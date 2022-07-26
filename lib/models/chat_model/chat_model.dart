@@ -3,12 +3,14 @@ class MessageModel {
   late String senderId;
   late String receiverId;
   late String messageTime;
+  String? image;
 
   MessageModel({
     required this.messageText,
     required this.senderId,
     required this.receiverId,
     required this.messageTime,
+    this.image,
   });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
@@ -17,6 +19,7 @@ class MessageModel {
       senderId: json['senderId'],
       receiverId: json['receiverId'],
       messageTime: json['messageTime'],
+      image: json['image'],
     );
   }
 
@@ -26,6 +29,7 @@ class MessageModel {
     data['senderId'] = senderId;
     data['receiverId'] = receiverId;
     data['messageTime'] = messageTime;
+    data['image'] = image;
     return data;
   }
 }

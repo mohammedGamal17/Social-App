@@ -137,7 +137,7 @@ class PostScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 15.0),
-                  if (cubit.postImage != null)
+                  if (state is PostImagePickedSuccess)
                     SizedBox(
                       height: 130,
                       child: Stack(
@@ -185,7 +185,12 @@ class PostScreen extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: const Text('Choose your picker'),
+                                    title: Row(
+                                      children: const [
+                                        Expanded(child: Text('Choose your picker')),
+                                        CloseButton(),
+                                      ],
+                                    ),
                                     shape: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(5.0),
                                     ),
@@ -245,19 +250,6 @@ class PostScreen extends StatelessWidget {
                               );
                             },
                             child: const Text('Add Photo'),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10.0),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          height: 40.0,
-                          child: OutlinedButton(
-                            onPressed: () {},
-                            child: const Text('# Tags'),
                           ),
                         ),
                       ),

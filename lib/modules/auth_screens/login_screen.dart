@@ -156,7 +156,7 @@ class LoginScreen extends StatelessWidget {
                                         ),
                                       ),
                                     )
-                                  : Center(child: loadingAnimation(context)),
+                                  : Center(child: loadingAnimation(context,text: '')),
                               const SizedBox(height: 10.0),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,

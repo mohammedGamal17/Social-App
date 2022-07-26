@@ -48,6 +48,7 @@ class AppCubit extends Cubit<AppStates> {
   File? profileImage;
   File? coverImage;
   File? postImage;
+  File? chatImage;
 
   final _picker = ImagePicker();
   final storage = FirebaseStorage.instance;
@@ -388,7 +389,9 @@ class AppCubit extends Cubit<AppStates> {
     );
     if (pickedFile != null) {
       postImage = File(pickedFile.path);
+      emit(PostImagePickedSuccess());
     } else {
+      emit(PostImagePickedFail());
       snack(context, content: 'No Image Selected', bgColor: Colors.red);
     }
   }
@@ -400,7 +403,9 @@ class AppCubit extends Cubit<AppStates> {
     );
     if (pickedFile != null) {
       postImage = File(pickedFile.path);
+      emit(PostImagePickedSuccess());
     } else {
+      emit(PostImagePickedFail());
       snack(context, content: 'No Image Selected', bgColor: Colors.red);
     }
   }
@@ -546,12 +551,16 @@ class AppCubit extends Cubit<AppStates> {
     required String messageText,
     required String receiverId,
     required String messageTime,
+    required String date,
+    String? chatImage,
   }) {
     MessageModel model = MessageModel(
       messageText: messageText,
       senderId: uId!,
       receiverId: receiverId,
       messageTime: messageTime,
+      image: chatImage ?? '',
+      date: date,
     );
     final fireStore = FirebaseFirestore.instance;
     final fireStoreDirection = fireStore.collection('users');
@@ -607,5 +616,80 @@ class AppCubit extends Cubit<AppStates> {
       }
       emit(GetMessagesSuccess());
     });
+  }
+
+  Future<void> chatImageGallery(context) async {
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 75,
+    );
+    if (pickedFile != null) {
+      chatImage = File(pickedFile.path);
+      emit(ChatImagePickedSuccess());
+    } else {
+      emit(ChatImagePickedFail());
+      snack(context, content: 'No Image Selected', bgColor: Colors.red);
+    }
+  }
+
+  Future<void> chatImageCamera(context) async {
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 75,
+    );
+    if (pickedFile != null) {
+      chatImage = File(pickedFile.path);
+      emit(ChatImagePickedSuccess());
+    } else {
+      emit(ChatImagePickedFail());
+      snack(context, content: 'No Image Selected', bgColor: Colors.red);
+    }
+  }
+
+  void uploadChatImage(
+    context, {
+    required String receiverId,
+    required String messageTime,
+    required String messageText,
+    required String date,
+  }) {
+    emit(UploadChatImageLoading());
+    storage
+        .ref()
+        .child('chats/${Uri.file(chatImage!.path).pathSegments.last}')
+        .putFile(chatImage!)
+        .then((value) {
+      value.ref.getDownloadURL().then((value) {
+        sendMessages(
+          receiverId: receiverId,
+          messageTime: messageTime,
+          messageText: messageText,
+          chatImage: value,
+          date: date,
+        );
+        emit(GetDownloadURLChatImageSuccess());
+      }).catchError((onError) {
+        emit(GetDownloadURLChatImageFail());
+        if (kDebugMode) {
+          print(' * Get Download URL Chat Image Fail * ${onError.toString()}');
+        }
+        snack(context,
+            content:
+                ' * Get Download URL Chat Image Fail * ${onError.toString()}');
+      });
+      emit(UploadChatImageSuccess());
+    }).catchError((onError) {
+      emit(UploadChatImageFail());
+      if (kDebugMode) {
+        print(' * Upload Chat Image Fail * ${onError.toString()}');
+      }
+      snack(context,
+          content: ' * Upload Chat Image Fail * ${onError.toString()}');
+    });
+  }
+
+  void removeChatPhoto() {
+    chatImage = null;
+    emit(PostImagePickedRemove());
   }
 }

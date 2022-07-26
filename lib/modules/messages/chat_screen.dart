@@ -56,6 +56,7 @@ class ChatScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: ListView.separated(
+                            physics: const BouncingScrollPhysics(),
                             itemBuilder: (context, index) {
                               var message = cubit.messages[index];
                               if (uId == message.senderId) {

@@ -3,6 +3,7 @@ class MessageModel {
   late String senderId;
   late String receiverId;
   late String messageTime;
+  late String date;
   String? image;
 
   MessageModel({
@@ -10,6 +11,7 @@ class MessageModel {
     required this.senderId,
     required this.receiverId,
     required this.messageTime,
+    required this.date,
     this.image,
   });
 
@@ -20,6 +22,7 @@ class MessageModel {
       receiverId: json['receiverId'],
       messageTime: json['messageTime'],
       image: json['image'],
+        date:json['date'],
     );
   }
 
@@ -30,6 +33,7 @@ class MessageModel {
     data['receiverId'] = receiverId;
     data['messageTime'] = messageTime;
     data['image'] = image;
+    data['date'] = date;
     return data;
   }
 }

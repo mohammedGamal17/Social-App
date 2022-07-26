@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:intl/intl.dart';
 import 'package:social/models/chat_model/chat_model.dart';
 
 import 'package:social/models/user_model/user_model.dart';
@@ -49,10 +48,10 @@ class ChatScreen extends StatelessWidget {
               children: [
                 cubit.messages.isNotEmpty
                     ? Expanded(
-                      child: ListView.separated(
+                        child: ListView.separated(
                           itemBuilder: (context, index) {
                             var message = cubit.messages[index];
-                            if(uId == message.senderId) {
+                            if (uId == message.senderId) {
                               return sendMessages(message);
                             }
                             return receiverMessages(message);
@@ -61,7 +60,7 @@ class ChatScreen extends StatelessWidget {
                               const SizedBox(height: 10.0),
                           itemCount: cubit.messages.length,
                         ),
-                    )
+                      )
                     : loadingAnimation(context),
                 Container(
                   decoration: BoxDecoration(
@@ -130,8 +129,9 @@ class ChatScreen extends StatelessWidget {
                 topLeft: Radius.circular(10.0),
               ),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-            child:  Text(
+            padding:
+                const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+            child: Text(
               model.messageText,
               style: const TextStyle(
                 color: Colors.white,
@@ -157,8 +157,9 @@ class ChatScreen extends StatelessWidget {
                 topLeft: Radius.circular(10.0),
               ),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-            child:  Text(
+            padding:
+                const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+            child: Text(
               model.messageText,
               style: const TextStyle(
                 color: Colors.white,

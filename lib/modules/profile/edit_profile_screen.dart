@@ -64,7 +64,9 @@ class EditProfileScreen extends StatelessWidget {
                             validate: (value) {
                               if (value.isEmpty ||
                                   value.length < 4 ||
-                                  value.length > 50) {
+                                  value.length > 50||
+                                  !RegExp(r'^[a-z A-Z]+$')
+                                      .hasMatch(value)) {
                                 return 'Please Enter Yor First Name';
                               }
                               return null;
@@ -83,7 +85,9 @@ class EditProfileScreen extends StatelessWidget {
                             validate: (value) {
                               if (value.isEmpty ||
                                   value.length < 4 ||
-                                  value.length > 50) {
+                                  value.length > 50||
+                                  !RegExp(r'^[a-z A-Z]+$')
+                                      .hasMatch(value)) {
                                 return 'Please Enter Yor Last Name';
                               }
                               return null;
@@ -101,7 +105,9 @@ class EditProfileScreen extends StatelessWidget {
                             validate: (value) {
                               if (value.isEmpty ||
                                   value.length < 11 ||
-                                  value.length > 50) {
+                                  value.length > 50||
+                                  !RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$')
+                                      .hasMatch(value)) {
                                 return 'Please Enter Valid Phone';
                               }
                               return null;

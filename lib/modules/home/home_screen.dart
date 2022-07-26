@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
     bool? isVerified = FirebaseAuth.instance.currentUser?.emailVerified;
     return RefreshIndicator(
       key: refIndKey,
-      strokeWidth: 4.0,
+      strokeWidth: 2.0,
       onRefresh: () async {
         return Future<void>.delayed(
           const Duration(seconds: 3),

@@ -50,10 +50,6 @@ class ProfileImagePickedSuccess extends AppStates {}
 
 class ProfileImagePickedFail extends AppStates {}
 
-class CoverImagePickedSuccess extends AppStates {}
-
-class CoverImagePickedFail extends AppStates {}
-
 class UploadProfileImageLoading extends AppStates {}
 
 class UploadProfileImageSuccess extends AppStates {}
@@ -63,6 +59,10 @@ class UploadProfileImageFail extends AppStates {}
 class GetDownloadURLProfileImageSuccess extends AppStates {}
 
 class GetDownloadURLProfileImageFail extends AppStates {}
+
+class CoverImagePickedSuccess extends AppStates {}
+
+class CoverImagePickedFail extends AppStates {}
 
 class UploadCoverImageLoading extends AppStates {}
 
@@ -139,3 +139,17 @@ class GetAllMessagesLoading extends AppStates {}
 class GetAllMessagesSuccess extends AppStates {}
 
 class GetAllMessagesFail extends AppStates {}
+
+class ChatImagePickedSuccess extends AppStates {}
+
+class ChatImagePickedFail extends AppStates {}
+
+class UploadChatImageLoading extends AppStates {}
+
+class UploadChatImageSuccess extends AppStates {}
+
+class UploadChatImageFail extends AppStates {}
+
+class GetDownloadURLChatImageSuccess extends AppStates {}
+
+class GetDownloadURLChatImageFail extends AppStates {}

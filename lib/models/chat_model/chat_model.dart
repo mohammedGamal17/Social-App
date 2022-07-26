@@ -22,7 +22,7 @@ class MessageModel {
       receiverId: json['receiverId'],
       messageTime: json['messageTime'],
       image: json['image'],
-        date:json['date'],
+      date: json['date'],
     );
   }
 

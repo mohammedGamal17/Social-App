@@ -287,7 +287,9 @@ Widget alertMessage(
   );
 }
 
-Widget loadingAnimation(context) {
+Widget loadingAnimation(context,{
+  String text = 'Loading, Please Wait ...',
+}) {
   return Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -300,7 +302,7 @@ Widget loadingAnimation(context) {
         ),
         const SizedBox(height: 10.0),
         Text(
-          'Loading, Please Wait ...',
+          text,
           style: Theme.of(context).textTheme.bodyText1,
         )
       ],

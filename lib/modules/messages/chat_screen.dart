@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:social/models/chat_model/chat_model.dart';
 
 import 'package:social/models/user_model/user_model.dart';
@@ -27,6 +30,8 @@ class ChatScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           AppCubit cubit = AppCubit.get(context);
+          DateTime now = DateTime.now();
+          String formattedDate = DateFormat('yyyy-MM-dd – hh:mm a').format(now);
           return Scaffold(
             appBar: AppBar(
               title: Row(
@@ -48,20 +53,56 @@ class ChatScreen extends StatelessWidget {
               children: [
                 cubit.messages.isNotEmpty
                     ? Expanded(
-                        child: ListView.separated(
-                          itemBuilder: (context, index) {
-                            var message = cubit.messages[index];
-                            if (uId == message.senderId) {
-                              return sendMessages(message);
-                            }
-                            return receiverMessages(message);
-                          },
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 10.0),
-                          itemCount: cubit.messages.length,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: ListView.separated(
+                            itemBuilder: (context, index) {
+                              var message = cubit.messages[index];
+                              if (uId == message.senderId) {
+                                return sendMessages(message, context);
+                              }
+                              return receiverMessages(message, context);
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 10.0),
+                            itemCount: cubit.messages.length,
+                          ),
                         ),
                       )
                     : loadingAnimation(context),
+                if (state is UploadChatImageLoading)
+                  loadingAnimation(context, text: 'Uploading ...'),
+                if (state is ChatImagePickedSuccess)
+                  SizedBox(
+                    height: 130,
+                    child: Stack(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      children: [
+                        Stack(
+                          alignment: AlignmentDirectional.topEnd,
+                          children: [
+                            Align(
+                              alignment: AlignmentDirectional.topCenter,
+                              child: SizedBox(
+                                child: Image(
+                                  image: FileImage(cubit.chatImage!),
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                cubit.removeChatPhoto();
+                              },
+                              icon: const Icon(Icons.close),
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -76,6 +117,7 @@ class ChatScreen extends StatelessWidget {
                         child: TextFormField(
                           key: formKey,
                           maxLines: 1,
+                          autofocus: false,
                           controller: messageController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -90,11 +132,107 @@ class ChatScreen extends StatelessWidget {
                         child: MaterialButton(
                           minWidth: 1.0,
                           onPressed: () {
-                            AppCubit.get(context).sendMessages(
-                              messageText: messageController.text,
-                              receiverId: userModel.uId!,
-                              messageTime: DateTime.now().toString(),
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Row(
+                                    children: const [
+                                      Expanded(
+                                          child: Text('Choose your picker')),
+                                      CloseButton(),
+                                    ],
+                                  ),
+                                  shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                  actions: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: () {
+                                              cubit.chatImageCamera(context);
+                                            },
+                                            child: Column(
+                                              children: [
+                                                const Icon(
+                                                  Icons.camera_alt_outlined,
+                                                ),
+                                                const SizedBox(height: 5.0),
+                                                Text(
+                                                  'Camera',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText2,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10.0),
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: () {
+                                              cubit.chatImageGallery(context);
+                                            },
+                                            child: Column(
+                                              children: [
+                                                const Icon(
+                                                  Icons.image,
+                                                ),
+                                                const SizedBox(
+                                                  height: 5.0,
+                                                ),
+                                                Text(
+                                                  'Gallery',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText2,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                );
+                              },
                             );
+                          },
+                          color: iconColor,
+                          child: const Icon(
+                            Icons.image,
+                            color: Colors.white,
+                            size: 20.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 5.0),
+                      SizedBox(
+                        height: 50.0,
+                        child: MaterialButton(
+                          minWidth: 1.0,
+                          onPressed: () {
+                            if (cubit.chatImage == null) {
+                              AppCubit.get(context).sendMessages(
+                                messageText: messageController.text,
+                                receiverId: userModel.uId!,
+                                messageTime: DateTime.now().toString(),
+                                date: formattedDate.toString(),
+                              );
+                            } else {
+                              AppCubit.get(context).uploadChatImage(
+                                messageText: messageController.text,
+                                receiverId: userModel.uId!,
+                                messageTime: DateTime.now().toString(),
+                                date: formattedDate.toString(),
+                                context,
+                              );
+                            }
+                            messageController.clear();
+                            cubit.chatImage = '' as File?;
                           },
                           color: iconColor,
                           child: const Icon(
@@ -115,10 +253,12 @@ class ChatScreen extends StatelessWidget {
     );
   }
 
-  Widget sendMessages(MessageModel model) {
+  Widget sendMessages(MessageModel model, context) {
     return Align(
       alignment: AlignmentDirectional.centerEnd,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Container(
             decoration: BoxDecoration(
@@ -131,22 +271,53 @@ class ChatScreen extends StatelessWidget {
             ),
             padding:
                 const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-            child: Text(
-              model.messageText,
-              style: const TextStyle(
-                color: Colors.white,
-              ),
+            child: Column(
+              children: [
+                Text(
+                  model.messageText,
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                if (model.image != '')
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Image(
+                            image: NetworkImage('${model.image}'),
+                            fit: BoxFit.fill,
+                          );
+                        },
+                      );
+                    },
+                    child: Image(
+                      image: NetworkImage('${model.image}'),
+                      fit: BoxFit.cover,
+                      width: 200,
+                      height: 300,
+                    ),
+                  ),
+              ],
             ),
           ),
+          const SizedBox(height: 3.0),
+          Text(
+            model.date,
+            style: const TextStyle(fontSize: 9.0),
+          )
         ],
       ),
     );
   }
 
-  Widget receiverMessages(MessageModel model) {
+  Widget receiverMessages(MessageModel model, context) {
     return Align(
       alignment: AlignmentDirectional.centerStart,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             decoration: BoxDecoration(
@@ -159,13 +330,42 @@ class ChatScreen extends StatelessWidget {
             ),
             padding:
                 const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-            child: Text(
-              model.messageText,
-              style: const TextStyle(
-                color: Colors.white,
-              ),
+            child: Column(
+              children: [
+                Text(
+                  model.messageText,
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                if (model.image != '')
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Image(
+                            image: NetworkImage('${model.image}'),
+                            fit: BoxFit.fill,
+                          );
+                        },
+                      );
+                    },
+                    child: Image(
+                      image: NetworkImage('${model.image}'),
+                      fit: BoxFit.cover,
+                      width: 200,
+                      height: 300,
+                    ),
+                  ),
+              ],
             ),
           ),
+          const SizedBox(height: 3.0),
+          Text(
+            model.date,
+            style: const TextStyle(fontSize: 9.0),
+          )
         ],
       ),
     );

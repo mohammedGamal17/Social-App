@@ -215,7 +215,7 @@ class RegisterScreen extends StatelessWidget {
                                         ),
                                       ),
                                     )
-                                  : Center(child: loadingAnimation(context)),
+                                  : Center(child: loadingAnimation(context,text: '')),
                             ],
                           ),
                         ),

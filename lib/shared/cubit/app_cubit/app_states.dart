@@ -102,6 +102,20 @@ class UploadPostImageSuccess extends AppStates {}
 
 class UploadPostImageFail extends AppStates {}
 
+class PostVideoPickedSuccess extends AppStates {}
+
+class PostVideoPickedFail extends AppStates {}
+
+class UploadPostVideoLoading extends AppStates {}
+
+class UploadPostVideoSuccess extends AppStates {}
+
+class UploadPostVideoFail extends AppStates {}
+
+class GetDownloadURLPostVideoSuccess extends AppStates {}
+
+class GetDownloadURLPostVideoFail extends AppStates {}
+
 class GetPostsLoading extends AppStates {}
 
 class GetPostsSuccess extends AppStates {}

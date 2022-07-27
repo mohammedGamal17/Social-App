@@ -82,6 +82,7 @@ class ThemeService {
       circularTrackColor: lightBackground,
       color: darkBackground,
     ),
+    backgroundColor:  const Color(0xFF66B2FF),
   );
   final ThemeData dark = ThemeData(
     scaffoldBackgroundColor: darkBackground,
@@ -150,18 +151,19 @@ class ThemeService {
       ),
       subtitle2: TextStyle(
         fontSize: 14.0,
-        color: darkBackground,
+        color: lightBackground,
         fontFamily: 'RobotoCondensed',
       ),
       headline1: TextStyle(
         fontSize: 14.0,
-        color: darkBackground.withOpacity(0.6),
+        color: lightBackground.withOpacity(0.6),
         fontFamily: 'RobotoCondensed',
       ),
     ),
     iconTheme: IconThemeData(
       color: iconColor,
     ),
+    backgroundColor: const Color(0xFF003366),
   );
 
   final _getStorage = GetStorage();

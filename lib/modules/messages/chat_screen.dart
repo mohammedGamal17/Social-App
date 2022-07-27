@@ -50,330 +50,333 @@ class ChatScreen extends StatelessWidget {
                 ],
               ),
             ),
-            body: Column(
-              children: [
-                cubit.messages.isNotEmpty
-                    ? Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              var message = cubit.messages[index];
-                              if (uId == message.senderId) {
-                                return sendMessages(message, context);
-                              }
-                              return receiverMessages(message, context);
+            body: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                children: [
+                  cubit.messages.isNotEmpty
+                      ? Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                var message = cubit.messages[index];
+                                if (uId == message.senderId) {
+                                  return sendMessages(message, context);
+                                }
+                                return receiverMessages(message, context);
+                              },
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(height: 10.0),
+                              itemCount: cubit.messages.length,
+                            ),
+                          ),
+                        )
+                      : loadingAnimation(context),
+                  if (state is UploadChatImageLoading)
+                    loadingAnimation(context, text: 'Uploading ...'),
+                  if (state is ChatImagePickedSuccess)
+                    SizedBox(
+                      height: 130,
+                      child: Stack(
+                        alignment: AlignmentDirectional.bottomCenter,
+                        children: [
+                          Stack(
+                            alignment: AlignmentDirectional.topEnd,
+                            children: [
+                              Align(
+                                alignment: AlignmentDirectional.topCenter,
+                                child: SizedBox(
+                                  child: Image(
+                                    image: FileImage(cubit.chatImage!),
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  cubit.removeChatPhoto();
+                                },
+                                icon: const Icon(Icons.close),
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (state is UploadChatVideoLoading)
+                    loadingAnimation(context, text: 'Uploading ...'),
+                  if (state is ChatVideoPickedSuccess)
+                    SizedBox(
+                      height: 130,
+                      child: Stack(
+                        alignment: AlignmentDirectional.bottomCenter,
+                        children: [
+                          Stack(
+                            alignment: AlignmentDirectional.topEnd,
+                            children: [
+                              Align(
+                                alignment: AlignmentDirectional.topCenter,
+                                child: SizedBox(
+                                  child: Image(
+                                    image: FileImage(cubit.chatVideo!),
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  cubit.removeChatVideo();
+                                },
+                                icon: const Icon(Icons.close),
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: iconColor.withOpacity(0.2),
+                      ),
+                      borderRadius: BorderRadius.circular(7.5),
+                    ),
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            key: formKey,
+                            maxLines: 1,
+                            autofocus: false,
+                            controller: messageController,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Type Your Message ...',
+                              hintStyle: Theme.of(context).textTheme.bodyText2,
+                            ),
+                            style: Theme.of(context).textTheme.bodyText2,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50.0,
+                          child: MaterialButton(
+                            minWidth: 1.0,
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Row(
+                                      children: const [
+                                        Expanded(
+                                            child: Text('Choose your picker')),
+                                        CloseButton(),
+                                      ],
+                                    ),
+                                    shape: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    actions: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: InkWell(
+                                              onTap: () {
+                                                cubit.chatImageCamera(context);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.camera_alt_outlined,
+                                                  ),
+                                                  const SizedBox(height: 5.0),
+                                                  Text(
+                                                    'Camera',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10.0),
+                                          Expanded(
+                                            child: InkWell(
+                                              onTap: () {
+                                                cubit.chatImageGallery(context);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.image,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5.0,
+                                                  ),
+                                                  Text(
+                                                    'Gallery',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
                             },
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: 10.0),
-                            itemCount: cubit.messages.length,
+                            color: iconColor,
+                            child: const Icon(
+                              Icons.image,
+                              color: Colors.white,
+                              size: 20.0,
+                            ),
                           ),
                         ),
-                      )
-                    : loadingAnimation(context),
-                if (state is UploadChatImageLoading)
-                  loadingAnimation(context, text: 'Uploading ...'),
-                if (state is ChatImagePickedSuccess)
-                  SizedBox(
-                    height: 130,
-                    child: Stack(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      children: [
-                        Stack(
-                          alignment: AlignmentDirectional.topEnd,
-                          children: [
-                            Align(
-                              alignment: AlignmentDirectional.topCenter,
-                              child: SizedBox(
-                                child: Image(
-                                  image: FileImage(cubit.chatImage!),
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                        const SizedBox(width: 5.0),
+                        SizedBox(
+                          height: 50.0,
+                          child: MaterialButton(
+                            minWidth: 1.0,
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Row(
+                                      children: const [
+                                        Expanded(
+                                            child: Text('Choose your picker')),
+                                        CloseButton(),
+                                      ],
+                                    ),
+                                    shape: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    actions: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: InkWell(
+                                              onTap: () {
+                                                cubit.chatCameraVideo(context);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.camera_alt_outlined,
+                                                  ),
+                                                  const SizedBox(height: 5.0),
+                                                  Text(
+                                                    'Camera',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10.0),
+                                          Expanded(
+                                            child: InkWell(
+                                              onTap: () {
+                                                cubit.chatGalleryVideo(context);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.image,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5.0,
+                                                  ),
+                                                  Text(
+                                                    'Gallery',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            color: iconColor,
+                            child: const Icon(
+                              Icons.ondemand_video_rounded,
+                              color: Colors.white,
+                              size: 20.0,
                             ),
-                            IconButton(
-                              onPressed: () {
-                                cubit.removeChatPhoto();
-                              },
-                              icon: const Icon(Icons.close),
-                              color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(width: 5.0),
+                        SizedBox(
+                          height: 50.0,
+                          child: MaterialButton(
+                            minWidth: 1.0,
+                            onPressed: () {
+                              if (cubit.chatImage == null &&
+                                  cubit.chatVideo == null) {
+                                AppCubit.get(context).sendMessages(
+                                  messageText: messageController.text,
+                                  receiverId: userModel.uId!,
+                                  messageTime: DateTime.now().toString(),
+                                  date: formattedDate.toString(),
+                                );
+                              } else if (cubit.chatImage != null) {
+                                AppCubit.get(context).uploadChatImage(
+                                  messageText: messageController.text,
+                                  receiverId: userModel.uId!,
+                                  messageTime: DateTime.now().toString(),
+                                  date: formattedDate.toString(),
+                                  context,
+                                );
+                              } else if (cubit.chatVideo != null) {
+                                AppCubit.get(context).uploadChatVideo(
+                                  messageText: messageController.text,
+                                  receiverId: userModel.uId!,
+                                  messageTime: DateTime.now().toString(),
+                                  date: formattedDate.toString(),
+                                  context,
+                                );
+                              }
+                              messageController.clear();
+                              cubit.chatImage = '' as File?;
+                              cubit.chatVideo = '' as File?;
+                            },
+                            color: iconColor,
+                            child: const Icon(
+                              Icons.send,
+                              color: Colors.white,
+                              size: 20.0,
                             ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                if (state is UploadChatVideoLoading)
-                  loadingAnimation(context, text: 'Uploading ...'),
-                if (state is ChatVideoPickedSuccess)
-                  SizedBox(
-                    height: 130,
-                    child: Stack(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      children: [
-                        Stack(
-                          alignment: AlignmentDirectional.topEnd,
-                          children: [
-                            Align(
-                              alignment: AlignmentDirectional.topCenter,
-                              child: SizedBox(
-                                child: Image(
-                                  image: FileImage(cubit.chatVideo!),
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                cubit.removeChatVideo();
-                              },
-                              icon: const Icon(Icons.close),
-                              color: Colors.grey,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: iconColor.withOpacity(0.2),
-                    ),
-                    borderRadius: BorderRadius.circular(7.5),
-                  ),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          key: formKey,
-                          maxLines: 1,
-                          autofocus: false,
-                          controller: messageController,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Type Your Message ...',
-                            hintStyle: Theme.of(context).textTheme.bodyText2,
-                          ),
-                          style: Theme.of(context).textTheme.bodyText2,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50.0,
-                        child: MaterialButton(
-                          minWidth: 1.0,
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Row(
-                                    children: const [
-                                      Expanded(
-                                          child: Text('Choose your picker')),
-                                      CloseButton(),
-                                    ],
-                                  ),
-                                  shape: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  actions: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: InkWell(
-                                            onTap: () {
-                                              cubit.chatImageCamera(context);
-                                            },
-                                            child: Column(
-                                              children: [
-                                                const Icon(
-                                                  Icons.camera_alt_outlined,
-                                                ),
-                                                const SizedBox(height: 5.0),
-                                                Text(
-                                                  'Camera',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText2,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10.0),
-                                        Expanded(
-                                          child: InkWell(
-                                            onTap: () {
-                                              cubit.chatImageGallery(context);
-                                            },
-                                            child: Column(
-                                              children: [
-                                                const Icon(
-                                                  Icons.image,
-                                                ),
-                                                const SizedBox(
-                                                  height: 5.0,
-                                                ),
-                                                Text(
-                                                  'Gallery',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText2,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          color: iconColor,
-                          child: const Icon(
-                            Icons.image,
-                            color: Colors.white,
-                            size: 20.0,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 5.0),
-                      SizedBox(
-                        height: 50.0,
-                        child: MaterialButton(
-                          minWidth: 1.0,
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Row(
-                                    children: const [
-                                      Expanded(
-                                          child: Text('Choose your picker')),
-                                      CloseButton(),
-                                    ],
-                                  ),
-                                  shape: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  actions: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: InkWell(
-                                            onTap: () {
-                                              cubit.chatCameraVideo(context);
-                                            },
-                                            child: Column(
-                                              children: [
-                                                const Icon(
-                                                  Icons.camera_alt_outlined,
-                                                ),
-                                                const SizedBox(height: 5.0),
-                                                Text(
-                                                  'Camera',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText2,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10.0),
-                                        Expanded(
-                                          child: InkWell(
-                                            onTap: () {
-                                              cubit.chatGalleryVideo(context);
-                                            },
-                                            child: Column(
-                                              children: [
-                                                const Icon(
-                                                  Icons.image,
-                                                ),
-                                                const SizedBox(
-                                                  height: 5.0,
-                                                ),
-                                                Text(
-                                                  'Gallery',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText2,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          color: iconColor,
-                          child: const Icon(
-                            Icons.ondemand_video_rounded,
-                            color: Colors.white,
-                            size: 20.0,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 5.0),
-                      SizedBox(
-                        height: 50.0,
-                        child: MaterialButton(
-                          minWidth: 1.0,
-                          onPressed: () {
-                            if (cubit.chatImage == null &&
-                                cubit.chatVideo == null) {
-                              AppCubit.get(context).sendMessages(
-                                messageText: messageController.text,
-                                receiverId: userModel.uId!,
-                                messageTime: DateTime.now().toString(),
-                                date: formattedDate.toString(),
-                              );
-                            } else if (cubit.chatImage != null) {
-                              AppCubit.get(context).uploadChatImage(
-                                messageText: messageController.text,
-                                receiverId: userModel.uId!,
-                                messageTime: DateTime.now().toString(),
-                                date: formattedDate.toString(),
-                                context,
-                              );
-                            } else if (cubit.chatVideo != null) {
-                              AppCubit.get(context).uploadChatVideo(
-                                messageText: messageController.text,
-                                receiverId: userModel.uId!,
-                                messageTime: DateTime.now().toString(),
-                                date: formattedDate.toString(),
-                                context,
-                              );
-                            }
-                            messageController.clear();
-                            cubit.chatImage = '' as File?;
-                            cubit.chatVideo = '' as File?;
-                          },
-                          color: iconColor,
-                          child: const Icon(
-                            Icons.send,
-                            color: Colors.white,
-                            size: 20.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
@@ -528,18 +531,18 @@ class ChatScreen extends StatelessWidget {
                       Expanded(
                         child: IconButton(
                           onPressed: () {
-                            controller?.play();
+                            controller?.pause();
                           },
-                          icon:
-                          const Icon(Icons.play_arrow, color: Colors.white),
+                          icon: const Icon(Icons.pause, color: Colors.white),
                         ),
                       ),
                       Expanded(
                         child: IconButton(
                           onPressed: () {
-                            controller?.pause();
+                            controller?.play();
                           },
-                          icon: const Icon(Icons.pause, color: Colors.white),
+                          icon:
+                          const Icon(Icons.play_arrow, color: Colors.white),
                         ),
                       ),
                     ],

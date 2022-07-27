@@ -153,3 +153,17 @@ class UploadChatImageFail extends AppStates {}
 class GetDownloadURLChatImageSuccess extends AppStates {}
 
 class GetDownloadURLChatImageFail extends AppStates {}
+
+class ChatVideoPickedSuccess extends AppStates {}
+
+class ChatVideoPickedFail extends AppStates {}
+
+class UploadChatVideoLoading extends AppStates {}
+
+class UploadChatVideoSuccess extends AppStates {}
+
+class UploadChatVideoFail extends AppStates {}
+
+class GetDownloadURLChatVideoSuccess extends AppStates {}
+
+class GetDownloadURLChatVideoFail extends AppStates {}

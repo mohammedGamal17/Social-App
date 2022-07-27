@@ -8,6 +8,7 @@ import 'package:social/modules/profile/profile_screen.dart';
 import 'package:social/modules/profile/user_screen.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../models/user_model/user_model.dart';
 import '../../shared/components/components.dart';
@@ -143,6 +144,8 @@ class HomeScreen extends StatelessWidget {
 
   Widget postBuilderItem(context, PostModel model, UserModel userModel, index) {
     AppCubit cubit = AppCubit.get(context);
+    VideoPlayerController? controller;
+    controller = VideoPlayerController.network('${model.postVideo}')..initialize();
     return Card(
       shadowColor: const Color(0xFF0066CC),
       elevation: 3.0,
@@ -201,7 +204,8 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          if (model.postImage != '') const SizedBox(height: 5.0),
+          if (model.postImage != '')
+            const SizedBox(height: 5.0),
           if (model.postImage != '')
             Padding(
               padding: const EdgeInsetsDirectional.only(top: 10.0),
@@ -211,6 +215,43 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           if (model.postImage != '')
+            separatorHorizontal(height: 0.5, opacity: 0.4),
+          if (model.postVideo != '')
+            const SizedBox(height: 5.0),
+          if (model.postVideo != '')
+            Padding(
+              padding: const EdgeInsetsDirectional.only(top: 10.0),
+              child: Column(
+                children: [
+                  AspectRatio(
+                    aspectRatio: controller.value.aspectRatio,
+                    child: VideoPlayer(controller),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () {
+                            controller?.pause();
+                          },
+                          icon: const Icon(Icons.pause, color: Colors.white),
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () {
+                            controller?.play();
+                          },
+                          icon:
+                          const Icon(Icons.play_arrow, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          if (model.postVideo != '')
             separatorHorizontal(height: 0.5, opacity: 0.4),
           const SizedBox(height: 10.0),
           Padding(

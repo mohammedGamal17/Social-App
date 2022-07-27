@@ -62,7 +62,6 @@ class AppCubit extends Cubit<AppStates> {
   ];
   List<String> title = [
     'News Feed',
-    'Videos',
     'Messages',
     'Notifications',
     'Settings',
@@ -72,10 +71,6 @@ class AppCubit extends Cubit<AppStates> {
     const BottomNavigationBarItem(
       icon: Icon(Icons.home_outlined),
       label: 'Home',
-    ),
-    const BottomNavigationBarItem(
-      icon: Icon(FontAwesomeIcons.video),
-      label: 'Videos',
     ),
     const BottomNavigationBarItem(
       icon: Icon(FontAwesomeIcons.message),

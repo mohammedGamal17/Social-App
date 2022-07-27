@@ -12,6 +12,7 @@ import 'package:social/shared/components/components.dart';
 import 'package:social/shared/components/constants.dart';
 
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../shared/cubit/app_cubit/app_states.dart';
 import '../../shared/style/colors.dart';
@@ -95,6 +96,39 @@ class ChatScreen extends StatelessWidget {
                             IconButton(
                               onPressed: () {
                                 cubit.removeChatPhoto();
+                              },
+                              icon: const Icon(Icons.close),
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                if (state is UploadChatVideoLoading)
+                  loadingAnimation(context, text: 'Uploading ...'),
+                if (state is ChatVideoPickedSuccess)
+                  SizedBox(
+                    height: 130,
+                    child: Stack(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      children: [
+                        Stack(
+                          alignment: AlignmentDirectional.topEnd,
+                          children: [
+                            Align(
+                              alignment: AlignmentDirectional.topCenter,
+                              child: SizedBox(
+                                child: Image(
+                                  image: FileImage(cubit.chatVideo!),
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                cubit.removeChatVideo();
                               },
                               icon: const Icon(Icons.close),
                               color: Colors.grey,
@@ -216,15 +250,107 @@ class ChatScreen extends StatelessWidget {
                         child: MaterialButton(
                           minWidth: 1.0,
                           onPressed: () {
-                            if (cubit.chatImage == null) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Row(
+                                    children: const [
+                                      Expanded(
+                                          child: Text('Choose your picker')),
+                                      CloseButton(),
+                                    ],
+                                  ),
+                                  shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                  actions: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: () {
+                                              cubit.chatCameraVideo(context);
+                                            },
+                                            child: Column(
+                                              children: [
+                                                const Icon(
+                                                  Icons.camera_alt_outlined,
+                                                ),
+                                                const SizedBox(height: 5.0),
+                                                Text(
+                                                  'Camera',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText2,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10.0),
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: () {
+                                              cubit.chatGalleryVideo(context);
+                                            },
+                                            child: Column(
+                                              children: [
+                                                const Icon(
+                                                  Icons.image,
+                                                ),
+                                                const SizedBox(
+                                                  height: 5.0,
+                                                ),
+                                                Text(
+                                                  'Gallery',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText2,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          color: iconColor,
+                          child: const Icon(
+                            Icons.ondemand_video_rounded,
+                            color: Colors.white,
+                            size: 20.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 5.0),
+                      SizedBox(
+                        height: 50.0,
+                        child: MaterialButton(
+                          minWidth: 1.0,
+                          onPressed: () {
+                            if (cubit.chatImage == null &&
+                                cubit.chatVideo == null) {
                               AppCubit.get(context).sendMessages(
                                 messageText: messageController.text,
                                 receiverId: userModel.uId!,
                                 messageTime: DateTime.now().toString(),
                                 date: formattedDate.toString(),
                               );
-                            } else {
+                            } else if (cubit.chatImage != null) {
                               AppCubit.get(context).uploadChatImage(
+                                messageText: messageController.text,
+                                receiverId: userModel.uId!,
+                                messageTime: DateTime.now().toString(),
+                                date: formattedDate.toString(),
+                                context,
+                              );
+                            } else if (cubit.chatVideo != null) {
+                              AppCubit.get(context).uploadChatVideo(
                                 messageText: messageController.text,
                                 receiverId: userModel.uId!,
                                 messageTime: DateTime.now().toString(),
@@ -234,6 +360,7 @@ class ChatScreen extends StatelessWidget {
                             }
                             messageController.clear();
                             cubit.chatImage = '' as File?;
+                            cubit.chatVideo = '' as File?;
                           },
                           color: iconColor,
                           child: const Icon(
@@ -255,6 +382,8 @@ class ChatScreen extends StatelessWidget {
   }
 
   Widget sendMessages(MessageModel model, context) {
+    VideoPlayerController? controller;
+    controller = VideoPlayerController.network('${model.video}')..initialize();
     return Align(
       alignment: AlignmentDirectional.centerEnd,
       child: Column(
@@ -300,6 +429,33 @@ class ChatScreen extends StatelessWidget {
                       height: 300,
                     ),
                   ),
+                if (model.video != '')
+                  AspectRatio(
+                    aspectRatio: controller.value.aspectRatio,
+                    child: VideoPlayer(controller),
+                  ),
+                if (model.video != '')
+                  Row(
+                    children: [
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () {
+                            controller?.play();
+                          },
+                          icon:
+                              const Icon(Icons.play_arrow, color: Colors.white),
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () {
+                            controller?.pause();
+                          },
+                          icon: const Icon(Icons.pause, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  )
               ],
             ),
           ),
@@ -314,6 +470,8 @@ class ChatScreen extends StatelessWidget {
   }
 
   Widget receiverMessages(MessageModel model, context) {
+    VideoPlayerController? controller;
+    controller = VideoPlayerController.network('${model.video}')..initialize();
     return Align(
       alignment: AlignmentDirectional.centerStart,
       child: Column(
@@ -359,6 +517,33 @@ class ChatScreen extends StatelessWidget {
                       height: 300,
                     ),
                   ),
+                if (model.video != '')
+                  AspectRatio(
+                    aspectRatio: controller.value.aspectRatio,
+                    child: VideoPlayer(controller),
+                  ),
+                if (model.video != '')
+                  Row(
+                    children: [
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () {
+                            controller?.play();
+                          },
+                          icon:
+                          const Icon(Icons.play_arrow, color: Colors.white),
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () {
+                            controller?.pause();
+                          },
+                          icon: const Icon(Icons.pause, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  )
               ],
             ),
           ),

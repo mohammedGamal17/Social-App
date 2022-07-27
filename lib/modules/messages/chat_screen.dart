@@ -92,6 +92,14 @@ class ChatScreen extends StatelessWidget {
                                     image: FileImage(cubit.chatImage!),
                                     width: double.infinity,
                                     fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => Column(
+                                      children:  [
+                                        const Icon(Icons.photo_camera,size: 50.0),
+                                        const SizedBox(height: 10.0),
+                                        Text('Click Send ...', style: Theme.of(context).textTheme.headline5,)
+                                      ],
+                                    ),
+                                    loadingBuilder: (context, child, loadingProgress) => loadingAnimation(context),
                                   ),
                                 ),
                               ),
@@ -125,7 +133,14 @@ class ChatScreen extends StatelessWidget {
                                     image: FileImage(cubit.chatVideo!),
                                     width: double.infinity,
                                     fit: BoxFit.cover,
-                                  ),
+                                    errorBuilder: (context, error, stackTrace) => Column(
+                                      children:  [
+                                        const Icon(Icons.videocam,size: 50.0),
+                                        const SizedBox(height: 10.0),
+                                        Text('Click Send ...', style: Theme.of(context).textTheme.headline5,)
+                                      ],
+                                    ),
+                                    loadingBuilder: (context, child, loadingProgress) => loadingAnimation(context),                                  ),
                                 ),
                               ),
                               IconButton(
@@ -430,6 +445,13 @@ class ChatScreen extends StatelessWidget {
                       fit: BoxFit.cover,
                       width: 200,
                       height: 300,
+                      errorBuilder: (context, error, stackTrace) => Column(
+                        children:  [
+                          const Icon(Icons.no_photography,size: 50.0),
+                          const SizedBox(height: 10.0),
+                          Text('Photo did\'t load ...', style: Theme.of(context).textTheme.headline5,)
+                        ],
+                      ),
                     ),
                   ),
                 if (model.video != '')
@@ -518,6 +540,13 @@ class ChatScreen extends StatelessWidget {
                       fit: BoxFit.cover,
                       width: 200,
                       height: 300,
+                      errorBuilder: (context, error, stackTrace) => Column(
+                        children:  [
+                          const Icon(Icons.no_photography,size: 50.0),
+                          const SizedBox(height: 10.0),
+                          Text('Photo did\'t load ...', style: Theme.of(context).textTheme.headline5,)
+                        ],
+                      ),
                     ),
                   ),
                 if (model.video != '')

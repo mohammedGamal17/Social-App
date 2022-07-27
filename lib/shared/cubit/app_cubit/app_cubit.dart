@@ -11,7 +11,6 @@ import 'package:social/models/post_model/post_model.dart';
 import 'package:social/modules/messages/messages_screen.dart';
 import 'package:social/modules/notifications/notifications_screen.dart';
 import 'package:social/modules/settings/settings_screen.dart';
-import 'package:social/modules/videos/videos_screen.dart';
 import 'package:social/shared/components/components.dart';
 import 'package:social/shared/components/constants.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
@@ -57,7 +56,6 @@ class AppCubit extends Cubit<AppStates> {
 
   List<Widget> screen = [
     HomeScreen(),
-    const VideosScreen(),
     MessagesScreen(),
     const NotificationsScreen(),
     const SettingsScreen(),
@@ -99,15 +97,12 @@ class AppCubit extends Cubit<AppStates> {
       const LayOutScreen();
     }
     if (index == 1) {
-      const VideosScreen();
-    }
-    if (index == 2) {
       MessagesScreen();
     }
-    if (index == 3) {
+    if (index == 2) {
       const NotificationsScreen();
     }
-    if (index == 4) {
+    if (index == 3) {
       const SettingsScreen();
     }
     emit(BtmNavBarChangeItemState());

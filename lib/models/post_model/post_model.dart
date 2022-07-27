@@ -9,6 +9,7 @@ class PostModel {
   late String? postImage;
   late String? coverImage;
   late String? bio;
+  late String? postVideo;
 
   PostModel(
       {this.uId,
@@ -20,7 +21,8 @@ class PostModel {
       this.image,
       this.postImage,
       this.coverImage,
-      this.bio});
+      this.bio,
+      this.postVideo});
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return PostModel(
@@ -34,6 +36,7 @@ class PostModel {
       text: json['text'],
       coverImage: json['coverImage'],
       bio: json['bio'],
+      postVideo: json['postVideo'],
     );
   }
 
@@ -49,6 +52,7 @@ class PostModel {
     data['text'] = text;
     data['coverImage'] = coverImage;
     data['bio'] = bio;
+    data['postVideo'] = postVideo;
     return data;
   }
 }

@@ -145,11 +145,12 @@ class HomeScreen extends StatelessWidget {
   Widget postBuilderItem(context, PostModel model, UserModel userModel, index) {
     AppCubit cubit = AppCubit.get(context);
     VideoPlayerController? controller;
-    controller = VideoPlayerController.network('${model.postVideo}')..initialize();
+    controller = VideoPlayerController.network('${model.postVideo}')
+      ..initialize();
     return Card(
       shadowColor: const Color(0xFF0066CC),
       elevation: 3.0,
-      color:Theme.of(context).backgroundColor,
+      color: Theme.of(context).backgroundColor,
       child: Column(
         children: [
           Padding(
@@ -204,8 +205,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          if (model.postImage != '')
-            const SizedBox(height: 5.0),
+          if (model.postImage != '') const SizedBox(height: 5.0),
           if (model.postImage != '')
             Padding(
               padding: const EdgeInsetsDirectional.only(top: 10.0),
@@ -216,8 +216,7 @@ class HomeScreen extends StatelessWidget {
             ),
           if (model.postImage != '')
             separatorHorizontal(height: 0.5, opacity: 0.4),
-          if (model.postVideo != '')
-            const SizedBox(height: 5.0),
+          if (model.postVideo != '') const SizedBox(height: 5.0),
           if (model.postVideo != '')
             Padding(
               padding: const EdgeInsetsDirectional.only(top: 10.0),
@@ -243,7 +242,7 @@ class HomeScreen extends StatelessWidget {
                             controller?.play();
                           },
                           icon:
-                          const Icon(Icons.play_arrow, color: Colors.white),
+                              const Icon(Icons.play_arrow, color: Colors.white),
                         ),
                       ),
                     ],

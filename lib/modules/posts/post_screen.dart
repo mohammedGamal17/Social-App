@@ -35,7 +35,8 @@ class PostScreen extends StatelessWidget {
                     String formattedDate =
                         DateFormat('yyyy-MM-dd , kk:mm a').format(now);
                     if (formKey.currentState!.validate()) {
-                      if (AppCubit.get(context).postImage == null) {
+                      if (AppCubit.get(context).postImage == null &&
+                          AppCubit.get(context).postVideo == null) {
                         AppCubit.get(context).createPost(
                           context,
                           dateTime: formattedDate.toString(),
@@ -48,8 +49,21 @@ class PostScreen extends StatelessWidget {
                           coverImage: userModel.coverImage!,
                           bio: userModel.bio!,
                         );
-                      } else {
+                      } else if (AppCubit.get(context).postImage != null) {
                         AppCubit.get(context).uploadPostImage(
+                          context,
+                          dateTime: formattedDate.toString(),
+                          text: post.text,
+                          uId: userModel.uId!,
+                          name: userModel.name!,
+                          lastName: userModel.lastName!,
+                          email: userModel.email!,
+                          image: userModel.image!,
+                          coverImage: userModel.coverImage!,
+                          bio: userModel.bio!,
+                        );
+                      } else if (AppCubit.get(context).postVideo != null) {
+                        AppCubit.get(context).uploadPostVideo(
                           context,
                           dateTime: formattedDate.toString(),
                           text: post.text,
@@ -169,6 +183,38 @@ class PostScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                  if (state is PostVideoPickedSuccess)
+                    SizedBox(
+                      height: 130,
+                      child: Stack(
+                        alignment: AlignmentDirectional.bottomCenter,
+                        children: [
+                          Stack(
+                            alignment: AlignmentDirectional.topEnd,
+                            children: [
+                              Align(
+                                alignment: AlignmentDirectional.topCenter,
+                                child: SizedBox(
+                                  child: Image(
+                                    image: FileImage(
+                                        AppCubit.get(context).postVideo!),
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  AppCubit.get(context).removePickedVideo();
+                                },
+                                icon: const Icon(Icons.close),
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   const SizedBox(height: 15.0),
                   Row(
                     mainAxisSize: MainAxisSize.min,
@@ -187,7 +233,8 @@ class PostScreen extends StatelessWidget {
                                   return AlertDialog(
                                     title: Row(
                                       children: const [
-                                        Expanded(child: Text('Choose your picker')),
+                                        Expanded(
+                                            child: Text('Choose your picker')),
                                         CloseButton(),
                                       ],
                                     ),
@@ -250,6 +297,87 @@ class PostScreen extends StatelessWidget {
                               );
                             },
                             child: const Text('Add Photo'),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          height: 40.0,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Row(
+                                      children: const [
+                                        Expanded(
+                                            child: Text('Choose your picker')),
+                                        CloseButton(),
+                                      ],
+                                    ),
+                                    shape: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    actions: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: InkWell(
+                                              onTap: () {
+                                                cubit.postVideoCamera(context);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.camera_alt_outlined,
+                                                  ),
+                                                  const SizedBox(height: 5.0),
+                                                  Text(
+                                                    'Camera',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10.0),
+                                          Expanded(
+                                            child: InkWell(
+                                              onTap: () {
+                                                cubit.postVideoGallery(context);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.image,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5.0,
+                                                  ),
+                                                  Text(
+                                                    'Gallery',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: const Text('Add Video'),
                           ),
                         ),
                       ),

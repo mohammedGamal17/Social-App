@@ -542,7 +542,7 @@ class ChatScreen extends StatelessWidget {
                             controller?.play();
                           },
                           icon:
-                          const Icon(Icons.play_arrow, color: Colors.white),
+                              const Icon(Icons.play_arrow, color: Colors.white),
                         ),
                       ),
                     ],

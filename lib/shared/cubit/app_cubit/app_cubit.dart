@@ -351,6 +351,7 @@ class AppCubit extends Cubit<AppStates> {
     required String coverImage,
     required String bio,
     String? postImage,
+    String? postVideo,
   }) {
     PostModel model = PostModel(
       uId: uId,
@@ -361,6 +362,7 @@ class AppCubit extends Cubit<AppStates> {
       text: text,
       dateTime: dateTime,
       postImage: postImage ?? '',
+      postVideo: postVideo ?? '',
       coverImage: coverImage,
       bio: bio,
     );
@@ -413,8 +415,49 @@ class AppCubit extends Cubit<AppStates> {
     }
   }
 
+  Future<void> postVideoCamera(context) async {
+    final pickedFile = await _picker.pickVideo(
+        source: ImageSource.camera,
+        maxDuration: const Duration(
+          seconds: 60,
+        ));
+    if (pickedFile != null) {
+      postVideo = File(pickedFile.path);
+      emit(PostVideoPickedSuccess());
+    } else {
+      emit(PostVideoPickedFail());
+      snack(context, content: 'No Video Selected', bgColor: Colors.red);
+    }
+  }
+
+  Future<void> postVideoGallery(context) async {
+    final pickedFile = await _picker
+        .pickVideo(
+            source: ImageSource.gallery,
+            maxDuration: const Duration(
+              seconds: 60,
+            ))
+        .catchError((onError) {
+      emit(PostVideoPickedFail());
+      snack(context,
+          content: 'Video Max Duration is 60 Second', bgColor: Colors.red);
+    });
+    if (pickedFile != null) {
+      postVideo = File(pickedFile.path);
+      emit(PostVideoPickedSuccess());
+    } else {
+      emit(PostVideoPickedFail());
+      snack(context, content: 'No Video Selected', bgColor: Colors.red);
+    }
+  }
+
   void removePickedPhoto() {
     postImage = null;
+    emit(PostImagePickedRemove());
+  }
+
+  void removePickedVideo() {
+    postVideo = null;
     emit(PostImagePickedRemove());
   }
 
@@ -434,7 +477,7 @@ class AppCubit extends Cubit<AppStates> {
     emit(UploadPostImageLoading());
     storage
         .ref()
-        .child('posts/${Uri.file(postImage!.path).pathSegments.last}')
+        .child('posts/picture/${Uri.file(postImage!.path).pathSegments.last}')
         .putFile(postImage!)
         .then(
       (value) {
@@ -477,6 +520,71 @@ class AppCubit extends Cubit<AppStates> {
         snack(
           context,
           content: '* ${onError.toString()} * Post Image Upload Fail',
+          bgColor: Colors.red,
+        );
+      },
+    );
+  }
+
+  void uploadPostVideo(
+      context, {
+        required String text,
+        required String dateTime,
+        required String uId,
+        required String name,
+        required String lastName,
+        required String email,
+        required String image,
+        required String coverImage,
+        required String bio,
+      }) {
+    emit(CreatePostLoadingState());
+    emit(UploadPostVideoLoading());
+    storage
+        .ref()
+        .child('posts/video/${Uri.file(postVideo!.path).pathSegments.last}')
+        .putFile(postVideo!)
+        .then(
+          (value) {
+        value.ref.getDownloadURL().then((value) {
+          createPost(
+            context,
+            text: text,
+            dateTime: dateTime,
+            postVideo: value,
+            uId: uId,
+            name: name,
+            lastName: lastName,
+            email: email,
+            image: image,
+            coverImage: coverImage,
+            bio: bio,
+          );
+        }).catchError(
+              (onError) {
+            emit(GetDownloadURLPostImageFail());
+            if (kDebugMode) {
+              print('* ${onError.toString()} * Post Video URI Fail');
+            }
+            snack(
+              context,
+              content: '* ${onError.toString()} * Post Video Upload Fail',
+              bgColor: Colors.red,
+            );
+          },
+        );
+        emit(UploadPostImageSuccess());
+        snack(context, content: 'Post Video Uploaded Successfully');
+      },
+    ).catchError(
+          (onError) {
+        emit(UploadPostImageFail());
+        if (kDebugMode) {
+          print('* ${onError.toString()} *  Post Video Upload Fail');
+        }
+        snack(
+          context,
+          content: '* ${onError.toString()} * Post Video Upload Fail',
           bgColor: Colors.red,
         );
       },
@@ -662,7 +770,7 @@ class AppCubit extends Cubit<AppStates> {
     emit(UploadChatImageLoading());
     storage
         .ref()
-        .child('chats/${Uri.file(chatImage!.path).pathSegments.last}')
+        .child('chats/picture/${Uri.file(chatImage!.path).pathSegments.last}')
         .putFile(chatImage!)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
@@ -702,11 +810,10 @@ class AppCubit extends Cubit<AppStates> {
 
   Future<void> chatCameraVideo(context) async {
     final pickedFile = await _picker.pickVideo(
-      source: ImageSource.camera,
-      maxDuration: const Duration(
-        seconds: 60,
-      )
-    );
+        source: ImageSource.camera,
+        maxDuration: const Duration(
+          seconds: 60,
+        ));
     if (pickedFile != null) {
       chatVideo = File(pickedFile.path);
       emit(ChatVideoPickedSuccess());
@@ -717,14 +824,16 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   Future<void> chatGalleryVideo(context) async {
-    final pickedFile = await _picker.pickVideo(
-        source: ImageSource.gallery,
-        maxDuration: const Duration(
-          seconds: 60,
-        )
-    ).catchError((onError){
+    final pickedFile = await _picker
+        .pickVideo(
+            source: ImageSource.gallery,
+            maxDuration: const Duration(
+              seconds: 60,
+            ))
+        .catchError((onError) {
       emit(ChatVideoPickedFail());
-      snack(context, content: 'Video Max Duration is 60 Second', bgColor: Colors.red);
+      snack(context,
+          content: 'Video Max Duration is 60 Second', bgColor: Colors.red);
     });
     if (pickedFile != null) {
       chatVideo = File(pickedFile.path);
@@ -742,10 +851,10 @@ class AppCubit extends Cubit<AppStates> {
     required String messageText,
     required String date,
   }) {
-    emit(UploadChatImageLoading());
+    emit(UploadChatVideoLoading());
     storage
         .ref()
-        .child('chats/${Uri.file(chatVideo!.path).pathSegments.last}')
+        .child('chats/video/${Uri.file(chatVideo!.path).pathSegments.last}')
         .putFile(chatVideo!)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
@@ -756,9 +865,9 @@ class AppCubit extends Cubit<AppStates> {
           date: date,
           chatVideo: value,
         );
-        emit(GetDownloadURLChatImageSuccess());
+        emit(GetDownloadURLChatVideoSuccess());
       }).catchError((onError) {
-        emit(GetDownloadURLChatImageFail());
+        emit(GetDownloadURLChatVideoFail());
         if (kDebugMode) {
           print(' * Get Download URL Chat Video Fail * ${onError.toString()}');
         }
@@ -766,9 +875,9 @@ class AppCubit extends Cubit<AppStates> {
             content:
                 ' * Get Download URL Chat Video Fail * ${onError.toString()}');
       });
-      emit(UploadChatImageSuccess());
+      emit(UploadChatVideoSuccess());
     }).catchError((onError) {
-      emit(UploadChatImageFail());
+      emit(UploadChatVideoFail());
       if (kDebugMode) {
         print(' * Upload Chat Video Fail * ${onError.toString()}');
       }

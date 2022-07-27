@@ -48,7 +48,9 @@ class AppCubit extends Cubit<AppStates> {
   File? profileImage;
   File? coverImage;
   File? postImage;
+  File? postVideo;
   File? chatImage;
+  File? chatVideo;
 
   final _picker = ImagePicker();
   final storage = FirebaseStorage.instance;
@@ -553,6 +555,7 @@ class AppCubit extends Cubit<AppStates> {
     required String messageTime,
     required String date,
     String? chatImage,
+    String? chatVideo,
   }) {
     MessageModel model = MessageModel(
       messageText: messageText,
@@ -560,6 +563,7 @@ class AppCubit extends Cubit<AppStates> {
       receiverId: receiverId,
       messageTime: messageTime,
       image: chatImage ?? '',
+      video: chatVideo ?? '',
       date: date,
     );
     final fireStore = FirebaseFirestore.instance;
@@ -652,6 +656,7 @@ class AppCubit extends Cubit<AppStates> {
     required String messageTime,
     required String messageText,
     required String date,
+    String? chatVideo,
   }) {
     emit(UploadChatImageLoading());
     storage
@@ -666,6 +671,7 @@ class AppCubit extends Cubit<AppStates> {
           messageText: messageText,
           chatImage: value,
           date: date,
+          chatVideo: chatVideo ?? '',
         );
         emit(GetDownloadURLChatImageSuccess());
       }).catchError((onError) {
@@ -690,6 +696,93 @@ class AppCubit extends Cubit<AppStates> {
 
   void removeChatPhoto() {
     chatImage = null;
+    emit(PostImagePickedRemove());
+  }
+
+  Future<void> chatCameraVideo(context) async {
+    final pickedFile = await _picker.pickVideo(
+      source: ImageSource.camera,
+      maxDuration: const Duration(
+        seconds: 60,
+      )
+    ).catchError((onError){
+      emit(ChatVideoPickedFail());
+      snack(context, content: 'No Video Selected', bgColor: Colors.red);
+    });
+    if (pickedFile != null) {
+      chatVideo = File(pickedFile.path);
+      emit(ChatVideoPickedSuccess());
+    } else {
+      emit(ChatVideoPickedFail());
+      snack(context, content: 'No Video Selected', bgColor: Colors.red);
+    }
+  }
+
+  Future<void> chatGalleryVideo(context) async {
+    final pickedFile = await _picker.pickVideo(
+        source: ImageSource.gallery,
+        maxDuration: const Duration(
+          seconds: 60,
+        )
+    ).catchError((onError){
+      emit(ChatVideoPickedFail());
+      snack(context, content: 'Video Max Duration is 60 Second', bgColor: Colors.red);
+    });
+    if (pickedFile != null) {
+      chatVideo = File(pickedFile.path);
+      emit(ChatVideoPickedSuccess());
+    } else {
+      emit(ChatVideoPickedFail());
+      snack(context, content: 'No Video Selected', bgColor: Colors.red);
+    }
+  }
+
+  void uploadChatVideo(
+    context, {
+    required String receiverId,
+    required String messageTime,
+    required String messageText,
+    required String date,
+    String? chatImage,
+  }) {
+    emit(UploadChatImageLoading());
+    storage
+        .ref()
+        .child('chats/${Uri.file(chatVideo!.path).pathSegments.last}')
+        .putFile(chatVideo!)
+        .then((value) {
+      value.ref.getDownloadURL().then((value) {
+        sendMessages(
+          receiverId: receiverId,
+          messageTime: messageTime,
+          messageText: messageText,
+          chatImage: chatImage ?? '',
+          date: date,
+          chatVideo: value,
+        );
+        emit(GetDownloadURLChatImageSuccess());
+      }).catchError((onError) {
+        emit(GetDownloadURLChatImageFail());
+        if (kDebugMode) {
+          print(' * Get Download URL Chat Video Fail * ${onError.toString()}');
+        }
+        snack(context,
+            content:
+                ' * Get Download URL Chat Video Fail * ${onError.toString()}');
+      });
+      emit(UploadChatImageSuccess());
+    }).catchError((onError) {
+      emit(UploadChatImageFail());
+      if (kDebugMode) {
+        print(' * Upload Chat Video Fail * ${onError.toString()}');
+      }
+      snack(context,
+          content: ' * Upload Chat Video Fail * ${onError.toString()}');
+    });
+  }
+
+  void removeChatVideo() {
+    chatVideo = null;
     emit(PostImagePickedRemove());
   }
 }

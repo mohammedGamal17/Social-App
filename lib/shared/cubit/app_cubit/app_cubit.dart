@@ -16,6 +16,7 @@ import 'package:social/shared/components/components.dart';
 import 'package:social/shared/components/constants.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../../models/user_model/user_model.dart';
 import '../../../layout/Layout_screen.dart';
@@ -705,10 +706,7 @@ class AppCubit extends Cubit<AppStates> {
       maxDuration: const Duration(
         seconds: 60,
       )
-    ).catchError((onError){
-      emit(ChatVideoPickedFail());
-      snack(context, content: 'No Video Selected', bgColor: Colors.red);
-    });
+    );
     if (pickedFile != null) {
       chatVideo = File(pickedFile.path);
       emit(ChatVideoPickedSuccess());
@@ -743,7 +741,6 @@ class AppCubit extends Cubit<AppStates> {
     required String messageTime,
     required String messageText,
     required String date,
-    String? chatImage,
   }) {
     emit(UploadChatImageLoading());
     storage
@@ -756,7 +753,6 @@ class AppCubit extends Cubit<AppStates> {
           receiverId: receiverId,
           messageTime: messageTime,
           messageText: messageText,
-          chatImage: chatImage ?? '',
           date: date,
           chatVideo: value,
         );

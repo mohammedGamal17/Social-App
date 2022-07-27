@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
             Card(
               shadowColor: const Color(0xFF0066CC),
               elevation: 3.0,
-              color: const Color(0xFF66B2FF),
+              color: Theme.of(context).backgroundColor,
               child: Column(
                 children: [
                   Padding(
@@ -146,7 +146,7 @@ class HomeScreen extends StatelessWidget {
     return Card(
       shadowColor: const Color(0xFF0066CC),
       elevation: 3.0,
-      color: const Color(0xFF66B2FF),
+      color:Theme.of(context).backgroundColor,
       child: Column(
         children: [
           Padding(

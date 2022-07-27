@@ -16,7 +16,6 @@ import 'package:social/shared/components/components.dart';
 import 'package:social/shared/components/constants.dart';
 import 'package:social/shared/cubit/app_cubit/app_states.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:video_player/video_player.dart';
 
 import '../../../models/user_model/user_model.dart';
 import '../../../layout/Layout_screen.dart';
@@ -527,17 +526,17 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void uploadPostVideo(
-      context, {
-        required String text,
-        required String dateTime,
-        required String uId,
-        required String name,
-        required String lastName,
-        required String email,
-        required String image,
-        required String coverImage,
-        required String bio,
-      }) {
+    context, {
+    required String text,
+    required String dateTime,
+    required String uId,
+    required String name,
+    required String lastName,
+    required String email,
+    required String image,
+    required String coverImage,
+    required String bio,
+  }) {
     emit(CreatePostLoadingState());
     emit(UploadPostVideoLoading());
     storage
@@ -545,7 +544,7 @@ class AppCubit extends Cubit<AppStates> {
         .child('posts/video/${Uri.file(postVideo!.path).pathSegments.last}')
         .putFile(postVideo!)
         .then(
-          (value) {
+      (value) {
         value.ref.getDownloadURL().then((value) {
           createPost(
             context,
@@ -561,7 +560,7 @@ class AppCubit extends Cubit<AppStates> {
             bio: bio,
           );
         }).catchError(
-              (onError) {
+          (onError) {
             emit(GetDownloadURLPostImageFail());
             if (kDebugMode) {
               print('* ${onError.toString()} * Post Video URI Fail');
@@ -577,7 +576,7 @@ class AppCubit extends Cubit<AppStates> {
         snack(context, content: 'Post Video Uploaded Successfully');
       },
     ).catchError(
-          (onError) {
+      (onError) {
         emit(UploadPostImageFail());
         if (kDebugMode) {
           print('* ${onError.toString()} *  Post Video Upload Fail');

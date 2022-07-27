@@ -87,6 +87,10 @@ class PostScreen extends StatelessWidget {
               child: Column(
                 children: [
                   if (state is CreatePostLoadingState)
+                    loadingAnimation(context,text: 'Uploading ...'),
+                  if (state is UploadPostVideoLoading)
+                    loadingAnimation(context,text: 'Uploading ...'),
+                  if (state is UploadPostImageLoading)
                     loadingAnimation(context),
                   Row(
                     children: [
@@ -168,6 +172,14 @@ class PostScreen extends StatelessWidget {
                                         AppCubit.get(context).postImage!),
                                     width: double.infinity,
                                     fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => Column(
+                                      children:  [
+                                        const Icon(Icons.no_photography,size: 50.0),
+                                        const SizedBox(height: 10.0),
+                                        Text('Photo did\'t load ...', style: Theme.of(context).textTheme.headline5,)
+                                      ],
+                                    ),
+
                                   ),
                                 ),
                               ),
@@ -200,6 +212,14 @@ class PostScreen extends StatelessWidget {
                                         AppCubit.get(context).postVideo!),
                                     width: double.infinity,
                                     fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => Column(
+                                      children:  [
+                                        const Icon(Icons.videocam,size: 50.0),
+                                        const SizedBox(height: 10.0),
+                                        Text('Click Post ...', style: Theme.of(context).textTheme.headline5,)
+                                      ],
+                                    ),
+                                    loadingBuilder: (context, child, loadingProgress) => loadingAnimation(context),
                                   ),
                                 ),
                               ),
@@ -300,6 +320,7 @@ class PostScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                      const SizedBox(width: 10.0),
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(

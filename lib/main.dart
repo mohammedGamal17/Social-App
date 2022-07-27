@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -25,6 +26,17 @@ void main() async {
         options: DefaultFirebaseOptions.currentPlatform,
       );
       final fcmToken = await FirebaseMessaging.instance.getToken();
+      FirebaseMessaging.onMessage
+          .listen((event) {
+        if (kDebugMode) {
+          print(event.data.toString());
+        }
+      })
+          .onError((onError) {
+        if (kDebugMode) {
+          print('Error getting token ** ${onError.toString()}');
+        }
+      });
       await GetStorage.init();
       sharedPreferences = await SharedPreferences.getInstance();
 

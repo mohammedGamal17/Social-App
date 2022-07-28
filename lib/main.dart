@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,13 +27,15 @@ void main() async {
         options: DefaultFirebaseOptions.currentPlatform,
       );
       final fcmToken = await FirebaseMessaging.instance.getToken();
-      FirebaseMessaging.onMessage
-          .listen((event) {
+      final now = DateTime.now();
+      FirebaseFirestore.instance
+          .collection('usersToken')
+          .add({'token': fcmToken, 'time': now});
+      FirebaseMessaging.onMessage.listen((event) {
         if (kDebugMode) {
           print(event.data.toString());
         }
-      })
-          .onError((onError) {
+      }).onError((onError) {
         if (kDebugMode) {
           print('Error getting token ** ${onError.toString()}');
         }

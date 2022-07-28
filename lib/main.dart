@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:social/shared/components/components.dart';
 import 'package:social/shared/cubit/bloc_observer.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,27 +19,72 @@ import 'modules/auth_screens/login_screen.dart';
 import 'layout/Layout_screen.dart';
 
 late SharedPreferences sharedPreferences;
+FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-void main() async {
+Future notificationAuth()async{
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: true,
+    badge: true,
+    carPlay: true,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  if (kDebugMode) {
+    print('User granted permission: ${settings.authorizationStatus}');
+  }
+
+}
+
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+}
+
+Future<void> saveTokenToDatabase(String token) async {
+  // Assume user is logged in for this example
+  String? userId = FirebaseAuth.instance.currentUser?.uid;
+
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(userId)
+      .update({
+    'tokens': FieldValue.arrayUnion([token]),
+  });
+}
+
+Future<void> setupToken() async {
+  // Get the token each time the application loads
+  String? token = await FirebaseMessaging.instance.getToken();
+
+  // Save the initial token to the database
+  await saveTokenToDatabase(token!);
+
+  // Any time the token refreshes, store this in the database too.
+  FirebaseMessaging.instance.onTokenRefresh.listen(saveTokenToDatabase);
+}
+
+void main(context) async {
   BlocOverrides.runZoned(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-
+      setupToken();
+      notificationAuth();
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
-      final fcmToken = await FirebaseMessaging.instance.getToken();
-      final now = DateTime.now();
-      FirebaseFirestore.instance
-          .collection('usersToken')
-          .add({'token': fcmToken, 'time': now});
-      FirebaseMessaging.onMessage.listen((event) {
+      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         if (kDebugMode) {
-          print(event.data.toString());
+          print('Message data: ${message.data.toString()}');
         }
-      }).onError((onError) {
-        if (kDebugMode) {
-          print('Error getting token ** ${onError.toString()}');
+        if (message.notification != null) {
+          if (kDebugMode) {
+            print(
+                'Message also contained a notification: ${message.notification}');
+          }
         }
       });
       await GetStorage.init();

@@ -2,7 +2,7 @@
 
 import '../../main.dart';
 
-const BASE_URL = '';
+const baseUrl = '';
 //token is in login.dart
 String? uId = sharedPreferences.getString('isLogin');
 

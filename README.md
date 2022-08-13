@@ -22,18 +22,4 @@ PiGram is social media app and website it helps us to interacting and communicat
 <p>
   #### ![Logo](assets/Images/logo.png)
 
-<img height="600" src="D:/Flutter/projects/1.jpg" width="400"/>
-<img height="600" src="D:/Flutter/projects/2.jpg" width="400"/>
-<img height="600" src="D:/Flutter/projects/3.jpg" width="400"/>
-![](D:/Flutter/projects/4.jpg)
-![](D:/Flutter/projects/5.jpg)
-![](D:/Flutter/projects/6.jpg)
-![](D:/Flutter/projects/7.jpg)
-![](D:/Flutter/projects/8.jpg)
-![](D:/Flutter/projects/9.jpg)
-![](D:/Flutter/projects/10.jpg)
-![](D:/Flutter/projects/11.jpg)
-![](D:/Flutter/projects/12.jpg)
-![](D:/Flutter/projects/13.jpg)
-![](D:/Flutter/projects/14.jpg)
 </p>

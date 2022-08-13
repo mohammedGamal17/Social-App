@@ -28,8 +28,3 @@ and all over the world.
 ## Screen Shots
 
 #### ![Logo](assets/Images/logo.png)
-
-![](D:/Flutter/projects/1.jpg)
-![](D:/Flutter/projects/2.jpg)
-![](D:/Flutter/projects/3.jpg)
-![](D:/Flutter/projects/4.jpg)

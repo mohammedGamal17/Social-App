@@ -60,6 +60,7 @@ Future<void> setupToken() async {
 }
 
 void main(context) async {
+  var now = DateTime.now();
   BlocOverrides.runZoned(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
@@ -69,8 +70,12 @@ void main(context) async {
         options: DefaultFirebaseOptions.currentPlatform,
       );
       String? token = await FirebaseMessaging.instance.getToken();
-      FirebaseFirestore.instance.collection('tokens').add({'token': token});
-      print(token);
+      FirebaseFirestore.instance
+          .collection('tokens')
+          .add({'token': token, 'time': now});
+      if (kDebugMode) {
+        print("*** $token *** ");
+      }
       FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         if (kDebugMode) {

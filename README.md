@@ -1,4 +1,4 @@
-# 🔥🔥 PiGram Social Media App  ![LinkedIn](https://www.linkedin.com/in/mohammed-gamal-25a102167/)
+# 🔥🔥 PiGram Social Media App
 
 # PiGram
 

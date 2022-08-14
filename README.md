@@ -27,7 +27,7 @@ and all over the world.
 
 ## Screen Shots
 
-<img alt="Logo" height="400" src="assets/Images/logo.png" width="1080"/>
+<img alt="Logo" height="1080" src="assets/Images/logo.png" width="400"/>
 <img alt="1" height="800" src="https://user-images.githubusercontent.com/66007646/184505978-6673b08c-e36a-4531-a223-200081bb3d62.jpg" width="400"/>
 <img alt="2" height="800" src="https://user-images.githubusercontent.com/66007646/184505981-b764563f-8849-4739-8a55-558636fa9f9f.jpg" width="400"/>
 <img alt="3" height="800" src="https://user-images.githubusercontent.com/66007646/184505983-0409924a-6caf-4374-bbc2-7c5dd6657fbc.jpg" width="400"/>

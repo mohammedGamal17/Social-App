@@ -181,3 +181,9 @@ class UploadChatVideoFail extends AppStates {}
 class GetDownloadURLChatVideoSuccess extends AppStates {}
 
 class GetDownloadURLChatVideoFail extends AppStates {}
+
+class GetMyPostsLoading extends AppStates {}
+
+class GetMyPostsSuccess extends AppStates {}
+
+class GetMyPostsFail extends AppStates {}

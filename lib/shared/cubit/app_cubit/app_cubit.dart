@@ -376,6 +376,55 @@ class AppCubit extends Cubit<AppStates> {
     );
   }
 
+  void createMyPost(
+    context, {
+    required String text,
+    required String dateTime,
+    required String uId,
+    required String name,
+    required String lastName,
+    required String email,
+    required String image,
+    required String coverImage,
+    required String bio,
+    String? postImage,
+    String? postVideo,
+  }) {
+    PostModel model = PostModel(
+      uId: uId,
+      name: name,
+      lastName: lastName,
+      email: email,
+      image: image,
+      text: text,
+      dateTime: dateTime,
+      postImage: postImage ?? '',
+      postVideo: postVideo ?? '',
+      coverImage: coverImage,
+      bio: bio,
+    );
+    emit(CreatePostLoadingState());
+
+    final fireStore = FirebaseFirestore.instance;
+    final fireStoreDirection =
+        fireStore.collection('users').doc(uId).collection('posts');
+    fireStoreDirection.add(model.toMap()).then((value) {
+      emit(CreatePostSuccessState());
+      snack(context, content: 'Post Added Successfully');
+      navigateToAndReplace(context, const LayOutScreen());
+    }).catchError(
+      (onError) {
+        emit(CreatePostFailState());
+        if (kDebugMode) {
+          print(onError.toString());
+        }
+        snack(context,
+            content: '* ${onError.toString()} * Post Added Fail',
+            bgColor: Colors.red);
+      },
+    );
+  }
+
   Future<void> postImageGallery(context) async {
     final pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
@@ -514,7 +563,70 @@ class AppCubit extends Cubit<AppStates> {
       },
     );
   }
-
+  void uploadMyPostImage(
+      context, {
+        required String text,
+        required String dateTime,
+        required String uId,
+        required String name,
+        required String lastName,
+        required String email,
+        required String image,
+        required String coverImage,
+        required String bio,
+      }) {
+    emit(CreatePostLoadingState());
+    emit(UploadPostImageLoading());
+    storage
+        .ref()
+        .child('users/$uId/posts/picture/${Uri.file(postImage!.path).pathSegments.last}')
+        .putFile(postImage!)
+        .then(
+          (value) {
+        value.ref.getDownloadURL().then((value) {
+          createMyPost(
+            context,
+            text: text,
+            dateTime: dateTime,
+            postImage: value,
+            uId: uId,
+            name: name,
+            lastName: lastName,
+            email: email,
+            image: image,
+            coverImage: coverImage,
+            bio: bio,
+          );
+        }).catchError(
+              (onError) {
+            emit(GetDownloadURLPostImageFail());
+            if (kDebugMode) {
+              print('* ${onError.toString()} * Post Image URI Fail');
+            }
+            snack(
+              context,
+              content: '* ${onError.toString()} * Post Image Upload Fail',
+              bgColor: Colors.red,
+            );
+          },
+        );
+        emit(UploadPostImageSuccess());
+        snack(context, content: 'Post Image Uploaded Successfully');
+      },
+    ).catchError(
+          (onError) {
+        emit(UploadPostImageFail());
+        if (kDebugMode) {
+          print('* ${onError.toString()} *  Post Image Upload Fail');
+        }
+        snack(
+          context,
+          content: '* ${onError.toString()} * Post Image Upload Fail',
+          bgColor: Colors.red,
+        );
+      },
+    );
+  }
   void uploadPostVideo(
     context, {
     required String text,
@@ -580,9 +692,75 @@ class AppCubit extends Cubit<AppStates> {
     );
   }
 
+  void uploadMyPostVideo(
+      context, {
+        required String text,
+        required String dateTime,
+        required String uId,
+        required String name,
+        required String lastName,
+        required String email,
+        required String image,
+        required String coverImage,
+        required String bio,
+      }) {
+    emit(CreatePostLoadingState());
+    emit(UploadPostVideoLoading());
+    storage
+        .ref()
+        .child('users/$uId/posts/video/${Uri.file(postVideo!.path).pathSegments.last}')
+        .putFile(postVideo!)
+        .then(
+          (value) {
+        value.ref.getDownloadURL().then((value) {
+          createPost(
+            context,
+            text: text,
+            dateTime: dateTime,
+            postVideo: value,
+            uId: uId,
+            name: name,
+            lastName: lastName,
+            email: email,
+            image: image,
+            coverImage: coverImage,
+            bio: bio,
+          );
+        }).catchError(
+              (onError) {
+            emit(GetDownloadURLPostImageFail());
+            if (kDebugMode) {
+              print('* ${onError.toString()} * Post Video URI Fail');
+            }
+            snack(
+              context,
+              content: '* ${onError.toString()} * Post Video Upload Fail',
+              bgColor: Colors.red,
+            );
+          },
+        );
+        emit(UploadPostImageSuccess());
+        snack(context, content: 'Post Video Uploaded Successfully');
+      },
+    ).catchError(
+          (onError) {
+        emit(UploadPostImageFail());
+        if (kDebugMode) {
+          print('* ${onError.toString()} *  Post Video Upload Fail');
+        }
+        snack(
+          context,
+          content: '* ${onError.toString()} * Post Video Upload Fail',
+          bgColor: Colors.red,
+        );
+      },
+    );
+  }
+
   List<PostModel> posts = [];
   List<String> postsId = [];
   List<int> likesCount = [];
+  List<PostModel> myPosts = [];
 
   void getPosts(context) {
     emit(GetPostsLoading());
@@ -594,6 +772,32 @@ class AppCubit extends Cubit<AppStates> {
           likesCount.add(value.docs.length);
           postsId.add(element.id);
           posts.add(PostModel.fromJson(element.data()));
+          emit(GetCommentsSuccess());
+        }).catchError((onError) {
+          snack(context,
+              content: ' * likes not loaded * ${onError.toString()}');
+          if (kDebugMode) {
+            print(' * likes not loaded * ${onError.toString()}');
+          }
+          emit(GetCommentsFail());
+        });
+      }
+    }).catchError((onError) {
+      emit(GetCommentsFail());
+    });
+    emit(GetPostsSuccess());
+  }
+
+  void getMyPosts(context) {
+    emit(GetPostsLoading());
+    final fireStore = FirebaseFirestore.instance;
+    final fireStoreDirection = fireStore.collection('posts');
+    fireStoreDirection.get().then((value) {
+      for (var element in value.docs) {
+        element.reference.collection('likes').get().then((value) {
+          likesCount.add(value.docs.length);
+          postsId.add(element.id);
+          myPosts.add(PostModel.fromJson(element.data()));
           emit(GetCommentsSuccess());
         }).catchError((onError) {
           snack(context,

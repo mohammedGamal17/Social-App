@@ -49,8 +49,32 @@ class PostScreen extends StatelessWidget {
                           coverImage: userModel.coverImage!,
                           bio: userModel.bio!,
                         );
+                        AppCubit.get(context).createMyPost(
+                          context,
+                          dateTime: formattedDate.toString(),
+                          text: post.text,
+                          uId: userModel.uId!,
+                          name: userModel.name!,
+                          lastName: userModel.lastName!,
+                          email: userModel.email!,
+                          image: userModel.image!,
+                          coverImage: userModel.coverImage!,
+                          bio: userModel.bio!,
+                        );
                       } else if (AppCubit.get(context).postImage != null) {
                         AppCubit.get(context).uploadPostImage(
+                          context,
+                          dateTime: formattedDate.toString(),
+                          text: post.text,
+                          uId: userModel.uId!,
+                          name: userModel.name!,
+                          lastName: userModel.lastName!,
+                          email: userModel.email!,
+                          image: userModel.image!,
+                          coverImage: userModel.coverImage!,
+                          bio: userModel.bio!,
+                        );
+                        AppCubit.get(context).uploadMyPostImage(
                           context,
                           dateTime: formattedDate.toString(),
                           text: post.text,
@@ -75,6 +99,18 @@ class PostScreen extends StatelessWidget {
                           coverImage: userModel.coverImage!,
                           bio: userModel.bio!,
                         );
+                        AppCubit.get(context).uploadMyPostVideo(
+                          context,
+                          dateTime: formattedDate.toString(),
+                          text: post.text,
+                          uId: userModel.uId!,
+                          name: userModel.name!,
+                          lastName: userModel.lastName!,
+                          email: userModel.email!,
+                          image: userModel.image!,
+                          coverImage: userModel.coverImage!,
+                          bio: userModel.bio!,
+                        );
                       }
                     }
                   },
@@ -87,9 +123,9 @@ class PostScreen extends StatelessWidget {
               child: Column(
                 children: [
                   if (state is CreatePostLoadingState)
-                    loadingAnimation(context,text: 'Uploading ...'),
+                    loadingAnimation(context, text: 'Uploading ...'),
                   if (state is UploadPostVideoLoading)
-                    loadingAnimation(context,text: 'Uploading ...'),
+                    loadingAnimation(context, text: 'Uploading ...'),
                   if (state is UploadPostImageLoading)
                     loadingAnimation(context),
                   Row(
@@ -172,14 +208,20 @@ class PostScreen extends StatelessWidget {
                                         AppCubit.get(context).postImage!),
                                     width: double.infinity,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => Column(
-                                      children:  [
-                                        const Icon(Icons.no_photography,size: 50.0),
+                                    errorBuilder:
+                                        (context, error, stackTrace) => Column(
+                                      children: [
+                                        const Icon(Icons.no_photography,
+                                            size: 50.0),
                                         const SizedBox(height: 10.0),
-                                        Text('Photo did\'t load ...', style: Theme.of(context).textTheme.headline5,)
+                                        Text(
+                                          'Photo did\'t load ...',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5,
+                                        )
                                       ],
                                     ),
-
                                   ),
                                 ),
                               ),
@@ -212,14 +254,22 @@ class PostScreen extends StatelessWidget {
                                         AppCubit.get(context).postVideo!),
                                     width: double.infinity,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => Column(
-                                      children:  [
-                                        const Icon(Icons.videocam,size: 50.0),
+                                    errorBuilder:
+                                        (context, error, stackTrace) => Column(
+                                      children: [
+                                        const Icon(Icons.videocam, size: 50.0),
                                         const SizedBox(height: 10.0),
-                                        Text('Click Post ...', style: Theme.of(context).textTheme.headline5,)
+                                        Text(
+                                          'Click Post ...',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5,
+                                        )
                                       ],
                                     ),
-                                    loadingBuilder: (context, child, loadingProgress) => loadingAnimation(context),
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) =>
+                                            loadingAnimation(context),
                                   ),
                                 ),
                               ),

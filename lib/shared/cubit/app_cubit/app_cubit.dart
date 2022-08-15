@@ -795,8 +795,11 @@ class AppCubit extends Cubit<AppStates> {
   void getMyPosts(context) {
     emit(GetPostsLoading());
     final fireStore = FirebaseFirestore.instance;
-    final fireStoreDirection =
-        fireStore.collection('users').doc(uId).collection('posts');
+    final fireStoreDirection = fireStore
+        .collection('users')
+        .doc(uId)
+        .collection('posts')
+        .orderBy('dateTime', descending: true);
     fireStoreDirection.get().then((value) {
       for (var element in value.docs) {
         element.reference.collection('likes').get().then((value) {
@@ -918,7 +921,7 @@ class AppCubit extends Cubit<AppStates> {
         .collection('chats')
         .doc(receiverId)
         .collection('messages')
-        .orderBy('messageTime',descending: true)
+        .orderBy('messageTime', descending: true)
         .snapshots()
         .listen((event) {
       messages = [];

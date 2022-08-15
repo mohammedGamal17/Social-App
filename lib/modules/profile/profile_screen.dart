@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:social/models/user_model/user_model.dart';
+import 'package:social/modules/posts/post_screen.dart';
 import 'package:social/modules/profile/user_screen.dart';
 import 'package:social/shared/components/components.dart';
 import 'package:social/shared/cubit/app_cubit/app_cubit.dart';
@@ -107,15 +108,20 @@ class ProfileScreen extends StatelessWidget {
                           const SizedBox(height: 10.0),
                           bioBuilder(context),
                           const SizedBox(height: 15.0),
-                          statusBarBuilder(context),
-                          const SizedBox(height: 15.0),
+                          //statusBarBuilder(context),
+                          //const SizedBox(height: 15.0),
                           Row(
                             children: [
                               Expanded(
                                 child: OutlinedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    navigateTo(
+                                      context,
+                                      PostScreen(userModel: userModel),
+                                    );
+                                  },
                                   child: Text(
-                                    'Add Photo',
+                                    'Add Post',
                                     style:
                                         Theme.of(context).textTheme.bodyText2,
                                   ),

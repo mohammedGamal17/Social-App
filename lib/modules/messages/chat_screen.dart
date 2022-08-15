@@ -64,7 +64,7 @@ class ChatScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 var message = cubit.messages[index];
                                 if (uId == message.senderId) {
-                                  return sendMessages(message, context);
+                                  return sendMessages(message, index, context);
                                 }
                                 return receiverMessages(message, context);
                               },
@@ -215,32 +215,44 @@ class ChatScreen extends StatelessWidget {
                                                   onPressed: () {
                                                     showDialog(
                                                       context: context,
-                                                      builder: (BuildContext context) {
+                                                      builder: (BuildContext
+                                                          context) {
                                                         return AlertDialog(
                                                           title: Row(
                                                             children: const [
                                                               Expanded(
-                                                                  child: Text('Choose your picker')),
+                                                                  child: Text(
+                                                                      'Choose your picker')),
                                                               CloseButton(),
                                                             ],
                                                           ),
-                                                          shape: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(5.0),
+                                                          shape:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5.0),
                                                           ),
                                                           actions: [
                                                             Row(
                                                               children: [
                                                                 Expanded(
-                                                                  child: InkWell(
+                                                                  child:
+                                                                      InkWell(
                                                                     onTap: () {
-                                                                      cubit.chatImageCamera(context);
+                                                                      cubit.chatImageCamera(
+                                                                          context);
                                                                     },
-                                                                    child: Column(
+                                                                    child:
+                                                                        Column(
                                                                       children: [
                                                                         const Icon(
-                                                                          Icons.camera_alt_outlined,
+                                                                          Icons
+                                                                              .camera_alt_outlined,
                                                                         ),
-                                                                        const SizedBox(height: 5.0),
+                                                                        const SizedBox(
+                                                                            height:
+                                                                                5.0),
                                                                         Text(
                                                                           'Camera',
                                                                           style: Theme.of(context)
@@ -251,19 +263,26 @@ class ChatScreen extends StatelessWidget {
                                                                     ),
                                                                   ),
                                                                 ),
-                                                                const SizedBox(width: 10.0),
+                                                                const SizedBox(
+                                                                    width:
+                                                                        10.0),
                                                                 Expanded(
-                                                                  child: InkWell(
+                                                                  child:
+                                                                      InkWell(
                                                                     onTap: () {
-                                                                      cubit.chatImageGallery(context);
+                                                                      cubit.chatImageGallery(
+                                                                          context);
                                                                     },
-                                                                    child: Column(
+                                                                    child:
+                                                                        Column(
                                                                       children: [
                                                                         const Icon(
-                                                                          Icons.image,
+                                                                          Icons
+                                                                              .image,
                                                                         ),
                                                                         const SizedBox(
-                                                                          height: 5.0,
+                                                                          height:
+                                                                              5.0,
                                                                         ),
                                                                         Text(
                                                                           'Gallery',
@@ -297,32 +316,44 @@ class ChatScreen extends StatelessWidget {
                                                   onPressed: () {
                                                     showDialog(
                                                       context: context,
-                                                      builder: (BuildContext context) {
+                                                      builder: (BuildContext
+                                                          context) {
                                                         return AlertDialog(
                                                           title: Row(
                                                             children: const [
                                                               Expanded(
-                                                                  child: Text('Choose your picker')),
+                                                                  child: Text(
+                                                                      'Choose your picker')),
                                                               CloseButton(),
                                                             ],
                                                           ),
-                                                          shape: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(5.0),
+                                                          shape:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5.0),
                                                           ),
                                                           actions: [
                                                             Row(
                                                               children: [
                                                                 Expanded(
-                                                                  child: InkWell(
+                                                                  child:
+                                                                      InkWell(
                                                                     onTap: () {
-                                                                      cubit.chatCameraVideo(context);
+                                                                      cubit.chatCameraVideo(
+                                                                          context);
                                                                     },
-                                                                    child: Column(
+                                                                    child:
+                                                                        Column(
                                                                       children: [
                                                                         const Icon(
-                                                                          Icons.camera_alt_outlined,
+                                                                          Icons
+                                                                              .camera_alt_outlined,
                                                                         ),
-                                                                        const SizedBox(height: 5.0),
+                                                                        const SizedBox(
+                                                                            height:
+                                                                                5.0),
                                                                         Text(
                                                                           'Camera',
                                                                           style: Theme.of(context)
@@ -333,19 +364,26 @@ class ChatScreen extends StatelessWidget {
                                                                     ),
                                                                   ),
                                                                 ),
-                                                                const SizedBox(width: 10.0),
+                                                                const SizedBox(
+                                                                    width:
+                                                                        10.0),
                                                                 Expanded(
-                                                                  child: InkWell(
+                                                                  child:
+                                                                      InkWell(
                                                                     onTap: () {
-                                                                      cubit.chatGalleryVideo(context);
+                                                                      cubit.chatGalleryVideo(
+                                                                          context);
                                                                     },
-                                                                    child: Column(
+                                                                    child:
+                                                                        Column(
                                                                       children: [
                                                                         const Icon(
-                                                                          Icons.image,
+                                                                          Icons
+                                                                              .image,
                                                                         ),
                                                                         const SizedBox(
-                                                                          height: 5.0,
+                                                                          height:
+                                                                              5.0,
                                                                         ),
                                                                         Text(
                                                                           'Gallery',
@@ -455,7 +493,7 @@ class ChatScreen extends StatelessWidget {
     );
   }
 
-  Widget sendMessages(MessageModel model, context) {
+  Widget sendMessages(MessageModel model, index, context) {
     VideoPlayerController? controller;
     controller = VideoPlayerController.network('${model.video}')..initialize();
     return Align(

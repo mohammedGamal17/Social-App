@@ -135,7 +135,6 @@ class HomeScreen extends StatelessWidget {
               separatorBuilder: (context, index) =>
                   separatorHorizontal(height: 0.1, opacity: 0.5),
               itemCount: AppCubit.get(context).posts.length,
-
             )
           ],
         ),

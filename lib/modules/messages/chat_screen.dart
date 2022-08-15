@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -70,6 +71,7 @@ class ChatScreen extends StatelessWidget {
                               separatorBuilder: (context, index) =>
                                   const SizedBox(height: 10.0),
                               itemCount: cubit.messages.length,
+                              reverse: true,
                             ),
                           ),
                         )
@@ -92,14 +94,23 @@ class ChatScreen extends StatelessWidget {
                                     image: FileImage(cubit.chatImage!),
                                     width: double.infinity,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => Column(
-                                      children:  [
-                                        const Icon(Icons.photo_camera,size: 50.0),
+                                    errorBuilder:
+                                        (context, error, stackTrace) => Column(
+                                      children: [
+                                        const Icon(Icons.photo_camera,
+                                            size: 50.0),
                                         const SizedBox(height: 10.0),
-                                        Text('Click Send ...', style: Theme.of(context).textTheme.headline5,)
+                                        Text(
+                                          'Click Send ...',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5,
+                                        )
                                       ],
                                     ),
-                                    loadingBuilder: (context, child, loadingProgress) => loadingAnimation(context),
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) =>
+                                            loadingAnimation(context),
                                   ),
                                 ),
                               ),
@@ -133,14 +144,23 @@ class ChatScreen extends StatelessWidget {
                                     image: FileImage(cubit.chatVideo!),
                                     width: double.infinity,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => Column(
-                                      children:  [
-                                        const Icon(Icons.videocam,size: 50.0),
+                                    errorBuilder:
+                                        (context, error, stackTrace) => Column(
+                                      children: [
+                                        const Icon(Icons.videocam, size: 50.0),
                                         const SizedBox(height: 10.0),
-                                        Text('Click Send ...', style: Theme.of(context).textTheme.headline5,)
+                                        Text(
+                                          'Click Send ...',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5,
+                                        )
                                       ],
                                     ),
-                                    loadingBuilder: (context, child, loadingProgress) => loadingAnimation(context),                                  ),
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) =>
+                                            loadingAnimation(context),
+                                  ),
                                 ),
                               ),
                               IconButton(
@@ -165,6 +185,207 @@ class ChatScreen extends StatelessWidget {
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: Row(
                       children: [
+                        SizedBox(
+                          height: 50.0,
+                          child: MaterialButton(
+                            minWidth: 1.0,
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Row(
+                                      children: const [
+                                        Expanded(
+                                          child: Text('Choose your picker'),
+                                        ),
+                                        CloseButton(),
+                                      ],
+                                    ),
+                                    shape: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    actions: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          title: Row(
+                                                            children: const [
+                                                              Expanded(
+                                                                  child: Text('Choose your picker')),
+                                                              CloseButton(),
+                                                            ],
+                                                          ),
+                                                          shape: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(5.0),
+                                                          ),
+                                                          actions: [
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child: InkWell(
+                                                                    onTap: () {
+                                                                      cubit.chatImageCamera(context);
+                                                                    },
+                                                                    child: Column(
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.camera_alt_outlined,
+                                                                        ),
+                                                                        const SizedBox(height: 5.0),
+                                                                        Text(
+                                                                          'Camera',
+                                                                          style: Theme.of(context)
+                                                                              .textTheme
+                                                                              .bodyText2,
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(width: 10.0),
+                                                                Expanded(
+                                                                  child: InkWell(
+                                                                    onTap: () {
+                                                                      cubit.chatImageGallery(context);
+                                                                    },
+                                                                    child: Column(
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.image,
+                                                                        ),
+                                                                        const SizedBox(
+                                                                          height: 5.0,
+                                                                        ),
+                                                                        Text(
+                                                                          'Gallery',
+                                                                          style: Theme.of(context)
+                                                                              .textTheme
+                                                                              .bodyText2,
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  icon: const Icon(Icons
+                                                      .photo_library_outlined),
+                                                ),
+                                                const Text('Image'),
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10.0),
+                                          Expanded(
+                                            child: Column(
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return AlertDialog(
+                                                          title: Row(
+                                                            children: const [
+                                                              Expanded(
+                                                                  child: Text('Choose your picker')),
+                                                              CloseButton(),
+                                                            ],
+                                                          ),
+                                                          shape: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(5.0),
+                                                          ),
+                                                          actions: [
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child: InkWell(
+                                                                    onTap: () {
+                                                                      cubit.chatCameraVideo(context);
+                                                                    },
+                                                                    child: Column(
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.camera_alt_outlined,
+                                                                        ),
+                                                                        const SizedBox(height: 5.0),
+                                                                        Text(
+                                                                          'Camera',
+                                                                          style: Theme.of(context)
+                                                                              .textTheme
+                                                                              .bodyText2,
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(width: 10.0),
+                                                                Expanded(
+                                                                  child: InkWell(
+                                                                    onTap: () {
+                                                                      cubit.chatGalleryVideo(context);
+                                                                    },
+                                                                    child: Column(
+                                                                      children: [
+                                                                        const Icon(
+                                                                          Icons.image,
+                                                                        ),
+                                                                        const SizedBox(
+                                                                          height: 5.0,
+                                                                        ),
+                                                                        Text(
+                                                                          'Gallery',
+                                                                          style: Theme.of(context)
+                                                                              .textTheme
+                                                                              .bodyText2,
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  icon: const Icon(Icons
+                                                      .ondemand_video_outlined),
+                                                ),
+                                                const Text('Vedio'),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Icon(
+                              FontAwesomeIcons.paperclip,
+                              color: iconColor,
+                              size: 20.0,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 5.0),
                         Expanded(
                           child: TextFormField(
                             key: formKey,
@@ -177,171 +398,6 @@ class ChatScreen extends StatelessWidget {
                               hintStyle: Theme.of(context).textTheme.bodyText2,
                             ),
                             style: Theme.of(context).textTheme.bodyText2,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 50.0,
-                          child: MaterialButton(
-                            minWidth: 1.0,
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Row(
-                                      children: const [
-                                        Expanded(
-                                            child: Text('Choose your picker')),
-                                        CloseButton(),
-                                      ],
-                                    ),
-                                    shape: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    actions: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: InkWell(
-                                              onTap: () {
-                                                cubit.chatImageCamera(context);
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.camera_alt_outlined,
-                                                  ),
-                                                  const SizedBox(height: 5.0),
-                                                  Text(
-                                                    'Camera',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText2,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10.0),
-                                          Expanded(
-                                            child: InkWell(
-                                              onTap: () {
-                                                cubit.chatImageGallery(context);
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.image,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5.0,
-                                                  ),
-                                                  Text(
-                                                    'Gallery',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText2,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                            color: iconColor,
-                            child: const Icon(
-                              Icons.image,
-                              color: Colors.white,
-                              size: 20.0,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 5.0),
-                        SizedBox(
-                          height: 50.0,
-                          child: MaterialButton(
-                            minWidth: 1.0,
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Row(
-                                      children: const [
-                                        Expanded(
-                                            child: Text('Choose your picker')),
-                                        CloseButton(),
-                                      ],
-                                    ),
-                                    shape: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    actions: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: InkWell(
-                                              onTap: () {
-                                                cubit.chatCameraVideo(context);
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.camera_alt_outlined,
-                                                  ),
-                                                  const SizedBox(height: 5.0),
-                                                  Text(
-                                                    'Camera',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText2,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10.0),
-                                          Expanded(
-                                            child: InkWell(
-                                              onTap: () {
-                                                cubit.chatGalleryVideo(context);
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.image,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5.0,
-                                                  ),
-                                                  Text(
-                                                    'Gallery',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText2,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                            color: iconColor,
-                            child: const Icon(
-                              Icons.ondemand_video_rounded,
-                              color: Colors.white,
-                              size: 20.0,
-                            ),
                           ),
                         ),
                         const SizedBox(width: 5.0),
@@ -446,10 +502,13 @@ class ChatScreen extends StatelessWidget {
                       width: 200,
                       height: 300,
                       errorBuilder: (context, error, stackTrace) => Column(
-                        children:  [
-                          const Icon(Icons.no_photography,size: 50.0),
+                        children: [
+                          const Icon(Icons.no_photography, size: 50.0),
                           const SizedBox(height: 10.0),
-                          Text('Photo did\'t load ...', style: Theme.of(context).textTheme.headline5,)
+                          Text(
+                            'Photo did\'t load ...',
+                            style: Theme.of(context).textTheme.headline5,
+                          )
                         ],
                       ),
                     ),
@@ -541,10 +600,13 @@ class ChatScreen extends StatelessWidget {
                       width: 200,
                       height: 300,
                       errorBuilder: (context, error, stackTrace) => Column(
-                        children:  [
-                          const Icon(Icons.no_photography,size: 50.0),
+                        children: [
+                          const Icon(Icons.no_photography, size: 50.0),
                           const SizedBox(height: 10.0),
-                          Text('Photo did\'t load ...', style: Theme.of(context).textTheme.headline5,)
+                          Text(
+                            'Photo did\'t load ...',
+                            style: Theme.of(context).textTheme.headline5,
+                          )
                         ],
                       ),
                     ),

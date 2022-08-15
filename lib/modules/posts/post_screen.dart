@@ -33,7 +33,7 @@ class PostScreen extends StatelessWidget {
                   onPressed: () {
                     var now = DateTime.now();
                     String formattedDate =
-                        DateFormat('yyyy-MM-dd , kk:mm a').format(now);
+                        DateFormat('yyyy-MM-dd , hh:mm a').format(now);
                     if (formKey.currentState!.validate()) {
                       if (AppCubit.get(context).postImage == null &&
                           AppCubit.get(context).postVideo == null) {

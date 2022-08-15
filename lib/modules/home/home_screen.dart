@@ -178,7 +178,12 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   onTap: () {
-                    navigateTo(context, UserScreen(postModel: model));
+                    navigateTo(
+                      context,
+                      UserScreen(
+                        postModel: model,
+                      ),
+                    );
                   },
                 ),
                 const Spacer(),

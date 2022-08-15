@@ -791,7 +791,7 @@ class AppCubit extends Cubit<AppStates> {
   void getMyPosts(context) {
     emit(GetPostsLoading());
     final fireStore = FirebaseFirestore.instance;
-    final fireStoreDirection = fireStore.collection('posts');
+    final fireStoreDirection = fireStore.collection('users').doc(uId).collection('posts');
     fireStoreDirection.get().then((value) {
       for (var element in value.docs) {
         element.reference.collection('likes').get().then((value) {

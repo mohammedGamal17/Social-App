@@ -563,26 +563,28 @@ class AppCubit extends Cubit<AppStates> {
       },
     );
   }
+
   void uploadMyPostImage(
-      context, {
-        required String text,
-        required String dateTime,
-        required String uId,
-        required String name,
-        required String lastName,
-        required String email,
-        required String image,
-        required String coverImage,
-        required String bio,
-      }) {
+    context, {
+    required String text,
+    required String dateTime,
+    required String uId,
+    required String name,
+    required String lastName,
+    required String email,
+    required String image,
+    required String coverImage,
+    required String bio,
+  }) {
     emit(CreatePostLoadingState());
     emit(UploadPostImageLoading());
     storage
         .ref()
-        .child('users/$uId/posts/picture/${Uri.file(postImage!.path).pathSegments.last}')
+        .child(
+            'users/$uId/posts/picture/${Uri.file(postImage!.path).pathSegments.last}')
         .putFile(postImage!)
         .then(
-          (value) {
+      (value) {
         value.ref.getDownloadURL().then((value) {
           createMyPost(
             context,
@@ -598,7 +600,7 @@ class AppCubit extends Cubit<AppStates> {
             bio: bio,
           );
         }).catchError(
-              (onError) {
+          (onError) {
             emit(GetDownloadURLPostImageFail());
             if (kDebugMode) {
               print('* ${onError.toString()} * Post Image URI Fail');
@@ -614,7 +616,7 @@ class AppCubit extends Cubit<AppStates> {
         snack(context, content: 'Post Image Uploaded Successfully');
       },
     ).catchError(
-          (onError) {
+      (onError) {
         emit(UploadPostImageFail());
         if (kDebugMode) {
           print('* ${onError.toString()} *  Post Image Upload Fail');
@@ -627,6 +629,7 @@ class AppCubit extends Cubit<AppStates> {
       },
     );
   }
+
   void uploadPostVideo(
     context, {
     required String text,
@@ -693,25 +696,26 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void uploadMyPostVideo(
-      context, {
-        required String text,
-        required String dateTime,
-        required String uId,
-        required String name,
-        required String lastName,
-        required String email,
-        required String image,
-        required String coverImage,
-        required String bio,
-      }) {
+    context, {
+    required String text,
+    required String dateTime,
+    required String uId,
+    required String name,
+    required String lastName,
+    required String email,
+    required String image,
+    required String coverImage,
+    required String bio,
+  }) {
     emit(CreatePostLoadingState());
     emit(UploadPostVideoLoading());
     storage
         .ref()
-        .child('users/$uId/posts/video/${Uri.file(postVideo!.path).pathSegments.last}')
+        .child(
+            'users/$uId/posts/video/${Uri.file(postVideo!.path).pathSegments.last}')
         .putFile(postVideo!)
         .then(
-          (value) {
+      (value) {
         value.ref.getDownloadURL().then((value) {
           createPost(
             context,
@@ -727,7 +731,7 @@ class AppCubit extends Cubit<AppStates> {
             bio: bio,
           );
         }).catchError(
-              (onError) {
+          (onError) {
             emit(GetDownloadURLPostImageFail());
             if (kDebugMode) {
               print('* ${onError.toString()} * Post Video URI Fail');
@@ -743,7 +747,7 @@ class AppCubit extends Cubit<AppStates> {
         snack(context, content: 'Post Video Uploaded Successfully');
       },
     ).catchError(
-          (onError) {
+      (onError) {
         emit(UploadPostImageFail());
         if (kDebugMode) {
           print('* ${onError.toString()} *  Post Video Upload Fail');
@@ -791,7 +795,8 @@ class AppCubit extends Cubit<AppStates> {
   void getMyPosts(context) {
     emit(GetPostsLoading());
     final fireStore = FirebaseFirestore.instance;
-    final fireStoreDirection = fireStore.collection('users').doc(uId).collection('posts');
+    final fireStoreDirection =
+        fireStore.collection('users').doc(uId).collection('posts');
     fireStoreDirection.get().then((value) {
       for (var element in value.docs) {
         element.reference.collection('likes').get().then((value) {

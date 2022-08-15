@@ -11,18 +11,19 @@ class PostModel {
   late String? bio;
   late String? postVideo;
 
-  PostModel(
-      {this.uId,
-      this.name,
-      this.lastName,
-      this.email,
-      this.dateTime,
-      this.text,
-      this.image,
-      this.postImage,
-      this.coverImage,
-      this.bio,
-      this.postVideo});
+  PostModel({
+    this.uId,
+    this.name,
+    this.lastName,
+    this.email,
+    this.dateTime,
+    this.text,
+    this.image,
+    this.postImage,
+    this.coverImage,
+    this.bio,
+    this.postVideo,
+  });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return PostModel(

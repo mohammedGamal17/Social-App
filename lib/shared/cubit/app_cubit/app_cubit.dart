@@ -1091,4 +1091,18 @@ class AppCubit extends Cubit<AppStates> {
     chatVideo = null;
     emit(PostImagePickedRemove());
   }
+
+  Future<void> sendNotification({
+    required String message,
+    required String senderName,
+  }) async {
+    const postUrl = 'https://fcm.googleapis.com/fcm/send';
+    final data = {
+      "priority": "high",
+      "data": {
+        "body": message,
+        "title": senderName,
+      }
+    };
+  }
 }

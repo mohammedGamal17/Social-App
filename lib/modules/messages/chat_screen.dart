@@ -322,8 +322,9 @@ class ChatScreen extends StatelessWidget {
                                                           title: Row(
                                                             children: const [
                                                               Expanded(
-                                                                  child: Text(
-                                                                      'Choose your picker')),
+                                                                child: Text(
+                                                                    'Choose your picker'),
+                                                              ),
                                                               CloseButton(),
                                                             ],
                                                           ),

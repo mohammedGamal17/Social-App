@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social/models/chat_model/chat_model.dart';
+import 'package:social/models/notification_model/notification_model.dart';
 import 'package:social/models/post_model/post_model.dart';
 import 'package:social/modules/messages/messages_screen.dart';
 import 'package:social/modules/notifications/notifications_screen.dart';
@@ -1095,14 +1097,24 @@ class AppCubit extends Cubit<AppStates> {
   Future<void> sendNotification({
     required String message,
     required String senderName,
+    required String token,
+    required String messageId,
   }) async {
     const postUrl = 'https://fcm.googleapis.com/fcm/send';
     final data = {
+      "notification": {"body": message, "title": senderName},
       "priority": "high",
       "data": {
-        "body": message,
-        "title": senderName,
-      }
+        "click_action": "FLUTTER_NOTIFICATION_CLICK",
+        "id": messageId,
+        "status": "done"
+      },
+      "to": token
     };
+    final headers= {
+      'content-type':'application/json',
+      'Authorization':'key=AAAATNe_OMw:APA91bFdOIj1Ybl8xYsyeyh-k0G0yxGaVesJoe7w549UV7B8Vx80xOuAsujB0melNNgwYm6hk0GaOvHJIIjt-tarQEbRIt39_tv5FUCZ_LbQ6hqB9Ep1oVaRn9-9tID2AGHmC9CwfXW6'
+    };
+    dio.postDataToApi(data: data, url: postUrl);
   }
 }

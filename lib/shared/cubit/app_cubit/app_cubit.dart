@@ -1093,28 +1093,4 @@ class AppCubit extends Cubit<AppStates> {
     chatVideo = null;
     emit(PostImagePickedRemove());
   }
-
-  Future<void> sendNotification({
-    required String message,
-    required String senderName,
-    required String token,
-    required String messageId,
-  }) async {
-    const postUrl = 'https://fcm.googleapis.com/fcm/send';
-    final data = {
-      "notification": {"body": message, "title": senderName},
-      "priority": "high",
-      "data": {
-        "click_action": "FLUTTER_NOTIFICATION_CLICK",
-        "id": messageId,
-        "status": "done"
-      },
-      "to": token
-    };
-    final headers= {
-      'content-type':'application/json',
-      'Authorization':'key=AAAATNe_OMw:APA91bFdOIj1Ybl8xYsyeyh-k0G0yxGaVesJoe7w549UV7B8Vx80xOuAsujB0melNNgwYm6hk0GaOvHJIIjt-tarQEbRIt39_tv5FUCZ_LbQ6hqB9Ep1oVaRn9-9tID2AGHmC9CwfXW6'
-    };
-    dio.postDataToApi(data: data, url: postUrl);
-  }
 }

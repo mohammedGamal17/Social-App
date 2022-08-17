@@ -453,6 +453,13 @@ class ChatScreen extends StatelessWidget {
                                   messageTime: DateTime.now().toString(),
                                   date: formattedDate.toString(),
                                 );
+                                //print("*****$tokenUid");
+                                /*cubit.sendNotification(
+                                  messageId: '1',
+                                  token: tokenUid!,
+                                  message: messageController.text,
+                                  senderName: userModel.name!,
+                                );*/
                               } else if (cubit.chatImage != null) {
                                 AppCubit.get(context).uploadChatImage(
                                   messageText: messageController.text,

@@ -6,6 +6,7 @@ class MessageModel {
   late String date;
   String? image;
   String? video;
+  String? record;
 
   MessageModel({
     required this.messageText,
@@ -15,6 +16,7 @@ class MessageModel {
     required this.date,
     this.image,
     this.video,
+    this.record,
   });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class MessageModel {
       image: json['image'],
       date: json['date'],
       video: json['video'],
+      record: json['record'],
     );
   }
 
@@ -38,6 +41,7 @@ class MessageModel {
     data['image'] = image;
     data['date'] = date;
     data['video'] = video;
+    data['record'] = record;
     return data;
   }
 }

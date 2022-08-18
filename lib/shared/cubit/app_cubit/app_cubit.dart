@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:social/models/chat_model/chat_model.dart';
 import 'package:social/models/post_model/post_model.dart';
 import 'package:social/modules/messages/messages_screen.dart';
@@ -1090,5 +1093,52 @@ class AppCubit extends Cubit<AppStates> {
   void removeChatVideo() {
     chatVideo = null;
     emit(PostImagePickedRemove());
+  }
+
+  final recorder = FlutterSoundRecorder();
+  final stopwatch = Stopwatch();
+  final recordPlayer = AudioPlayer();
+  bool isRecorderReady = false;
+  bool isPlaying = false;
+  Duration duration = Duration.zero;
+  Duration position = Duration.zero;
+
+  Future initRecorder() async {
+    emit(RecordingLoading());
+    final states = await Permission.microphone.request();
+    await Permission.storage.request();
+    await Permission.manageExternalStorage.request();
+    await Permission.camera.request();
+    stopwatch.elapsedMilliseconds;
+    if (states != PermissionStatus.granted) {
+      throw 'Permission not generated';
+    }
+    await recorder.openRecorder();
+    isRecorderReady = true;
+    recorder.setSubscriptionDuration(const Duration(milliseconds: 500));
+  }
+
+  Future startRecord() async {
+    if (!isRecorderReady) return;
+    await recorder.startRecorder(toFile: 'audio').then((value) {
+      emit(RecordingSuccess());
+    }).catchError((onError) {
+      emit(RecordingFail());
+    });
+  }
+
+  Future stopRecorder(context) async {
+    if (!isRecorderReady) return;
+    final fileBath = await recorder.stopRecorder().then((value) {
+      emit(RecordingSuccess());
+    }).catchError((onError){
+      snack(context, content: onError.toString());
+      emit(RecordingFail());
+    });
+    final file = File(fileBath!);
+    if (kDebugMode) {
+      snack(context, content: file.path);
+      print(file.path);
+    }
   }
 }

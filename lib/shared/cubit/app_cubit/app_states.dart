@@ -187,3 +187,15 @@ class GetMyPostsLoading extends AppStates {}
 class GetMyPostsSuccess extends AppStates {}
 
 class GetMyPostsFail extends AppStates {}
+
+class RecordingLoading extends AppStates {}
+
+class RecordingSuccess extends AppStates {}
+
+class RecordingFail extends AppStates {}
+
+class RecordingUploadLoading extends AppStates {}
+
+class RecordingUploadSuccess extends AppStates {}
+
+class RecordingUploadFail extends AppStates {}

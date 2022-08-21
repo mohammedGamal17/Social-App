@@ -53,9 +53,17 @@ class AppCubit extends Cubit<AppStates> {
   File? postVideo;
   File? chatImage;
   File? chatVideo;
+  late File chatRecord;
 
   final _picker = ImagePicker();
   final storage = FirebaseStorage.instance;
+  final recorder = FlutterSoundRecorder();
+  final stopwatch = Stopwatch();
+  final recordPlayer = AudioPlayer();
+  bool isRecorderReady = false;
+  bool isPlaying = false;
+  Duration duration = Duration.zero;
+  Duration position = Duration.zero;
 
   List<Widget> screen = [
     HomeScreen(),
@@ -869,6 +877,7 @@ class AppCubit extends Cubit<AppStates> {
     required String date,
     String? chatImage,
     String? chatVideo,
+    String? chatRecord,
   }) {
     MessageModel model = MessageModel(
       messageText: messageText,
@@ -877,6 +886,7 @@ class AppCubit extends Cubit<AppStates> {
       messageTime: messageTime,
       image: chatImage ?? '',
       video: chatVideo ?? '',
+      record: chatRecord ?? '',
       date: date,
     );
     final fireStore = FirebaseFirestore.instance;
@@ -970,6 +980,7 @@ class AppCubit extends Cubit<AppStates> {
     required String messageText,
     required String date,
     String? chatVideo,
+    String? chatRecord,
   }) {
     emit(UploadChatImageLoading());
     storage
@@ -985,6 +996,7 @@ class AppCubit extends Cubit<AppStates> {
           chatImage: value,
           date: date,
           chatVideo: chatVideo ?? '',
+          chatRecord: chatRecord ?? '',
         );
         emit(GetDownloadURLChatImageSuccess());
       }).catchError((onError) {
@@ -1095,16 +1107,8 @@ class AppCubit extends Cubit<AppStates> {
     emit(PostImagePickedRemove());
   }
 
-  final recorder = FlutterSoundRecorder();
-  final stopwatch = Stopwatch();
-  final recordPlayer = AudioPlayer();
-  bool isRecorderReady = false;
-  bool isPlaying = false;
-  Duration duration = Duration.zero;
-  Duration position = Duration.zero;
-
   Future initRecorder() async {
-    emit(RecordingLoading());
+    emit(RecordingInit());
     final states = await Permission.microphone.request();
     await Permission.storage.request();
     await Permission.manageExternalStorage.request();
@@ -1119,6 +1123,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   Future startRecord() async {
+    emit(RecordingLoading());
     if (!isRecorderReady) return;
     await recorder.startRecorder(toFile: 'audio').then((value) {
       emit(RecordingSuccess());
@@ -1131,14 +1136,54 @@ class AppCubit extends Cubit<AppStates> {
     if (!isRecorderReady) return;
     final fileBath = await recorder.stopRecorder().then((value) {
       emit(RecordingSuccess());
-    }).catchError((onError){
+    }).catchError((onError) {
       snack(context, content: onError.toString());
       emit(RecordingFail());
     });
-    final file = File(fileBath!);
+    chatRecord = File(fileBath);
     if (kDebugMode) {
-      snack(context, content: file.path);
-      print(file.path);
+      snack(context, content: chatRecord.path);
+      print(chatRecord.path);
     }
+  }
+
+  void uploadVoiceRecord(
+    context, {
+    required String receiverId,
+    required String messageTime,
+    required String messageText,
+    required String date,
+  }) {
+    storage
+        .ref()
+        .child(
+            'chats/chatRecord/${Uri.file(chatRecord.path).pathSegments.last}')
+        .putFile(chatRecord)
+        .then((value) {
+      emit(RecordingUploadLoading());
+      value.ref.getDownloadURL().then((value) {
+        emit(RecordingUploadURLLoading());
+        sendMessages(
+          messageText: messageText,
+          receiverId: receiverId,
+          messageTime: messageTime,
+          date: date,
+          chatRecord: value,
+        );
+        emit(RecordingUploadURLSuccess());
+      }).catchError((onError) {
+        emit(RecordingUploadURLFail());
+        snack(context, content: onError.toString());
+        if (kDebugMode) {
+          print('Error from DownLoad Record URL :  ${onError.toString()} ***');
+        }
+      });
+      emit(RecordingUploadSuccess());
+    }).catchError((onError) {
+      if (kDebugMode) {
+        print('Error from Upload Record :  ${onError.toString()} ***');
+      }
+      emit(RecordingUploadFail());
+    });
   }
 }

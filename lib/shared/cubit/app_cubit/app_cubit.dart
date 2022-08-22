@@ -53,7 +53,7 @@ class AppCubit extends Cubit<AppStates> {
   File? postVideo;
   File? chatImage;
   File? chatVideo;
-  late File chatRecord;
+  File? chatRecord;
 
   final _picker = ImagePicker();
   final storage = FirebaseStorage.instance;
@@ -1126,7 +1126,6 @@ class AppCubit extends Cubit<AppStates> {
     emit(RecordingLoading());
     if (!isRecorderReady) return;
     await recorder.startRecorder(toFile: 'audio').then((value) {
-      emit(RecordingSuccess());
     }).catchError((onError) {
       emit(RecordingFail());
     });
@@ -1134,20 +1133,15 @@ class AppCubit extends Cubit<AppStates> {
 
   Future stopRecorder(context) async {
     if (!isRecorderReady) return;
-    final fileBath = await recorder.stopRecorder().then((value) {
-      emit(RecordingSuccess());
-    }).catchError((onError) {
-      snack(context, content: onError.toString());
-      emit(RecordingFail());
-    });
-    chatRecord = File(fileBath);
+    final rec = await recorder.stopRecorder();
+    chatRecord = File(rec!);
     if (kDebugMode) {
-      snack(context, content: chatRecord.path);
-      print(chatRecord.path);
+      print(chatRecord!.path);
     }
+    emit(RecordingSuccess());
   }
 
-  void uploadVoiceRecord(
+  void uploadChatRecord(
     context, {
     required String receiverId,
     required String messageTime,
@@ -1157,8 +1151,8 @@ class AppCubit extends Cubit<AppStates> {
     storage
         .ref()
         .child(
-            'chats/chatRecord/${Uri.file(chatRecord.path).pathSegments.last}')
-        .putFile(chatRecord)
+            'chats/chatRecord/${Uri.file(chatRecord!.path).pathSegments.last}')
+        .putFile(chatRecord!)
         .then((value) {
       emit(RecordingUploadLoading());
       value.ref.getDownloadURL().then((value) {
@@ -1185,5 +1179,10 @@ class AppCubit extends Cubit<AppStates> {
       }
       emit(RecordingUploadFail());
     });
+  }
+
+  void removeChatRecord() {
+    chatRecord = null;
+    emit(PostImagePickedRemove());
   }
 }

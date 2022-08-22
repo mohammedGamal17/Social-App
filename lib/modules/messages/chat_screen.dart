@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -27,7 +29,9 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..getMessages(receiverId: userModel.uId!),
+      create: (context) => AppCubit()
+        ..getMessages(receiverId: userModel.uId!)
+        ..initRecorder(),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -166,6 +170,82 @@ class ChatScreen extends StatelessWidget {
                               IconButton(
                                 onPressed: () {
                                   cubit.removeChatVideo();
+                                },
+                                icon: const Icon(Icons.close),
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (state is RecordingLoading)
+                    StreamBuilder<RecordingDisposition>(
+                      builder: (context, snapshot) {
+                        final duration = snapshot.hasData
+                            ? snapshot.data!.duration
+                            : Duration.zero;
+
+                        String twoDigits(int n) => n.toString().padLeft(2, '0');
+
+                        final twoDigitMinutes =
+                            twoDigits(duration.inMinutes.remainder(60));
+                        final twoDigitSeconds =
+                            twoDigits(duration.inSeconds.remainder(60));
+
+                        return Text(
+                          '$twoDigitMinutes:$twoDigitSeconds',
+                          style: const TextStyle(
+                            color: Colors.blue,
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      },
+                      stream: cubit.recorder.onProgress,
+                    ),
+                  const SizedBox(height: 10.0),
+                  if (state is RecordingUploadLoading)
+                    loadingAnimation(context, text: 'Uploading ...'),
+                  if (state is RecordingSuccess)
+                    SizedBox(
+                      height: 130,
+                      child: Stack(
+                        alignment: AlignmentDirectional.bottomCenter,
+                        children: [
+                          Stack(
+                            alignment: AlignmentDirectional.topEnd,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Slider(
+                                    min: 0.0,
+                                    max: cubit.duration.inSeconds.toDouble(),
+                                    value: cubit.position.inSeconds.toDouble(),
+                                    onChanged: (value) async {},
+                                  ),
+                                  IconButton(
+                                    onPressed: () async {
+                                      if (cubit.isPlaying) {
+                                        await cubit.recordPlayer.stop();
+                                      } else {
+                                        await cubit.recordPlayer.play(
+                                          DeviceFileSource(
+                                              cubit.chatRecord!.path),
+                                        );
+                                      }
+                                    },
+                                    icon: cubit.isPlaying
+                                        ? const Icon(Icons.stop)
+                                        : const Icon(Icons.play_arrow),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  cubit.removeChatRecord();
                                 },
                                 icon: const Icon(Icons.close),
                                 color: Colors.grey,
@@ -425,6 +505,23 @@ class ChatScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 5.0),
+                        SizedBox(
+                          height: 50.0,
+                          child: MaterialButton(
+                            minWidth: 1.0,
+                            onPressed: () async {
+                              if (cubit.recorder.isRecording) {
+                                await cubit.stopRecorder(context);
+                              } else {
+                                await cubit.startRecord();
+                              }
+                            },
+                            child: cubit.recorder.isRecording
+                                ? const Icon(Icons.stop)
+                                : const Icon(Icons.mic),
+                          ),
+                        ),
+                        const SizedBox(width: 5.0),
                         Expanded(
                           child: TextFormField(
                             key: formKey,
@@ -446,7 +543,8 @@ class ChatScreen extends StatelessWidget {
                             minWidth: 1.0,
                             onPressed: () {
                               if (cubit.chatImage == null &&
-                                  cubit.chatVideo == null) {
+                                  cubit.chatVideo == null &&
+                                  cubit.chatRecord == null) {
                                 AppCubit.get(context).sendMessages(
                                   messageText: messageController.text,
                                   receiverId: userModel.uId!,
@@ -469,10 +567,19 @@ class ChatScreen extends StatelessWidget {
                                   date: formattedDate.toString(),
                                   context,
                                 );
+                              } else if (cubit.chatRecord != null) {
+                                cubit.uploadChatRecord(
+                                  context,
+                                  messageText: messageController.text,
+                                  receiverId: userModel.uId!,
+                                  messageTime: DateTime.now().toString(),
+                                  date: formattedDate.toString(),
+                                );
                               }
                               messageController.clear();
                               cubit.chatImage = '' as File?;
                               cubit.chatVideo = '' as File?;
+                              cubit.chatRecord = '' as File;
                             },
                             color: iconColor,
                             child: const Icon(
@@ -497,6 +604,11 @@ class ChatScreen extends StatelessWidget {
   Widget sendMessages(MessageModel model, index, context) {
     VideoPlayerController? controller;
     controller = VideoPlayerController.network('${model.video}')..initialize();
+    final recordPlayer = AudioPlayer();
+    bool isRecorderReady = false;
+    bool isPlaying = false;
+    Duration duration = Duration.zero;
+    Duration position = Duration.zero;
     return Align(
       alignment: AlignmentDirectional.centerEnd,
       child: Column(
@@ -578,7 +690,8 @@ class ChatScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )
+                  ),
+                //if(model.record != null)
               ],
             ),
           ),

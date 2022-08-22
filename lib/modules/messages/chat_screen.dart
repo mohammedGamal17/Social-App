@@ -691,7 +691,47 @@ class ChatScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                //if(model.record != null)
+                if(model.record != '')
+                  SizedBox(
+                     width: double.infinity,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            Slider(
+                              min: 0.0,
+                              max: duration.inSeconds.toDouble(),
+                              value: position.inSeconds.toDouble(),
+                              onChanged: (value) async {},
+                            ),
+                            Row(
+                              children: [
+                                Text('00:00'),
+                                SizedBox(width: 10.0),
+                                Text('00:00'),
+                              ],
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            if (isPlaying) {
+                               recordPlayer.stop();
+                            } else {
+                               recordPlayer.play(
+                                UrlSource('${model.record}')
+                              );
+                            }
+                          },
+                          icon: isPlaying
+                              ? const Icon(Icons.stop)
+                              : const Icon(Icons.play_arrow),
+                        ),
+                      ],
+                    ),
+                  ),
               ],
             ),
           ),

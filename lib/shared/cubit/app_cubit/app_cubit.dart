@@ -61,6 +61,7 @@ class AppCubit extends Cubit<AppStates> {
   final stopwatch = Stopwatch();
   final recordPlayer = AudioPlayer();
   bool isRecorderReady = false;
+  bool isRecording = false;
   bool isPlaying = false;
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
@@ -1124,15 +1125,19 @@ class AppCubit extends Cubit<AppStates> {
 
   Future startRecord() async {
     emit(RecordingLoading());
-    if (!isRecorderReady) return;
-    await recorder.startRecorder(toFile: 'audio').then((value) {
-    }).catchError((onError) {
+    if (!isRecorderReady) true;
+    isRecording = true;
+    await recorder
+        .startRecorder(toFile: 'audio')
+        .then((value) {})
+        .catchError((onError) {
       emit(RecordingFail());
     });
   }
 
   Future stopRecorder(context) async {
-    if (!isRecorderReady) return;
+    if (!isRecorderReady) false;
+    isRecording = true;
     final rec = await recorder.stopRecorder();
     chatRecord = File(rec!);
     if (kDebugMode) {
@@ -1151,7 +1156,7 @@ class AppCubit extends Cubit<AppStates> {
     storage
         .ref()
         .child(
-            'chats/chatRecord/${Uri.file(chatRecord!.path).pathSegments.last}')
+            'chats/chatRecord/ $receiverId /${Uri.file(chatRecord!.path).pathSegments.last} $messageTime')
         .putFile(chatRecord!)
         .then((value) {
       emit(RecordingUploadLoading());
@@ -1184,5 +1189,25 @@ class AppCubit extends Cubit<AppStates> {
   void removeChatRecord() {
     chatRecord = null;
     emit(PostImagePickedRemove());
+  }
+
+  void recordStopPlaying() async{
+    isPlaying = false;
+    await recordPlayer.stop();
+    emit(IsStopRecord());
+  }
+
+  void recordStartPlaying()async{
+    isPlaying = true;
+   await recordPlayer.play(
+      DeviceFileSource(
+          chatRecord!.path),
+    );
+   emit(IsPlayingRecord());
+  }
+
+  void changeRangeSlider(value) {
+    value = position.inSeconds.toDouble();
+    emit(SliderRangeChange());
   }
 }

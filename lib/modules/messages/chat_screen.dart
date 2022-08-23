@@ -197,7 +197,7 @@ class ChatScreen extends StatelessWidget {
                           '$twoDigitMinutes:$twoDigitSeconds',
                           style: const TextStyle(
                             color: Colors.blue,
-                            fontSize: 50,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         );
@@ -205,7 +205,7 @@ class ChatScreen extends StatelessWidget {
                       stream: cubit.recorder.onProgress,
                     ),
                   const SizedBox(height: 10.0),
-                  if (state is RecordingUploadLoading)
+                  if (state is RecordingUploadURLLoading)
                     loadingAnimation(context, text: 'Uploading ...'),
                   if (state is RecordingSuccess)
                     SizedBox(
@@ -224,7 +224,9 @@ class ChatScreen extends StatelessWidget {
                                     min: 0.0,
                                     max: cubit.duration.inSeconds.toDouble(),
                                     value: cubit.position.inSeconds.toDouble(),
-                                    onChanged: (value) async {},
+                                    onChanged: (value) async {
+                                      cubit.changeRangeSlider(value);
+                                    },
                                   ),
                                   IconButton(
                                     onPressed: () async {
@@ -517,8 +519,8 @@ class ChatScreen extends StatelessWidget {
                               }
                             },
                             child: cubit.recorder.isRecording
-                                ? const Icon(Icons.stop)
-                                : const Icon(Icons.mic),
+                                ? Icon(Icons.stop, color: iconColor, size: 20.0)
+                                : Icon(Icons.mic, color: iconColor, size: 20.0),
                           ),
                         ),
                         const SizedBox(width: 5.0),
@@ -691,43 +693,36 @@ class ChatScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                if(model.record != '')
+                if (model.record != '')
                   SizedBox(
-                     width: double.infinity,
+                    width: 241.0,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Column(
-                          children: [
-                            Slider(
-                              min: 0.0,
-                              max: duration.inSeconds.toDouble(),
-                              value: position.inSeconds.toDouble(),
-                              onChanged: (value) async {},
-                            ),
-                            Row(
-                              children: [
-                                Text('00:00'),
-                                SizedBox(width: 10.0),
-                                Text('00:00'),
-                              ],
-                            ),
-                          ],
+                        Expanded(
+                          child: Slider(
+                            min: 0.0,
+                            max: duration.inSeconds.toDouble(),
+                            value: position.inSeconds.toDouble(),
+                            onChanged: (value) async {
+                              AppCubit.get(context).changeRangeSlider(value);
+                            },
+                            activeColor: Colors.white,
+                          ),
                         ),
                         IconButton(
                           onPressed: () {
                             if (isPlaying) {
-                               recordPlayer.stop();
+                              recordPlayer.stop();
                             } else {
-                               recordPlayer.play(
-                                UrlSource('${model.record}')
-                              );
+                              recordPlayer.play(UrlSource('${model.record}'));
                             }
                           },
                           icon: isPlaying
                               ? const Icon(Icons.stop)
                               : const Icon(Icons.play_arrow),
+                          color: Colors.white,
                         ),
                       ],
                     ),
@@ -748,6 +743,10 @@ class ChatScreen extends StatelessWidget {
   Widget receiverMessages(MessageModel model, context) {
     VideoPlayerController? controller;
     controller = VideoPlayerController.network('${model.video}')..initialize();
+    final recordPlayer = AudioPlayer();
+    bool isPlaying = false;
+    Duration duration = Duration.zero;
+    Duration position = Duration.zero;
     return Align(
       alignment: AlignmentDirectional.centerStart,
       child: Column(
@@ -829,7 +828,41 @@ class ChatScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )
+                  ),
+                if (model.record != '')
+                  SizedBox(
+                    width: 241.0,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Slider(
+                            min: 0.0,
+                            max: duration.inSeconds.toDouble(),
+                            value: position.inSeconds.toDouble(),
+                            onChanged: (value) async {
+                              AppCubit.get(context).changeRangeSlider(value);
+                            },
+                            activeColor: Colors.white,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            if (isPlaying) {
+                              recordPlayer.stop();
+                            } else {
+                              recordPlayer.play(UrlSource('${model.record}'));
+                            }
+                          },
+                          icon: isPlaying
+                              ? const Icon(Icons.stop)
+                              : const Icon(Icons.play_arrow),
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
               ],
             ),
           ),

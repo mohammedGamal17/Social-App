@@ -207,3 +207,9 @@ class RecordingUploadURLLoading extends AppStates {}
 class RecordingUploadURLSuccess extends AppStates {}
 
 class RecordingUploadURLFail extends AppStates {}
+
+class SliderRangeChange extends AppStates {}
+
+class IsPlayingRecord extends AppStates{}
+
+class IsStopRecord extends AppStates{}

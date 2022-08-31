@@ -1,3 +1,5 @@
+import '../../../models/chat_model/chat_model.dart';
+
 abstract class AppStates {}
 
 class AppInit extends AppStates {}
@@ -148,12 +150,6 @@ class SendMessagesSuccess extends AppStates {}
 
 class SendMessagesFail extends AppStates {}
 
-class GetAllMessagesLoading extends AppStates {}
-
-class GetAllMessagesSuccess extends AppStates {}
-
-class GetAllMessagesFail extends AppStates {}
-
 class ChatImagePickedSuccess extends AppStates {}
 
 class ChatImagePickedFail extends AppStates {}
@@ -210,6 +206,6 @@ class RecordingUploadURLFail extends AppStates {}
 
 class SliderRangeChange extends AppStates {}
 
-class IsPlayingRecord extends AppStates{}
+class IsPlayingRecord extends AppStates {}
 
-class IsStopRecord extends AppStates{}
+class IsStopRecord extends AppStates {}

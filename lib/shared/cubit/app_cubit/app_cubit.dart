@@ -1191,19 +1191,18 @@ class AppCubit extends Cubit<AppStates> {
     emit(PostImagePickedRemove());
   }
 
-  void recordStopPlaying() async{
+  void recordStopPlaying() async {
     isPlaying = false;
     await recordPlayer.stop();
     emit(IsStopRecord());
   }
 
-  void recordStartPlaying()async{
+  void recordStartPlaying() async {
     isPlaying = true;
-   await recordPlayer.play(
-      DeviceFileSource(
-          chatRecord!.path),
+    await recordPlayer.play(
+      DeviceFileSource(chatRecord!.path),
     );
-   emit(IsPlayingRecord());
+    emit(IsPlayingRecord());
   }
 
   void changeRangeSlider(value) {
